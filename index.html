@@ -64,14 +64,14 @@
             width: 100%;
         }
 
-        /* NAVBAR */
+        /* NAVBAR - ล็อกความสูงและเพิ่ม Z-index ป้องกันทับหนังสือ */
         .navbar {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            z-index: 1000;
-            background: rgba(6, 9, 17, 0.9);
+            z-index: 2000;
+            background: rgba(6, 9, 17, 0.95);
             backdrop-filter: blur(15px);
             border-bottom: 1px solid var(--border-color);
         }
@@ -137,10 +137,10 @@
             cursor: pointer;
         }
 
-        /* MAIN CONTENT */
+        /* MAIN CONTENT - เพิ่ม padding-top ให้พ้น Navbar แน่นอน */
         main {
             flex: 1;
-            padding-top: 100px;
+            padding-top: 120px;
             padding-bottom: 60px;
         }
 
@@ -284,8 +284,15 @@
         .member-item { background: rgba(6, 9, 17, 0.6); padding: 10px 14px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.03); }
         .online-dot { width: 8px; height: 8px; background-color: #4ade80; border-radius: 50%; box-shadow: 0 0 8px #4ade80; display: inline-block; margin-right: 6px; }
 
+        /* โปรไฟล์สไตล์ */
+        .profile-card { text-align: center; }
+        .avatar-container { position: relative; width: 120px; height: 120px; margin: 0 auto 20px; }
+        .avatar-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent-cyan); box-shadow: 0 0 20px var(--accent-glow); }
+        .avatar-upload-btn { position: absolute; bottom: 0; right: 0; background: var(--accent-deep); color: #fff; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid var(--bg-dark); transition: 0.3s; }
+        .avatar-upload-btn:hover { background: var(--accent-blue); transform: scale(1.1); }
+
         .footer { background: rgba(6, 9, 17, 0.95); border-top: 1px solid var(--border-color); padding: 25px 0; text-align: center; color: var(--text-sub); font-size: 0.85rem; margin-top: auto; }
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); z-index: 2000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: all 0.3s ease; padding: 20px; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); z-index: 3000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: all 0.3s ease; padding: 20px; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
         .modal-card { background: var(--bg-dark); border: 2px solid var(--accent-cyan); border-radius: 20px; padding: 35px 25px; max-width: 480px; width: 100%; text-align: center; box-shadow: 0 0 50px var(--accent-glow); transform: scale(0.85); transition: all 0.3s ease; }
         .modal-overlay.active .modal-card { transform: scale(1); }
@@ -295,7 +302,7 @@
 
         @media (max-width: 868px) {
             .menu-toggle { display: block; }
-            .nav-links { position: fixed; top: 75px; left: -100%; width: 100%; height: calc(100vh - 75px); background: rgba(6, 9, 17, 0.98); backdrop-filter: blur(20px); flex-direction: column; align-items: center; padding-top: 40px; transition: all 0.3s ease; }
+            .nav-links { position: fixed; top: 75px; left: -100%; width: 100%; height: calc(100vh - 75px); background: rgba(6, 9, 17, 0.98); backdrop-filter: blur(20px); flex-direction: column; align-items: center; padding-top: 40px; transition: all 0.3s ease; z-index: 1999; }
             .nav-links.active { left: 0; }
             .nav-tab { width: 80%; justify-content: center; padding: 12px; font-size: 1.05rem; }
             .form-grid { grid-template-columns: 1fr; }
@@ -316,7 +323,9 @@
             <div class="menu-toggle" id="menuToggle"><i class="fa-solid fa-bars"></i></div>
             <ul class="nav-links" id="navLinks">
                 <li><button class="nav-tab active" onclick="switchTab('apply')"><i class="fa-solid fa-file-pen"></i> กรอกใบสมัคร</button></li>
-                <li><button class="nav-tab" onclick="switchTab('applicationsList')"><i class="fa-solid fa-list-check"></i> ดูใบสมัคร</button></li>
+                <li><button class="nav-tab" onclick="switchTab('myApplication')"><i class="fa-solid fa-id-card"></i> เช็คใบสมัครของฉัน</button></li>
+                <li><button class="nav-tab" onclick="switchTab('profile')"><i class="fa-solid fa-user-circle"></i> โปรไฟล์ของฉัน</button></li>
+                <li><button class="nav-tab" onclick="switchTab('applicationsList')"><i class="fa-solid fa-list-check"></i> ดูใบสมัครทั้งหมด</button></li>
                 <li><button class="nav-tab" onclick="switchTab('memberList')"><i class="fa-solid fa-users"></i> สมาชิก & ออนไลน์</button></li>
                 <li><button class="nav-tab" onclick="switchTab('leaveGang')"><i class="fa-solid fa-right-from-bracket"></i> ขอออกแก๊ง</button></li>
                 <li><button class="nav-tab" onclick="switchTab('qualifications')"><i class="fa-solid fa-user-check"></i> คุณสมบัติ</button></li>
@@ -415,7 +424,49 @@
             </div>
         </section>
 
-        <!-- PAGE 2: ดูใบสมัครในเว็บ -->
+        <!-- PAGE 2: เช็คใบสมัครของฉัน -->
+        <section id="myApplication" class="page-content">
+            <div class="page-header">
+                <h1 class="page-title">ตรวจสอบใบสมัครของฉัน</h1>
+                <p class="page-subtitle">กรอกชื่อ IC เพื่อดูรายละเอียดใบสมัครที่คุณเคยส่งไว้</p>
+            </div>
+            <div class="glass-card form-container" style="max-width: 600px;">
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="searchIcName"><i class="fa-solid fa-signature"></i> กรอกชื่อ IC ของคุณ</label>
+                    <input type="text" id="searchIcName" class="form-control" placeholder="เช่น Somchai_BKM">
+                </div>
+                <button type="button" class="btn-bkm btn-submit" onclick="searchMyApplication()">
+                    <i class="fa-solid fa-magnifying-glass"></i> ค้นหาใบสมัคร
+                </button>
+                <div id="myAppResult" style="margin-top: 25px;"></div>
+            </div>
+        </section>
+
+        <!-- PAGE 3: โปรไฟล์ของฉัน -->
+        <section id="profile" class="page-content">
+            <div class="page-header">
+                <h1 class="page-title">โปรไฟล์สมาชิก BKM</h1>
+                <p class="page-subtitle">จัดการรูปโปรไฟล์และข้อมูลส่วนตัวของคุณ (รูปภาพถูกบันทึกไว้ถาวร)</p>
+            </div>
+            <div class="glass-card form-container profile-card" style="max-width: 500px;">
+                <div class="avatar-container">
+                    <img id="profileAvatar" src="https://via.placeholder.com/150/0284c7/ffffff?text=BKM" alt="Profile Avatar" class="avatar-img">
+                    <label for="avatarInput" class="avatar-upload-btn" title="เปลี่ยนรูปโปรไฟล์">
+                        <i class="fa-solid fa-camera"></i>
+                    </label>
+                    <input type="file" id="avatarInput" accept="image/*" style="display: none;" onchange="uploadAvatar(event)">
+                </div>
+                <h2 id="profileIcName" style="color: var(--accent-cyan); margin-bottom: 5px;">ยังไม่ได้ตั้งชื่อ IC</h2>
+                <p id="profileDiscord" style="color: var(--text-sub); margin-bottom: 20px;">Discord: -</p>
+                <div style="text-align: left; background: rgba(6, 9, 17, 0.6); padding: 15px; border-radius: 10px; border: 1px solid var(--border-color);">
+                    <p><b>สายการเล่น:</b> <span id="profilePlayStyle">-</span></p>
+                    <p><b>เลเวล:</b> <span id="profileLevel">-</span></p>
+                    <p><b>สถานะ:</b> <span style="color: #4ade80;">ลงทะเบียนสมัครแล้ว</span></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 4: ดูใบสมัครทั้งหมด -->
         <section id="applicationsList" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">รายการใบสมัครทั้งหมด</h1>
@@ -428,7 +479,7 @@
             </div>
         </section>
 
-        <!-- PAGE 3: สมาชิก & คนออนเรียลไทม์ -->
+        <!-- PAGE 5: สมาชิก & คนออนเรียลไทม์ -->
         <section id="memberList" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">รายชื่อสมาชิกตามสาย & สถานะคนออนเว็บ</h1>
@@ -459,7 +510,7 @@
             </div>
         </section>
 
-        <!-- PAGE 4: ขอออกแก๊ง -->
+        <!-- PAGE 6: ขอออกแก๊ง -->
         <section id="leaveGang" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">ระบบขอออกแก๊ง</h1>
@@ -489,7 +540,7 @@
             </div>
         </section>
 
-        <!-- PAGE 5: คุณสมบัติ -->
+        <!-- PAGE 7: คุณสมบัติ -->
         <section id="qualifications" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">คุณสมบัติผู้สมัคร (QUALIFICATIONS)</h1>
@@ -552,7 +603,7 @@
             </div>
         </section>
 
-        <!-- PAGE 6: กฎแก๊ง (อัปเดตใหม่ตามที่ขอ) -->
+        <!-- PAGE 8: กฎแก๊ง -->
         <section id="gangRules" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">กฎการโดนใบ (PENALTY SYSTEM)</h1>
@@ -636,7 +687,7 @@
             </div>
         </section>
 
-        <!-- PAGE 7: กฎ กิจกรรม -->
+        <!-- PAGE 9: กฎ กิจกรรม -->
         <section id="activityRules" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">กฎการเล่นกิจกรรมแก๊ง</h1>
@@ -715,7 +766,7 @@
             </div>
         </section>
 
-        <!-- PAGE 8: ข้อมูลติดต่อ -->
+        <!-- PAGE 10: ข้อมูลติดต่อ -->
         <section id="contact" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">ข้อมูลการติดต่อแก๊ง</h1>
@@ -782,8 +833,15 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // ระบบส่งสถานะคนออนเว็บเรียลไทม์ (ใช้ชื่อ IC ที่กรอก หรือสุ่มชื่อจำลองถ้ายังไม่กรอก)
-        let myVisitorId = localStorage.getItem('bkm_user_ic') || ('Visitor_' + Math.floor(Math.random() * 10000));
+        let myIcName = localStorage.getItem('bkm_user_ic') || '';
+        let myVisitorId = myIcName || ('Visitor_' + Math.floor(Math.random() * 10000));
+
+        // โหลดข้อมูลโปรไฟล์เมื่อเปิดเว็บ
+        window.addEventListener('DOMContentLoaded', () => {
+            loadProfileData();
+        });
+
+        // ส่งสถานะคนออนเว็บเรียลไทม์
         setInterval(() => {
             fetch('/api/heartbeat', {
                 method: 'POST',
@@ -809,6 +867,7 @@
             if(tabId === 'applicationsList') loadApplications();
             if(tabId === 'memberList') { loadMembers(); loadWebOnlineUsers(); }
             if(tabId === 'leaveGang') loadLeftMembers();
+            if(tabId === 'profile') loadProfileData();
         }
 
         document.getElementById('menuToggle').addEventListener('click', () => {
@@ -823,7 +882,8 @@
             submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังส่งข้อมูล...';
 
             const icNameVal = document.getElementById('icName').value.trim();
-            myVisitorId = icNameVal; // อัปเดตชื่อคนออนในเว็บให้เป็นชื่อ IC ทันทีที่สมัคร
+            myIcName = icNameVal;
+            myVisitorId = icNameVal;
             localStorage.setItem('bkm_user_ic', icNameVal);
 
             const data = {
@@ -840,6 +900,9 @@
                 discordTag: document.getElementById('discordTag').value,
                 testerTag: document.getElementById('testerTag').value
             };
+
+            // บันทึกข้อมูลใบสมัครเก็บไว้ใน LocalStorage ด้วยเพื่อความเสถียร
+            localStorage.setItem('bkm_my_application', JSON.stringify(data));
 
             try {
                 const res = await fetch('/api/apply', {
@@ -866,7 +929,71 @@
             document.getElementById('applySuccessModal').classList.remove('active');
         }
 
-        // 2. ดึงรายการใบสมัคร
+        // 2. ระบบค้นหาใบสมัครของฉัน
+        async function searchMyApplication() {
+            const queryName = document.getElementById('searchIcName').value.trim();
+            const resultBox = document.getElementById('myAppResult');
+            if(!queryName) {
+                alert('กรุณากรอกชื่อ IC ของคุณก่อนค้นหา');
+                return;
+            }
+
+            resultBox.innerHTML = '<p style="text-align: center; color: var(--text-sub);">กำลังค้นหาข้อมูล...</p>';
+            try {
+                const res = await fetch(`/api/search-application?icName=${encodeURIComponent(queryName)}`);
+                const data = await res.json();
+                if(data.success) {
+                    const item = data.application;
+                    resultBox.innerHTML = `
+                        <div style="background: rgba(6, 9, 17, 0.8); padding: 20px; border-radius: 12px; border: 1px solid var(--accent-cyan);">
+                            <h4 style="color: var(--accent-cyan); margin-bottom: 10px;"><i class="fa-solid fa-circle-check"></i> พบใบสมัครของคุณ!</h4>
+                            <p><b>ชื่อ IC:</b> ${item.icName} (อายุ ${item.icAge} ปี)</p>
+                            <p><b>เลเวล:</b> ${item.level} | <b>สาย:</b> ${item.playStyle}</p>
+                            <p><b>ชื่อ OC:</b> ${item.ocName} (${item.onlineHours})</p>
+                            <p><b>Discord:</b> ${item.discordTag}</p>
+                            <p style="margin-top: 10px; color: #cbd5e1;"><b>เหตุผล:</b> ${item.reason}</p>
+                        </div>
+                    `;
+                } else {
+                    resultBox.innerHTML = `<p style="text-align: center; color: #fca5a5;">ไม่พบใบสมัครในระบบสำหรับชื่อ IC: "${queryName}"</p>`;
+                }
+            } catch(e) {
+                resultBox.innerHTML = `<p style="text-align: center; color: #fca5a5;">เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์</p>`;
+            }
+        }
+
+        // 3. ระบบโปรไฟล์ & อัปโหลดรูปภาพถาวร
+        function uploadAvatar(event) {
+            const file = event.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const base64Image = e.target.result;
+                    document.getElementById('profileAvatar').src = base64Image;
+                    localStorage.setItem('bkm_user_avatar', base64Image); // บันทึกรูปลง LocalStorage ถาวร
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function loadProfileData() {
+            const savedAvatar = localStorage.getItem('bkm_user_avatar');
+            if(savedAvatar) {
+                document.getElementById('profileAvatar').src = savedAvatar;
+            }
+
+            const localApp = JSON.parse(localStorage.getItem('bkm_my_application') || '{}');
+            if(localApp.icName) {
+                document.getElementById('profileIcName').innerText = localApp.icName;
+                document.getElementById('profileDiscord').innerText = 'Discord: ' + localApp.discordTag;
+                document.getElementById('profilePlayStyle').innerText = localApp.playStyle;
+                document.getElementById('profileLevel').innerText = localApp.level;
+            } else if(myIcName) {
+                document.getElementById('profileIcName').innerText = myIcName;
+            }
+        }
+
+        // 4. ดึงรายการใบสมัครทั้งหมด
         async function loadApplications() {
             try {
                 const res = await fetch('/api/applications');
@@ -886,7 +1013,6 @@
             } catch(e) { console.error(e); }
         }
 
-        // 3. ดึงสมาชิกที่สมัครเข้ามาแสดงตามสาย
         async function loadMembers() {
             try {
                 const res = await fetch('/api/members');
@@ -897,7 +1023,6 @@
             } catch(e) { console.error(e); }
         }
 
-        // 3.1 ดึงรายชื่อคนออนเว็บแบบเรียลไทม์
         async function loadWebOnlineUsers() {
             try {
                 const res = await fetch('/api/web-online');
@@ -916,7 +1041,6 @@
             } catch(e) { console.error(e); }
         }
 
-        // 4. ประกาศกิจกรรมลง Discord
         async function notifyActivityDiscord(activityName, timeText) {
             try {
                 const res = await fetch('/api/notify-activity', {
@@ -930,12 +1054,10 @@
                     alert('ส่งการแจ้งเตือนไม่สำเร็จ');
                 }
             } catch(e) {
-                console.error(e);
                 alert('เกิดข้อผิดพลาด');
             }
         }
 
-        // 5. ระบบขอออกแก๊ง
         async function confirmLeaveModal() {
             const name = document.getElementById('leaveIcName').value.trim();
             const reason = document.getElementById('leaveReason').value.trim();
@@ -973,16 +1095,14 @@
                     body: JSON.stringify({ icName, reason })
                 });
                 if(res.ok) {
-                    showGeneralModal('ลาก่อน...', `บันทึกการออกจากแก๊งของ ${icName} เรียบร้อยแล้ว ข้อความอำลาถูกส่งไปยัง Discord สำเร็จ`);
+                    showGeneralModal('ลาก่อน...', `บันทึกการออกจากแก๊งของ ${icName} เรียบร้อยแล้ว`);
                     document.getElementById('leaveForm').reset();
                     loadLeftMembers();
                     loadMembers();
                 } else {
                     alert('เกิดข้อผิดพลาด');
                 }
-            } catch(e) {
-                console.error(e);
-            }
+            } catch(e) { console.error(e); }
         }
 
         async function loadLeftMembers() {
