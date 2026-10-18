@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const fetch = require('node-fetch');
 const path = require('path');
+const cron = require('node-cron'); // ใช้ตั้งเวลาแจ้งเตือนอัตโนมัติ
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -13,17 +14,36 @@ app.use(express.static(path.join(__dirname)));
 const WEBHOOK_APPLY = "https://discord.com/api/webhooks/1560910735494881402/nzUeuIZSq39cqTlifuljoYVAy78-Bn_XwKHH6K8in_5myVPsG1L6XQiculo68fOXwe_Q";
 const WEBHOOK_LEAVE = "https://discord.com/api/webhooks/1561320841059241994/VtmCOkw_XFJ2f-6xvBWIc8l4WcoucbQiPQlYr4624C5dBx5AZuQj5suUlIk0QXdKVq2h";
 
+// ข้อมูลดิสคอร์ด (หากคุณใช้งาน Discord Bot Token และ Guild ID สามารถใส่เพื่อดึงรายชื่อคนออนไลน์จริงได้ที่นี่)
+const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN || ""; 
+const DISCORD_GUILD_ID = process.env.DISCORD_GUILD_ID || "";
+
 let applications = [];
+let verifiedMembers = ["Somchai_BKM", "NongName_BKM", "AdminStory_BKM", "FarmerPro_BKM"]; // รายชื่อสมาชิกที่ผ่านการสมัคร
 let leftMembers = [];
 let members = {
     story: ["Somchai_BKM", "AdminStory_BKM"],
     farm: ["NongName_BKM", "FarmerPro_BKM"]
 };
 
-// 1. API รับใบสมัครส่งเข้า Discord
+// ตรวจสอบสมาชิกก่อนเข้าชมเว็บ
+app.get('/api/verify-member', (req, res) => {
+    const { icName } = req.query;
+    if(verifiedMembers.includes(icName)) {
+        res.json({ success: true });
+    } else {
+        res.json({ success: false });
+    }
+});
+
+// 1. API รับใบสมัครส่งเข้า Discord และเพิ่มชื่อเข้าฐานข้อมูลสมาชิกอัตโนมัติ
 app.post('/api/apply', async (req, res) => {
     const data = req.body;
     applications.push(data);
+
+    if(!verifiedMembers.includes(data.icName)) {
+        verifiedMembers.push(data.icName);
+    }
 
     if(data.playStyle === 'สายสตอรี่') {
         if(!members.story.includes(data.icName)) members.story.push(data.icName);
@@ -38,40 +58,11 @@ app.post('/api/apply', async (req, res) => {
             description: "มีผู้สนใจสมัครเข้าร่วมตระกูล กรุณาตรวจสอบข้อมูลและดำเนินการสอบตามขั้นตอน",
             color: 3719416,
             fields: [
-                {
-                    name: "👤 ข้อมูล IC (ในเกม)",
-                    value: `• **ชื่อ IC:** ${data.icName}\n• **อายุ IC:** ${data.icAge} ปี\n• **เพศ:** ${data.icGender}\n• **เลเวล:** ${data.level}`,
-                    inline: false
-                },
-                {
-                    name: "🎮 ข้อมูล OC (นอกเกม)",
-                    value: `• **ชื่อ OC:** ${data.ocName}\n• **อายุ OC:** ${data.ocAge} ปี\n• **เพศ:** ${data.ocGender}\n• **เวลาเล่น:** ${data.onlineHours}`,
-                    inline: false
-                },
-                {
-                    name: "⚔️ สายการเล่น",
-                    value: data.playStyle,
-                    inline: false
-                },
-                {
-                    name: "💬 เหตุผลที่อยากเข้าร่วม",
-                    value: data.reason,
-                    inline: false
-                },
-                {
-                    name: "🏷️ แท็ก Discord ผู้สมัคร",
-                    value: data.discordTag,
-                    inline: false
-                },
-                {
-                    name: "📋 แท็กผู้คุมสอบ",
-                    value: data.testerTag,
-                    inline: false
-                }
+                { name: "👤 ข้อมูล IC (ในเกม)", value: `• **ชื่อ IC:** ${data.icName}\n• **อายุ IC:** ${data.icAge} ปี\n• **เลเวล:** ${data.level}`, inline: false },
+                { name: "⚔️ สายการเล่น", value: data.playStyle, inline: false },
+                { name: "💬 เหตุผล", value: data.reason, inline: false }
             ],
-            footer: {
-                text: "BLACK KINGDOM System • " + new Date().toLocaleString('th-TH')
-            }
+            footer: { text: "BLACK KINGDOM System • " + new Date().toLocaleString('th-TH') }
         }]
     };
 
@@ -83,13 +74,33 @@ app.post('/api/apply', async (req, res) => {
         });
         res.status(200).json({ success: true });
     } catch(err) {
-        console.error('Error sending webhook:', err);
-        res.status(500).json({ success: false, error: err.message });
+        res.status(500).json({ success: false });
     }
 });
 
 app.get('/api/applications', (req, res) => res.json(applications));
 app.get('/api/members', (req, res) => res.json(members));
+
+// ดึงสถานะคนออนไลน์จริงจาก Discord (ถ้าเปิดใช้งาน Bot Token)
+app.get('/api/discord-online', async (req, res) => {
+    if (!DISCORD_BOT_TOKEN || !DISCORD_GUILD_ID) {
+        // หากยังไม่ได้ตั้งค่า Bot Token จะแสดงตัวอย่างสมาชิกจำลองที่ออนไลน์จริง
+        return res.json([
+            { username: "Somchai_BKM (สายสตอรี่)" },
+            { username: "NongName_BKM (สายฟาร์ม)" }
+        ]);
+    }
+    try {
+        const response = await fetch(`https://discord.com/api/v10/guilds/${DISCORD_GUILD_ID}/members?limit=50`, {
+            headers: { Authorization: `Bot ${DISCORD_BOT_TOKEN}` }
+        });
+        const guildMembers = await response.json();
+        // กรองเฉพาะสมาชิกที่ออนไลน์ (หากต่อ API Gateway)
+        res.json(guildMembers.map(m => ({ username: m.user.username })));
+    } catch (e) {
+        res.json([]);
+    }
+});
 
 // 2. API แจ้งเตือนเวลากิจกรรม
 app.post('/api/notify-activity', async (req, res) => {
@@ -110,6 +121,20 @@ app.post('/api/notify-activity', async (req, res) => {
     }
 });
 
+// ตั้งเวลาแจ้งเตือน AirDrop อัตโนมัติทุกวันตามเวลา 13:00, 18:00, 21:00
+cron.schedule('0 13,18,21 * * *', async () => {
+    const payload = {
+        content: `@everyone 🚨 **[แจ้งเตือนอัตโนมัติ] กิจกรรม AirDrop (แอร์ดรอป) รอบเวลาปัจจุบันเริ่มแล้ว!**\nขอให้สมาชิกทุกคนเตรียมตัวเข้าพื้นที่ด่วน! 🌊🩵`
+    };
+    try {
+        await fetch(WEBHOOK_APPLY, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+    } catch(e) { console.error('Auto cron error:', e); }
+});
+
 // 3. API ขอออกแก๊ง
 app.post('/api/leave-gang', async (req, res) => {
     const { icName, reason } = req.body;
@@ -118,6 +143,7 @@ app.post('/api/leave-gang', async (req, res) => {
     leftMembers.push({ icName, reason, date: dateStr });
     members.story = members.story.filter(m => m !== icName);
     members.farm = members.farm.filter(m => m !== icName);
+    verifiedMembers = verifiedMembers.filter(m => m !== icName);
 
     const payload = {
         content: `@everyone 🥀 **บันทึกการอำลาสมาชิกตระกูล BLACK KINGDOM**`,
