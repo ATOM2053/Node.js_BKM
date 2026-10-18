@@ -13,13 +13,12 @@ app.use(express.static(path.join(__dirname)));
 
 // DISCORD WEBHOOK URLS
 const WEBHOOK_APPLY = "https://discord.com/api/webhooks/1560910735494881402/nzUeuIZSq39cqTlifuljoYVAy78-Bn_XwKHH6K8in_5myVPsG1L6XQiculo68fOXwe_Q";
-const WEBHOOK_ACTIVITY = "https://discord.com/api/webhooks/1561321885386670140/Fx2iPim0F9bL00h8EC6lXSAtN054VAFQW0OGd1ZQTyz1KeWg9tO730nycZqx7kAvC6iY"; // ห้องแจ้งเตือนกิจกรรม
+const WEBHOOK_ACTIVITY = "https://discord.com/api/webhooks/1561321885386670140/Fx2iPim0F9bL00h8EC6lXSAtN054VAFQW0OGd1ZQTyz1KeWg9tO730nycZqx7kAvC6iY"; 
 const WEBHOOK_LEAVE = "https://discord.com/api/webhooks/1561320841059241994/VtmCOkw_XFJ2f-6xvBWIc8l4WcoucbQiPQlYr4624C5dBx5AZuQj5suUlIk0QXdKVq2h";
 
-// ไฟล์สำหรับเก็บข้อมูลถาวร ไม่ให้ข้อมูลหายเวลาเซิฟเวอร์รีสตาร์ท
+// ไฟล์สำหรับเก็บข้อมูลถาวร
 const DB_FILE = path.join(__dirname, 'database.json');
 
-// โหลดข้อมูลจากไฟล์ (ถ้ามี)
 let dbData = {
     applications: [],
     verifiedMembers: [],
@@ -36,7 +35,6 @@ if (fs.existsSync(DB_FILE)) {
     }
 }
 
-// ฟังก์ชันบันทึกข้อมูลลงไฟล์อัตโนมัติ
 function saveData() {
     try {
         fs.writeFileSync(DB_FILE, JSON.stringify(dbData, null, 2), 'utf8');
@@ -45,7 +43,6 @@ function saveData() {
     }
 }
 
-// ระบบเช็คคนออนไลน์บนหน้าเว็บ (Active Visitors)
 let activeVisitors = {};
 
 app.post('/api/heartbeat', (req, res) => {
@@ -67,7 +64,6 @@ app.get('/api/web-online', (req, res) => {
     res.json(Object.keys(activeVisitors));
 });
 
-// ตรวจสอบรายชื่อสมาชิกในระบบเว็บ
 app.get('/api/verify-member', (req, res) => {
     const { icName } = req.query;
     if(dbData.verifiedMembers.includes(icName)) {
@@ -77,7 +73,7 @@ app.get('/api/verify-member', (req, res) => {
     }
 });
 
-// 1. API รับใบสมัครส่งเข้า Discord และบันทึกข้อมูลเข้าฐานข้อมูล
+// 1. API รับใบสมัครส่งเข้า Discord (เพิ่มข้อมูล OC กลับมาครบถ้วน)
 app.post('/api/apply', async (req, res) => {
     const data = req.body;
     dbData.applications.push(data);
@@ -92,7 +88,7 @@ app.post('/api/apply', async (req, res) => {
         if(!dbData.members.farm.includes(data.icName)) dbData.members.farm.push(data.icName);
     }
 
-    saveData(); // บันทึกข้อมูลทันที
+    saveData();
 
     const payload = {
         content: `@everyone @here\n📢 **มีใบสมัครใหม่เข้ามาครับ!**\n👤 **ผู้สมัคร:** ${data.discordTag}\n📋 **ผู้คุมสอบ:** ${data.testerTag}\n🔗 **ห้องรอสอบ:** https://discord.gg/C6kKrrGbm`,
@@ -101,11 +97,40 @@ app.post('/api/apply', async (req, res) => {
             description: "มีผู้สนใจสมัครเข้าร่วมตระกูล กรุณาตรวจสอบข้อมูลและดำเนินการสอบตามขั้นตอน",
             color: 3719416,
             fields: [
-                { name: "👤 ข้อมูล IC (ในเกม)", value: `• **ชื่อ IC:** ${data.icName}\n• **อายุ IC:** ${data.icAge} ปี\n• **เลเวล:** ${data.level}`, inline: false },
-                { name: "⚔️ สายการเล่น", value: data.playStyle, inline: false },
-                { name: "💬 เหตุผล", value: data.reason, inline: false }
+                {
+                    name: "👤 ข้อมูล IC (ในเกม)",
+                    value: `• **ชื่อ IC:** ${data.icName}\n• **อายุ IC:** ${data.icAge} ปี\n• **เพศ IC:** ${data.icGender}\n• **เลเวล:** ${data.level}`,
+                    inline: false
+                },
+                {
+                    name: "👽 ข้อมูล OC (นอกเกม)",
+                    value: `• **ชื่อ OC:** ${data.ocName}\n• **อายุ OC:** ${data.ocAge} ปี\n• **เพศ OC:** ${data.ocGender}\n• **เวลาเล่น:** ${data.onlineHours}`,
+                    inline: false
+                },
+                {
+                    name: "⚔️ สายการเล่น",
+                    value: data.playStyle,
+                    inline: false
+                },
+                {
+                    name: "💬 เหตุผลที่อยากเข้าร่วม",
+                    value: data.reason,
+                    inline: false
+                },
+                {
+                    name: "🏷️ แท็ก Discord ผู้สมัคร",
+                    value: data.discordTag,
+                    inline: false
+                },
+                {
+                    name: "📋 แท็กผู้คุมสอบ",
+                    value: data.testerTag,
+                    inline: false
+                }
             ],
-            footer: { text: "BLACK KINGDOM System • " + new Date().toLocaleString('th-TH') }
+            footer: {
+                text: "BLACK KINGDOM System • " + new Date().toLocaleString('th-TH')
+            }
         }]
     };
 
@@ -124,7 +149,7 @@ app.post('/api/apply', async (req, res) => {
 app.get('/api/applications', (req, res) => res.json(dbData.applications));
 app.get('/api/members', (req, res) => res.json(dbData.members));
 
-// 2. API กดปุ่มแจ้งเตือนกิจกรรมจากหน้าเว็บ
+// 2. API กดปุ่มแจ้งเตือนกิจกรรม
 app.post('/api/notify-activity', async (req, res) => {
     const { activityName, timeText } = req.body;
     let msg = `@everyone 🚨 **ประกาศสำคัญ! กิจกรรม ${activityName} เริ่มขึ้นแล้ว!** รอบเวลา: ${timeText} 🌊🩵`;
@@ -149,14 +174,9 @@ app.post('/api/notify-activity', async (req, res) => {
     }
 });
 
-// ==========================================
 // ระบบตั้งเวลาแจ้งเตือนอัตโนมัติ (เวลาไทย Asia/Bangkok)
-// ==========================================
-
 const CRON_OPTIONS = { timezone: "Asia/Bangkok" };
 
-// --- AIRDROP (13:00 บ่าย 1 / 18:00 6 โมงเย็น / 21:00 3 ทุ่ม) ---
-// แจ้งเตือนก่อน 1 นาที (12:59, 17:59, 20:59)
 cron.schedule('59 12,17,20 * * *', async () => {
     await fetch(WEBHOOK_ACTIVITY, {
         method: 'POST',
@@ -165,7 +185,6 @@ cron.schedule('59 12,17,20 * * *', async () => {
     });
 }, CRON_OPTIONS);
 
-// แจ้งเตือนตอนถึงเวลา (13:00, 18:00, 21:00)
 cron.schedule('0 13,18,21 * * *', async () => {
     const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Bangkok" }));
     const hour = now.getHours();
@@ -181,8 +200,6 @@ cron.schedule('0 13,18,21 * * *', async () => {
     });
 }, CRON_OPTIONS);
 
-// --- ยึดคุก (เวลา 20:00 น.) ---
-// แจ้งเตือนก่อน 1 นาที (19:59)
 cron.schedule('59 19 * * *', async () => {
     await fetch(WEBHOOK_ACTIVITY, {
         method: 'POST',
@@ -191,7 +208,6 @@ cron.schedule('59 19 * * *', async () => {
     });
 }, CRON_OPTIONS);
 
-// แจ้งเตือนตอนถึงเวลา (20:00)
 cron.schedule('0 20 * * *', async () => {
     await fetch(WEBHOOK_ACTIVITY, {
         method: 'POST',
@@ -200,8 +216,6 @@ cron.schedule('0 20 * * *', async () => {
     });
 }, CRON_OPTIONS);
 
-// --- วอยึดโซน (เวลา 21:30 น.) ---
-// แจ้งเตือนก่อน 1 นาที (21:29)
 cron.schedule('29 21 * * *', async () => {
     await fetch(WEBHOOK_ACTIVITY, {
         method: 'POST',
@@ -210,7 +224,6 @@ cron.schedule('29 21 * * *', async () => {
     });
 }, CRON_OPTIONS);
 
-// แจ้งเตือนตอนถึงเวลา (21:30)
 cron.schedule('30 21 * * *', async () => {
     await fetch(WEBHOOK_ACTIVITY, {
         method: 'POST',
@@ -219,7 +232,7 @@ cron.schedule('30 21 * * *', async () => {
     });
 }, CRON_OPTIONS);
 
-// 3. API ขอออกแก๊ง (เช็คชื่อในระบบก่อนลบ)
+// 3. API ขอออกแก๊ง
 app.post('/api/leave-gang', async (req, res) => {
     const { icName, reason } = req.body;
     
@@ -234,7 +247,7 @@ app.post('/api/leave-gang', async (req, res) => {
     dbData.members.farm = dbData.members.farm.filter(m => m !== icName);
     dbData.verifiedMembers = dbData.verifiedMembers.filter(m => m !== icName);
 
-    saveData(); // บันทึกข้อมูลลงไฟล์ทันที
+    saveData();
 
     const payload = {
         content: `@everyone 🥀 **บันทึกการอำลาสมาชิกตระกูล BLACK KINGDOM**`,
