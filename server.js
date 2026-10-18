@@ -26,6 +26,17 @@ let members = {
     farm: ["NongName_BKM", "FarmerPro_BKM"]
 };
 
+// ฟังก์ชันส่งข้อความเข้า Webhook ห้องกิจกรรม
+async function sendDiscordActivity(message) {
+    try {
+        await fetch(WEBHOOK_ACTIVITY, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ content: message })
+        });
+    } catch(e) { console.error('Webhook error:', e); }
+}
+
 // 1. API รับใบสมัครส่งเข้า Discord
 app.post('/api/apply', async (req, res) => {
     const data = req.body;
@@ -90,38 +101,62 @@ app.get('/api/discord-online', async (req, res) => {
     }
 });
 
-// 2. API แจ้งเตือนเวลากิจกรรม (ส่งไปที่ห้องกิจกรรมโดยเฉพาะ)
+// 2. API กดปุ่มแจ้งเตือนกิจกรรมจากหน้าเว็บ
 app.post('/api/notify-activity', async (req, res) => {
     const { activityName, timeText } = req.body;
-    const payload = {
-        content: `@everyone 🚨 **ประกาศสำคัญ! กิจกรรม ${activityName} เริ่มขึ้นแล้ว!** ⏰ รอบเวลา: ${timeText}\nขอให้สมาชิกทุกคนเตรียมตัวให้พร้อมและเข้าจุดประจำการทันที! 🌊🩵`
-    };
-
-    try {
-        await fetch(WEBHOOK_ACTIVITY, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-        res.status(200).json({ success: true });
-    } catch(err) {
-        res.status(500).json({ success: false });
+    let msg = `@everyone 🚨 **ประกาศสำคัญ! กิจกรรม ${activityName} เริ่มขึ้นแล้ว!** รอบเวลา: ${timeText} 🌊🩵`;
+    
+    if(activityName === 'AirDrop') {
+        msg = `@everyone 🚨 **AirDrop รอบ ${timeText} มาแล้วนะจ๊ะที่ร้ากก ขอให้สมาชิกทุกคนเข้าแอร์กันด้วยนะจ๊ะที่ร้ากก** 🌊🩵`;
+    } else if(activityName === 'ยึดคุก') {
+        msg = `@everyone 🚨 **ขอให้ทุกคนเข้ามายึดคุกกันด้วยยยน้าา สู้ๆๆน้าาา** 🌊🩵`;
+    } else if(activityName === 'วอยึดโซน') {
+        msg = `@everyone 🚨 **ยึดโซนมาแล้วลุ่ยเลยยๆ** 🌊🩵`;
     }
+
+    await sendDiscordActivity(msg);
+    res.status(200).json({ success: true });
 });
 
-// ตั้งเวลาแจ้งเตือน AirDrop อัตโนมัติ (13:00 บ่าย 1, 18:00 หกโมงเย็น, 21:00 สามทุ่ม)
-cron.schedule('0 13,18,21 * * *', async () => {
-    const payload = {
-        content: `@everyone 🚨 **[แจ้งเตือนอัตโนมัติ] กิจกรรม AirDrop (แอร์ดรอป) รอบเวลาปัจจุบันเริ่มแล้ว!**\nขอให้สมาชิกทุกคนเตรียมตัวเข้าพื้นที่ด่วน! 🌊🩵`
-    };
-    try {
-        await fetch(WEBHOOK_ACTIVITY, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-    } catch(e) { console.error('Auto cron error:', e); }
+// ==========================================
+// ระบบตั้งเวลาแจ้งเตือนอัตโนมัติ (Cron Jobs)
+// ==========================================
+
+// --- AIRDROP (13:00, 18:00, 21:00) ---
+// แจ้งเตือนก่อน 1 นาที (12:59, 17:59, 20:59)
+cron.schedule('59 12,17,20 * * *', async () => {
+    await sendDiscordActivity(`@everyone ⏰ **AirDrop จะมาแล้วนะจ๊ะที่ร้ากก เตรียมตัวให้พร้อม!** 🌊🩵`);
 });
+// แจ้งเตือนตอนถึงเวลา (13:00, 18:00, 21:00)
+cron.schedule('0 13,18,21 * * *', async () => {
+    let timeLabel = "13:00 (บ่าย 1)";
+    const hour = new Date().getHours();
+    if(hour === 18) timeLabel = "18:00 (6 โมงเย็น)";
+    if(hour === 21) timeLabel = "21:00 (3 ทุ่ม)";
+    
+    await sendDiscordActivity(`@everyone 🚨 **AirDrop รอบ ${timeLabel} มาแล้วนะจ๊ะที่ร้ากก ขอให้สมาชิกทุกคนเข้าแอร์กันด้วยนะจ๊ะที่ร้ากก** 🌊🩵`);
+});
+
+// --- ยึดคุก (เวลา 20:00 น.) ---
+// แจ้งเตือนก่อน 1 นาที (19:59)
+cron.schedule('59 19 * * *', async () => {
+    await sendDiscordActivity(`@everyone ⏰ **ยึดคุกจะมาแล้วว ไปยึดคุกกันเถอะะ!** 🌊🩵`);
+});
+// แจ้งเตือนตอนถึงเวลา (20:00)
+cron.schedule('0 20 * * *', async () => {
+    await sendDiscordActivity(`@everyone 🚨 **ขอให้ทุกคนเข้ามายึดคุกกันด้วยยยน้าา สู้ๆๆน้าาา** 🌊🩵`);
+});
+
+// --- วอยึดโซน (เวลา 21:30 น.) ---
+// แจ้งเตือนก่อน 1 นาที (21:29)
+cron.schedule('29 21 * * *', async () => {
+    await sendDiscordActivity(`@everyone ⏰ **ให้ทุกคนเตรียมของยึดโซนกันให้พร้อม ไม่อีโก้น้าาา ชุบเพื่อนด้วย สู้ๆน้าาอ้วนน!** 🌊🩵`);
+});
+// แจ้งเตือนตอนถึงเวลา (21:30)
+cron.schedule('30 21 * * *', async () => {
+    await sendDiscordActivity(`@everyone 🚨 **ยึดโซนมาแล้วลุ่ยเลยยๆ!** 🌊🩵`);
+});
+
 
 // 3. API ขอออกแก๊ง
 app.post('/api/leave-gang', async (req, res) => {
