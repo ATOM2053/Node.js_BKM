@@ -16,7 +16,7 @@ const WEBHOOK_APPLY = "https://discord.com/api/webhooks/1560910735494881402/nzUe
 const WEBHOOK_ACTIVITY = "https://discord.com/api/webhooks/1561321885386670140/Fx2iPim0F9bL00h8EC6lXSAtN054VAFQW0OGd1ZQTyz1KeWg9tO730nycZqx7kAvC6iY"; 
 const WEBHOOK_LEAVE = "https://discord.com/api/webhooks/1561320841059241994/VtmCOkw_XFJ2f-6xvBWIc8l4WcoucbQiPQlYr4624C5dBx5AZuQj5suUlIk0QXdKVq2h";
 
-// ไฟล์สำหรับเก็บข้อมูลถาวร
+// ไฟล์บันทึกข้อมูลถาวร
 const DB_FILE = path.join(__dirname, 'database.json');
 
 let dbData = {
@@ -43,11 +43,14 @@ function saveData() {
     }
 }
 
+// ระบบคนออนเว็บเรียลไทม์
 let activeVisitors = {};
 
 app.post('/api/heartbeat', (req, res) => {
     const { visitorId } = req.body;
-    activeVisitors[visitorId] = Date.now();
+    if (visitorId) {
+        activeVisitors[visitorId] = Date.now();
+    }
     res.sendStatus(200);
 });
 
@@ -73,7 +76,7 @@ app.get('/api/verify-member', (req, res) => {
     }
 });
 
-// 1. API รับใบสมัครส่งเข้า Discord (เพิ่มข้อมูล OC กลับมาครบถ้วน)
+// 1. API รับใบสมัครส่งเข้า Discord และบันทึกข้อมูล
 app.post('/api/apply', async (req, res) => {
     const data = req.body;
     dbData.applications.push(data);
