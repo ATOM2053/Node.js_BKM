@@ -64,33 +64,6 @@
             width: 100%;
         }
 
-        /* LOGIN GATEWAY OVERLAY */
-        #loginOverlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(6, 9, 17, 0.95);
-            backdrop-filter: blur(15px);
-            z-index: 3000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .login-card {
-            background: var(--bg-card);
-            border: 2px solid var(--accent-cyan);
-            border-radius: 20px;
-            padding: 40px 30px;
-            max-width: 450px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 0 50px var(--accent-glow);
-        }
-
         /* NAVBAR */
         .navbar {
             position: fixed;
@@ -310,7 +283,6 @@
         .member-list { list-style: none; display: flex; flex-direction: column; gap: 10px; max-height: 300px; overflow-y: auto; }
         .member-item { background: rgba(6, 9, 17, 0.6); padding: 10px 14px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.03); }
         .online-dot { width: 8px; height: 8px; background-color: #4ade80; border-radius: 50%; box-shadow: 0 0 8px #4ade80; display: inline-block; margin-right: 6px; }
-        .offline-dot { width: 8px; height: 8px; background-color: #94a3b8; border-radius: 50%; display: inline-block; margin-right: 6px; }
 
         .footer { background: rgba(6, 9, 17, 0.95); border-top: 1px solid var(--border-color); padding: 25px 0; text-align: center; color: var(--text-sub); font-size: 0.85rem; margin-top: auto; }
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); z-index: 2000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: all 0.3s ease; padding: 20px; }
@@ -333,18 +305,6 @@
     </style>
 </head>
 <body>
-
-    <!-- LOGIN GATEWAY: สมาชิกต้องกรอกชื่อ IC ก่อนถึงจะเห็นเนื้อหา -->
-    <div id="loginOverlay">
-        <div class="login-card">
-            <i class="fa-solid fa-crown" style="font-size: 3rem; color: var(--gold-crown); margin-bottom: 15px;"></i>
-            <h2 style="color: #fff; margin-bottom: 10px;">BLACK KINGDOM BKM</h2>
-            <p style="color: var(--text-sub); font-size: 0.9rem; margin-bottom: 20px;">กรุณากรอกชื่อ IC ของคุณเพื่อยืนยันตัวตนก่อนเข้าสู่ระบบ</p>
-            <input type="text" id="gatewayIcInput" class="form-control" placeholder="เช่น Somchai_BKM" style="margin-bottom: 15px; text-align: center;">
-            <button onclick="verifyMemberLogin()" class="btn-bkm" style="width: 100%;">เข้าสู่เว็บไซต์แก๊ง</button>
-            <p id="loginErrorMsg" style="color: #ef4444; font-size: 0.85rem; margin-top: 10px; display: none;">ไม่พบชื่อ IC นี้ในระบบสมาชิก กรุณาสสมัครสมาชิกก่อนครับ</p>
-        </div>
-    </div>
 
     <!-- NAVBAR -->
     <nav class="navbar">
@@ -468,7 +428,7 @@
             </div>
         </section>
 
-        <!-- PAGE 3: รายชื่อ & ออนไลน์ (ดึงสถานะจาก Discord จริง) -->
+        <!-- PAGE 3: รายชื่อ & ออนไลน์ -->
         <section id="memberList" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">รายชื่อสมาชิก & สถานะออนไลน์</h1>
@@ -687,7 +647,7 @@
             <div class="glass-card activity-section">
                 <div class="activity-header">
                     <h3><i class="fa-solid fa-box-open" style="color: var(--accent-cyan);"></i> 1. กฎการเล่น AirDrop (แอร์ดรอป แก๊งค์)</h3>
-                    <div class="activity-time"><i class="fa-regular fa-clock"></i> เวลา: 13:00 / 18:00 / 21:00</div>
+                    <div class="activity-time"><i class="fa-regular fa-clock"></i> เวลา: บ่าย 1 / 6 โมงเย็น / 3 ทุ่ม</div>
                 </div>
                 <ul class="rule-list">
                     <li><i class="fa-solid fa-circle-check"></i> ห้ามมีสตอรี่กันโดยเด็ดขาดในเวลากิจกรรม [ บังคับ ]</li>
@@ -699,7 +659,7 @@
                     <li><i class="fa-solid fa-circle-check"></i> สามารถใช้เกราะได้ตามปกติ</li>
                     <li><i class="fa-solid fa-triangle-exclamation" style="color: var(--yellow-warning);"></i> <b style="color: var(--yellow-warning);">ข้อห้ามสำคัญ: ห้ามตีก่อน 5 นาที เด็ดขาด!</b></li>
                 </ul>
-                <button class="btn-bkm" style="margin-top: 15px; width: 100%;" onclick="notifyActivityDiscord('AirDrop', '13:00 / 18:00 / 21:00')">
+                <button class="btn-bkm" style="margin-top: 15px; width: 100%;" onclick="notifyActivityDiscord('AirDrop', 'บ่าย 1 / 6 โมงเย็น / 3 ทุ่ม')">
                     <i class="fa-solid fa-bullhorn"></i> แจ้งเตือนเวลากิจกรรม AirDrop ลง Discord
                 </button>
             </div>
@@ -822,39 +782,6 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // ระบบตรวจสอบการเข้าสู่ระบบด้วยชื่อ IC
-        async function verifyMemberLogin() {
-            const icName = document.getElementById('gatewayIcInput').value.trim();
-            const errorMsg = document.getElementById('loginErrorMsg');
-            if(!icName) {
-                errorMsg.style.display = 'block';
-                errorMsg.innerText = 'กรุณากรอกชื่อ IC ของคุณ';
-                return;
-            }
-
-            try {
-                const res = await fetch(`/api/verify-member?icName=${encodeURIComponent(icName)}`);
-                const data = await res.json();
-                if(data.success) {
-                    document.getElementById('loginOverlay').style.display = 'none';
-                    localStorage.setItem('bkm_logged_ic', icName);
-                } else {
-                    errorMsg.style.display = 'block';
-                    errorMsg.innerText = 'ไม่พบชื่อ IC นี้ในระบบสมาชิก (ต้องผ่านการสมัครหรือเป็นสมาชิกก่อน)';
-                }
-            } catch(e) {
-                console.error(e);
-                alert('เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์');
-            }
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedIc = localStorage.getItem('bkm_logged_ic');
-            if(savedIc) {
-                document.getElementById('loginOverlay').style.display = 'none';
-            }
-        });
-
         function switchTab(tabId) {
             document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
