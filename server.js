@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const fetch = require('node-fetch');
 const path = require('path');
+const fs = require('fs'); // เพิ่มโมดูลสำหรับจัดการไฟล์
 const cron = require('node-cron');
 
 const app = express();
@@ -15,13 +16,34 @@ const WEBHOOK_APPLY = "https://discord.com/api/webhooks/1560910735494881402/nzUe
 const WEBHOOK_ACTIVITY = "https://discord.com/api/webhooks/1561321885386670140/Fx2iPim0F9bL00h8EC6lXSAtN054VAFQW0OGd1ZQTyz1KeWg9tO730nycZqx7kAvC6iY"; 
 const WEBHOOK_LEAVE = "https://discord.com/api/webhooks/1561320841059241994/VtmCOkw_XFJ2f-6xvBWIc8l4WcoucbQiPQlYr4624C5dBx5AZuQj5suUlIk0QXdKVq2h";
 
-let applications = [];
-let verifiedMembers = []; // รายชื่อสมาชิกจะเพิ่มเข้ามาก็ต่อเมื่อสมัครผ่านเว็บเท่านั้น
-let leftMembers = [];
-let members = {
-    story: [],
-    farm: []
+// ไฟล์สำหรับเก็บข้อมูลถาวร
+const DB_FILE = path.join(__dirname, 'database.json');
+
+// โหลดข้อมูลจากไฟล์ (ถ้ามี) หรือใช้ค่าเริ่มต้นถ้ายังไม่มีไฟล์
+let dbData = {
+    applications: [],
+    verifiedMembers: [],
+    leftMembers: [],
+    members: { story: [], farm: [] }
 };
+
+if (fs.existsSync(DB_FILE)) {
+    try {
+        const fileContent = fs.readFileSync(DB_FILE, 'utf8');
+        dbData = JSON.parse(fileContent);
+    } catch (e) {
+        console.error('Error reading database file:', e);
+    }
+}
+
+// ฟังก์ชันบันทึกข้อมูลลงไฟล์อัตโนมัติทุกครั้งที่มีการเปลี่ยนแปลง
+function saveData() {
+    try {
+        fs.writeFileSync(DB_FILE, JSON.stringify(dbData, null, 2), 'utf8');
+    } catch (e) {
+        console.error('Error saving database file:', e);
+    }
+}
 
 // เก็บสถานะคนออนไลน์ในเว็บ (Active Visitors)
 let activeVisitors = {};
@@ -32,7 +54,6 @@ app.post('/api/heartbeat', (req, res) => {
     res.sendStatus(200);
 });
 
-// เคลียร์รายชื่อคนที่ปิดเว็บไปแล้วเกิน 25 วินาที
 setInterval(() => {
     const now = Date.now();
     for (let id in activeVisitors) {
@@ -49,27 +70,29 @@ app.get('/api/web-online', (req, res) => {
 // ตรวจสอบสมาชิกก่อนให้ทำเรื่องออกแก๊ง
 app.get('/api/verify-member', (req, res) => {
     const { icName } = req.query;
-    if(verifiedMembers.includes(icName)) {
+    if(dbData.verifiedMembers.includes(icName)) {
         res.json({ success: true });
     } else {
         res.json({ success: false });
     }
 });
 
-// 1. API รับใบสมัครส่งเข้า Discord และบันทึกชื่อเข้าฐานข้อมูลสมาชิกเว็บ
+// 1. API รับใบสมัครส่งเข้า Discord และบันทึกข้อมูลลงไฟล์ถาวร
 app.post('/api/apply', async (req, res) => {
     const data = req.body;
-    applications.push(data);
+    dbData.applications.push(data);
 
-    if(!verifiedMembers.includes(data.icName)) {
-        verifiedMembers.push(data.icName);
+    if(!dbData.verifiedMembers.includes(data.icName)) {
+        dbData.verifiedMembers.push(data.icName);
     }
 
     if(data.playStyle === 'สายสตอรี่') {
-        if(!members.story.includes(data.icName)) members.story.push(data.icName);
+        if(!dbData.members.story.includes(data.icName)) dbData.members.story.push(data.icName);
     } else {
-        if(!members.farm.includes(data.icName)) members.farm.push(data.icName);
+        if(!dbData.members.farm.includes(data.icName)) dbData.members.farm.push(data.icName);
     }
+
+    saveData(); // บันทึกข้อมูลลงไฟล์ทันที
 
     const payload = {
         content: `@everyone @here\n📢 **มีใบสมัครใหม่เข้ามาครับ!**\n👤 **ผู้สมัคร:** ${data.discordTag}\n📋 **ผู้คุมสอบ:** ${data.testerTag}\n🔗 **ห้องรอสอบ:** https://discord.gg/C6kKrrGbm`,
@@ -98,8 +121,8 @@ app.post('/api/apply', async (req, res) => {
     }
 });
 
-app.get('/api/applications', (req, res) => res.json(applications));
-app.get('/api/members', (req, res) => res.json(members));
+app.get('/api/applications', (req, res) => res.json(dbData.applications));
+app.get('/api/members', (req, res) => res.json(dbData.members));
 
 // 2. API กดปุ่มแจ้งเตือนกิจกรรม
 app.post('/api/notify-activity', async (req, res) => {
@@ -180,20 +203,22 @@ cron.schedule('30 21 * * *', async () => {
     });
 });
 
-// 3. API ขอออกแก๊ง (เช็คว่ามีชื่อในระบบจริงถึงจะลบออกได้)
+// 3. API ขอออกแก๊ง (บันทึกข้อมูลลงไฟล์หลังอัปเดต)
 app.post('/api/leave-gang', async (req, res) => {
     const { icName, reason } = req.body;
     
-    if(!verifiedMembers.includes(icName)) {
+    if(!dbData.verifiedMembers.includes(icName)) {
         return res.status(400).json({ success: false, message: 'ไม่พบรายชื่อนี้ในระบบ' });
     }
 
     const dateStr = new Date().toLocaleString('th-TH');
-    leftMembers.push({ icName, reason, date: dateStr });
+    dbData.leftMembers.push({ icName, reason, date: dateStr });
     
-    members.story = members.story.filter(m => m !== icName);
-    members.farm = members.farm.filter(m => m !== icName);
-    verifiedMembers = verifiedMembers.filter(m => m !== icName);
+    dbData.members.story = dbData.members.story.filter(m => m !== icName);
+    dbData.members.farm = dbData.members.farm.filter(m => m !== icName);
+    dbData.verifiedMembers = dbData.verifiedMembers.filter(m => m !== icName);
+
+    saveData(); // บันทึกข้อมูลลงไฟล์ทันที
 
     const payload = {
         content: `@everyone 🥀 **บันทึกการอำลาสมาชิกตระกูล BLACK KINGDOM**`,
@@ -217,7 +242,7 @@ app.post('/api/leave-gang', async (req, res) => {
     }
 });
 
-app.get('/api/left-members', (req, res) => res.json(leftMembers));
+app.get('/api/left-members', (req, res) => res.json(dbData.leftMembers));
 
 app.listen(PORT, () => {
     console.log(`BKM Gang Server is running on port ${PORT}`);
