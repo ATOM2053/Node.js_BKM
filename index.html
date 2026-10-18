@@ -317,7 +317,7 @@
             <ul class="nav-links" id="navLinks">
                 <li><button class="nav-tab active" onclick="switchTab('apply')"><i class="fa-solid fa-file-pen"></i> กรอกใบสมัคร</button></li>
                 <li><button class="nav-tab" onclick="switchTab('applicationsList')"><i class="fa-solid fa-list-check"></i> ดูใบสมัคร</button></li>
-                <li><button class="nav-tab" onclick="switchTab('memberList')"><i class="fa-solid fa-users"></i> รายชื่อ & ออนไลน์</button></li>
+                <li><button class="nav-tab" onclick="switchTab('memberList')"><i class="fa-solid fa-users"></i> สมาชิก & ออนไลน์</button></li>
                 <li><button class="nav-tab" onclick="switchTab('leaveGang')"><i class="fa-solid fa-right-from-bracket"></i> ขอออกแก๊ง</button></li>
                 <li><button class="nav-tab" onclick="switchTab('qualifications')"><i class="fa-solid fa-user-check"></i> คุณสมบัติ</button></li>
                 <li><button class="nav-tab" onclick="switchTab('gangRules')"><i class="fa-solid fa-gavel"></i> กฎแก๊ง</button></li>
@@ -428,14 +428,14 @@
             </div>
         </section>
 
-        <!-- PAGE 3: รายชื่อสมาชิก & คนออนไลน์ในเว็บ -->
+        <!-- PAGE 3: สมาชิก & คนออนเรียลไทม์ -->
         <section id="memberList" class="page-content">
             <div class="page-header">
-                <h1 class="page-title">รายชื่อสมาชิก & สถานะออนไลน์ในเว็บ</h1>
-                <p class="page-subtitle">แสดงสมาชิกที่สมัครเข้าแก๊งสำเร็จ และผู้ใช้งานที่กำลังออนไลน์บนเว็บไซต์ขณะนี้</p>
+                <h1 class="page-title">รายชื่อสมาชิกตามสาย & สถานะคนออนเว็บ</h1>
+                <p class="page-subtitle">แสดงรายชื่อผู้ที่กรอกใบสมัครและคนออนในเว็บแบบเรียลไทม์</p>
             </div>
             <div class="glass-card">
-                <h3 style="color: #fff; margin-bottom: 15px;"><i class="fa-solid fa-signal" style="color: #4ade80;"></i> สมาชิกที่กำลังออนไลน์บนเว็บไซต์</h3>
+                <h3 style="color: #fff; margin-bottom: 15px;"><i class="fa-solid fa-signal" style="color: #4ade80;"></i> คนที่กำลังออนไลน์ในเว็บไซต์</h3>
                 <div class="member-box" style="margin-bottom: 25px;">
                     <ul class="member-list" id="webOnlineList">
                         <li class="member-item">กำลังโหลด...</li>
@@ -463,7 +463,7 @@
         <section id="leaveGang" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">ระบบขอออกแก๊ง</h1>
-                <p class="page-subtitle">กรอกชื่อ IC (ต้องมีรายชื่อในระบบเว็บเท่านั้น) เพื่อทำเรื่องขอลาออก</p>
+                <p class="page-subtitle">กรอกชื่อ IC (ต้องมีรายชื่อในระบบเว็บถึงจะออกได้) เพื่อทำเรื่องขอลาออก</p>
             </div>
             <div class="glass-card form-container" style="max-width: 600px;">
                 <form id="leaveForm">
@@ -552,85 +552,85 @@
             </div>
         </section>
 
-        <!-- PAGE 6: กฎแก๊ง -->
+        <!-- PAGE 6: กฎแก๊ง (อัปเดตใหม่ตามที่ขอ) -->
         <section id="gangRules" class="page-content">
             <div class="page-header">
-                <h1 class="page-title">กฎการรับใบเตือน (PENALTY SYSTEM)</h1>
+                <h1 class="page-title">กฎการโดนใบ (PENALTY SYSTEM)</h1>
                 <p class="page-subtitle">กฎระเบียบภายในแก๊ง BLACK KINGDOM หากฝ่าฝืนจะได้รับบทลงโทษตามที่กำหนด</p>
             </div>
             <div class="glass-card">
                 <div class="penalty-grid">
                     <div class="penalty-item">
-                        <div class="penalty-title"><span class="penalty-num">1.</span> สมาชิกต้องฟังคำสั่งจากหลีดรองหลีด</div>
-                        <span class="badge-penalty badge-yellow">🟨 ใบเหลือง / 🟧 ใบส้ม</span>
+                        <div class="penalty-title"><span class="penalty-num">1.</span> สมาชิกต้องฟังคำสั่งจากหลีดรองหลีดผ่าฝืน</div>
+                        <span class="badge-penalty badge-yellow">ใบเหลือง🟨 / ใบส้ม🟧</span>
                     </div>
                     <div class="penalty-item">
                         <div class="penalty-title"><span class="penalty-num">2.</span> นำพาความเดือดร้อนมาให้ตระกูลโดยไม่รับผิดชอบ</div>
-                        <span class="badge-penalty badge-red">🟥 ใบแดง / ⬛ ใบดำ</span>
+                        <span class="badge-penalty badge-red">ใบแดง🟥 / ใบดำ⬛</span>
                     </div>
                     <div class="penalty-item">
                         <div class="penalty-title"><span class="penalty-num">3.</span> นำพาผู้อื่นหรือคนภายนอกเข้าดิสโดยไม่ได้อนุญาต</div>
-                        <span class="badge-penalty badge-yellow">🟨 ใบเหลือง</span>
+                        <span class="badge-penalty badge-yellow">ใบเหลือง🟨</span>
                     </div>
                     <div class="penalty-item">
                         <div class="penalty-title"><span class="penalty-num">4.</span> นำสกินแก๊งไปขายหรือจำหน่ายให้ผู้อื่น</div>
-                        <span class="badge-penalty badge-red">🟥 ใบแดง / ⬛ ใบดำ</span>
+                        <span class="badge-penalty badge-red">ใบแดง🟥 / ใบดำ⬛</span>
                     </div>
                     <div class="penalty-item">
                         <div class="penalty-title"><span class="penalty-num">5.</span> เล่นโปรเล่นมอด</div>
-                        <span class="badge-penalty badge-black">⬛ ใบดำ (ปลดออก)</span>
+                        <span class="badge-penalty badge-black">ใบดำ⬛</span>
                     </div>
                     <div class="penalty-item">
-                        <div class="penalty-title"><span class="penalty-num">6.</span> ด่าเรื้อนไปด่าแก๊งอื่น</div>
-                        <span class="badge-penalty badge-orange">🟧 ใบส้ม</span>
+                        <div class="penalty-title"><span class="penalty-num">6.</span> ด่าเรื้อนไปด่าแก็งอื่น</div>
+                        <span class="badge-penalty badge-orange">ใบส้ม🟧</span>
                     </div>
                     <div class="penalty-item">
                         <div class="penalty-title"><span class="penalty-num">7.</span> ไม่เชื่อฟังผู้คุมสายสตอรี่</div>
-                        <span class="badge-penalty badge-yellow">🟨 ใบเหลือง / 🟧 ใบส้ม</span>
+                        <span class="badge-penalty badge-yellow">ใบเหลือง🟨 / ใบส้ม🟧</span>
                     </div>
                     <div class="penalty-item">
                         <div class="penalty-title"><span class="penalty-num">8.</span> ไม่มีความรับผิดชอบ</div>
-                        <span class="badge-penalty badge-yellow">🟨 ใบเหลือง</span>
+                        <span class="badge-penalty badge-yellow">ใบเหลือง🟨</span>
                     </div>
                     <div class="penalty-item">
                         <div class="penalty-title"><span class="penalty-num">9.</span> สอบสวนแล้วให้การเท็จ</div>
-                        <span class="badge-penalty badge-red">🟥 ใบแดง</span>
+                        <span class="badge-penalty badge-red">ใบแดง🟥</span>
                     </div>
                     <div class="penalty-item">
                         <div class="penalty-title"><span class="penalty-num">10.</span> แจ้งลาโดยสาเหตุไม่ชัดเจน</div>
-                        <span class="badge-penalty badge-yellow">🟨 ใบเหลือง</span>
+                        <span class="badge-penalty badge-yellow">ใบเหลือง🟨</span>
                     </div>
                     <div class="penalty-item">
                         <div class="penalty-title"><span class="penalty-num">11.</span> ส่งลิ้งค์ดิสมั่ว</div>
-                        <span class="badge-penalty badge-yellow">🟨 ใบเหลือง</span>
+                        <span class="badge-penalty badge-yellow">ใบเหลือง🟨</span>
                     </div>
                     <div class="penalty-item">
                         <div class="penalty-title"><span class="penalty-num">12.</span> ด่าบุพการี</div>
-                        <span class="badge-penalty badge-orange">🟧 ใบส้ม</span>
+                        <span class="badge-penalty badge-orange">ใบส้ม🟧</span>
                     </div>
                     <div class="penalty-item">
-                        <div class="penalty-title"><span class="penalty-num">13.</span> ฝ่าฝืนกฎคูลดาวน์พบเจอสถานที่ต้องห้าม</div>
-                        <span class="badge-penalty badge-red">🚫 โดนโทษ x2</span>
+                        <div class="penalty-title"><span class="penalty-num">13.</span> ผ่าฝืนกดคลูดาวห์พบเจอสถานที่ต้องห้าม</div>
+                        <span class="badge-penalty badge-red">โดน×2 🚫</span>
                     </div>
                     <div class="penalty-item">
-                        <div class="penalty-title"><span class="penalty-num">14.</span> นำข้อมูลภายในแก๊งไปเผยแพร่</div>
-                        <span class="badge-penalty badge-red">🟥 ใบแดง / ⬛ ใบดำ</span>
+                        <div class="penalty-title"><span class="penalty-num">14.</span> นำข้อมูลภายในแก็งไปเผยแพร่</div>
+                        <span class="badge-penalty badge-red">ใบแดง🟥 / ใบดำ⬛</span>
                     </div>
                     <div class="penalty-item">
                         <div class="penalty-title"><span class="penalty-num">15.</span> ไม่จ่ายเงินแก๊ง</div>
-                        <span class="badge-penalty badge-yellow">🟨 ใบเหลือง</span>
+                        <span class="badge-penalty badge-yellow">ใบเหลือง🟨</span>
                     </div>
                     <div class="penalty-item">
-                        <div class="penalty-title"><span class="penalty-num">16.</span> เข้าร่วมยึดคุก/กิจกรรม แล้วร่วมมือกับแก๊งอื่น</div>
-                        <span class="badge-penalty badge-red">🟥🟥🟥 โดนใบแดง 3 ใบ❗</span>
+                        <div class="penalty-title"><span class="penalty-num">16.</span> ถ้าเข้าร่วมกิจกรรมยึดคุก หรือกิจกรรมอื่นๆ หากรู้ว่าร่วมมือกับแก๊งอื่น</div>
+                        <span class="badge-penalty badge-red">โดนใบ 🟥❗</span>
                     </div>
                     <div class="penalty-item">
-                        <div class="penalty-title"><span class="penalty-num">17.</span> มีปัญหา เรื้อน หรือทำร้ายพันธมิตร</div>
-                        <span class="badge-penalty badge-black">⬛⬛⬛ โดนใบดำ 3 ใบ❗❗❗</span>
+                        <div class="penalty-title"><span class="penalty-num">17.</span> มีปัญหาหรือเรื้อนหรือทำให้ร้ายพันธมิตร</div>
+                        <span class="badge-penalty badge-black">โดนใบ⬛️❗❗❗</span>
                     </div>
                     <div class="penalty-item">
-                        <div class="penalty-title"><span class="penalty-num">18.</span> คนในแก๊งทำโพเทคแก๊งแตก</div>
-                        <span class="badge-penalty badge-yellow">🟡🟡🟡 ใบเหลือง 3 ใบ + เสียค่าโพเทค</span>
+                        <div class="penalty-title"><span class="penalty-num">18.</span> ถ้าแก๊งมีโพเทคแหละคนในแก๊งทำโพเทคแตก</div>
+                        <span class="badge-penalty badge-yellow">ใบ🟨❗+เสียค่าโพเทค</span>
                     </div>
                 </div>
             </div>
@@ -782,15 +782,15 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // แจ้งเตือนสถานะออนไลน์ของเว็บทุกๆ 10 วินาที
-        let myVisitorId = 'User_' + Math.floor(Math.random() * 10000);
+        // ระบบส่งสถานะคนออนเว็บเรียลไทม์ (ใช้ชื่อ IC ที่กรอก หรือสุ่มชื่อจำลองถ้ายังไม่กรอก)
+        let myVisitorId = localStorage.getItem('bkm_user_ic') || ('Visitor_' + Math.floor(Math.random() * 10000));
         setInterval(() => {
             fetch('/api/heartbeat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ visitorId: myVisitorId })
             }).catch(e => {});
-        }, 10000);
+        }, 8000);
 
         function switchTab(tabId) {
             document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
@@ -822,8 +822,12 @@
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังส่งข้อมูล...';
 
+            const icNameVal = document.getElementById('icName').value.trim();
+            myVisitorId = icNameVal; // อัปเดตชื่อคนออนในเว็บให้เป็นชื่อ IC ทันทีที่สมัคร
+            localStorage.setItem('bkm_user_ic', icNameVal);
+
             const data = {
-                icName: document.getElementById('icName').value,
+                icName: icNameVal,
                 icAge: document.getElementById('icAge').value,
                 icGender: document.getElementById('icGender').value,
                 level: document.getElementById('level').value,
@@ -882,7 +886,7 @@
             } catch(e) { console.error(e); }
         }
 
-        // 3. ดึงสมาชิกแยกสายที่สมัครเข้ามาจริง
+        // 3. ดึงสมาชิกที่สมัครเข้ามาแสดงตามสาย
         async function loadMembers() {
             try {
                 const res = await fetch('/api/members');
@@ -893,19 +897,19 @@
             } catch(e) { console.error(e); }
         }
 
-        // 3.1 ดึงรายชื่อคนที่กำลังออนเว็บไซต์
+        // 3.1 ดึงรายชื่อคนออนเว็บแบบเรียลไทม์
         async function loadWebOnlineUsers() {
             try {
                 const res = await fetch('/api/web-online');
                 const users = await res.json();
                 const container = document.getElementById('webOnlineList');
                 if(users.length === 0) {
-                    container.innerHTML = '<li class="member-item" style="color: var(--text-sub);">กำลังมีผู้ใช้งานออนไลน์อยู่</li>';
+                    container.innerHTML = '<li class="member-item" style="color: var(--text-sub);">ไม่มีผู้ใช้งานออนไลน์ขณะนี้</li>';
                     return;
                 }
                 container.innerHTML = users.map(u => `
                     <li class="member-item">
-                        <span><span class="online-dot"></span>ผู้ใช้งานเว็บ (${u})</span>
+                        <span><span class="online-dot"></span>${u}</span>
                         <span style="color: #4ade80; font-size: 0.8rem;">Online</span>
                     </li>
                 `).join('');
@@ -940,12 +944,11 @@
                 return;
             }
 
-            // ตรวจสอบว่ามีชื่อ IC นี้ในระบบสมาชิกเว็บจริงหรือไม่ก่อนเปิด Modal ยืนยัน
             try {
                 const res = await fetch(`/api/verify-member?icName=${encodeURIComponent(name)}`);
                 const data = await res.json();
                 if(!data.success) {
-                    alert('ไม่พบรายชื่อ IC นี้ในระบบสมาชิกเว็บไซต์ ไม่สามารถทำเรื่องออกแก๊งได้!');
+                    alert('ไม่พบรายชื่อ IC นี้ในระบบสมาชิก ไม่สามารถทำเรื่องออกแก๊งได้!');
                     return;
                 }
                 document.getElementById('leaveModal').classList.add('active');
