@@ -11,27 +11,24 @@ const PORT = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname)));
 
-// ==========================================
-// DISCORD WEBHOOK URLS (ที่คุณให้มาล่าสุด)
-// ==========================================
-const WEBHOOK_ACTIVITY = "https://discord.com/api/webhooks/1561540195990503515/yyN8MSqet9GI9F0FTazdWWeQqTCqMF0NQbmeXAt0C010I9rjjx3WQ8JxON_jWDWlGyRk"; // แจ้งเตือนกิจกรรม
-const WEBHOOK_LEAVE    = "https://discord.com/api/webhooks/1561540462287003718/FJxLU9mRgP2j8V5ky-CooEF7T_7VZFenUKsEw6hzIzLw7AZhgkPIKfOoZswBWO4Qulyd"; // คนออกแก๊ง
-const WEBHOOK_APPLY    = "https://discord.com/api/webhooks/1561540629245468803/gSA6xNyPloD4rFGPFt4KFnq7TvkFWf5wvu5KwAw2BqnvLhOcfwFqNr8ErLe9_XDA_boj"; // กรอกใบสมัคร
-const WEBHOOK_RESTART  = "https://discord.com/api/webhooks/1560924711201017998/3QBfcYYIfGi_bcp0hiCmFd8ud1GefXvExfwc8XqJBqHClCOqJ0QIMO5QjK78slKGIm9R"; // แจ้งเตือนเซิร์ฟจะรี
+// DISCORD WEBHOOK URLS
+const WEBHOOK_ACTIVITY = "https://discord.com/api/webhooks/1561540195990503515/yyN8MSqet9GI9F0FTazdWWeQqTCqMF0NQbmeXAt0C010I9rjjx3WQ8JxON_jWDWlGyRk"; 
+const WEBHOOK_LEAVE    = "https://discord.com/api/webhooks/1561540462287003718/FJxLU9mRgP2j8V5ky-CooEF7T_7VZFenUKsEw6hzIzLw7AZhgkPIKfOoZswBWO4Qulyd"; 
+const WEBHOOK_APPLY    = "https://discord.com/api/webhooks/1561540629245468803/gSA6xNyPloD4rFGPFt4KFnq7TvkFWf5wvu5KwAw2BqnvLhOcfwFqNr8ErLe9_XDA_boj"; 
+const WEBHOOK_RESTART  = "https://discord.com/api/webhooks/1560924711201017998/3QBfcYYIfGi_bcp0hiCmFd8ud1GefXvExfwc8XqJBqHClCOqJ0QIMO5QjK78slKGIm9R"; 
 
-// ระบบป้องกันสแปม (Rate Limiting) ป้องกันบอตและผู้ไม่หวังดีสแปมยิง Discord Webhook
+// ระบบป้องกันสแปม Rate Limit
 const requestRateLimit = {};
 function antiSpam(req, res, next) {
     const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
     const now = Date.now();
-    if (requestRateLimit[ip] && now - requestRateLimit[ip] < 120000) { // ล็อก 2 นาที
+    if (requestRateLimit[ip] && now - requestRateLimit[ip] < 120000) {
         return res.status(429).json({ success: false, message: 'คุณส่งข้อมูลถี่เกินไป กรุณารอ 2 นาทีก่อนส่งอีกครั้ง' });
     }
     requestRateLimit[ip] = now;
     next();
 }
 
-// ฐานข้อมูลไฟล์ถาวร
 const DB_FILE = path.join(__dirname, 'database.json');
 
 let dbData = {
@@ -58,7 +55,6 @@ function saveData() {
     }
 }
 
-// คนออนไลน์บนเว็บเรียลไทม์
 let activeVisitors = {};
 
 app.post('/api/heartbeat', (req, res) => {
@@ -78,7 +74,6 @@ app.get('/api/web-online', (req, res) => {
     res.json(Object.keys(activeVisitors));
 });
 
-// ค้นหาใบสมัคร (แบบไม่สนตัวพิมพ์เล็ก-ใหญ่)
 app.get('/api/search-application', (req, res) => {
     const { icName } = req.query;
     if(!icName) return res.json({ success: false });
@@ -91,7 +86,7 @@ app.get('/api/search-application', (req, res) => {
     }
 });
 
-// 1. API รับใบสมัคร (WEBHOOK_APPLY) พร้อมระบบป้องกันสแปม
+// 1. API รับใบสมัคร
 app.post('/api/apply', antiSpam, async (req, res) => {
     const data = req.body;
     if(!data.icName) return res.status(400).json({ success: false, message: 'กรุณากรอกชื่อ IC' });
@@ -144,12 +139,9 @@ app.post('/api/apply', antiSpam, async (req, res) => {
 app.get('/api/applications', (req, res) => res.json(dbData.applications));
 app.get('/api/members', (req, res) => res.json(dbData.members));
 
-// ==========================================
-// ระบบตั้งเวลาแจ้งเตือนอัตโนมัติ (เวลาไทย Asia/Bangkok)
-// ==========================================
+// ตั้งเวลาแจ้งเตือนกิจกรรม
 const CRON_OPTIONS = { timezone: "Asia/Bangkok" };
 
-// 1. แจ้งเตือนเซิร์ฟเวอร์รีสตาร์ทตอน 00:00 (แจ้งเตือนล่วงหน้า 5 นาที เวลา 23:55 น.)
 cron.schedule('55 23 * * *', async () => {
     try {
         await fetch(WEBHOOK_RESTART, {
@@ -160,7 +152,6 @@ cron.schedule('55 23 * * *', async () => {
     } catch(e) {}
 }, CRON_OPTIONS);
 
-// 2. AirDrop (13:00, 18:00, 21:00)
 cron.schedule('59 12,17,20 * * *', async () => {
     await fetch(WEBHOOK_ACTIVITY, {
         method: 'POST',
@@ -183,7 +174,6 @@ cron.schedule('0 13,18,21 * * *', async () => {
     });
 }, CRON_OPTIONS);
 
-// 3. ยึดคุก (20:00 น.)
 cron.schedule('59 19 * * *', async () => {
     await fetch(WEBHOOK_ACTIVITY, {
         method: 'POST',
@@ -200,7 +190,6 @@ cron.schedule('0 20 * * *', async () => {
     });
 }, CRON_OPTIONS);
 
-// 4. วอยึดโซน (21:30 น.)
 cron.schedule('29 21 * * *', async () => {
     await fetch(WEBHOOK_ACTIVITY, {
         method: 'POST',
@@ -217,23 +206,36 @@ cron.schedule('30 21 * * *', async () => {
     });
 }, CRON_OPTIONS);
 
-// API ออกแก๊ง (WEBHOOK_LEAVE)
+// 2. API ขอออกแก๊ง (ปรับรูปแบบ Discord Embed ให้เหมือนเดิมตามภาพ)
 app.post('/api/leave-gang', async (req, res) => {
     const { icName, reason } = req.body;
-    const dateStr = new Date().toLocaleString('th-TH');
-    dbData.leftMembers.push({ icName, reason, date: dateStr });
+    const now = new Date();
+    const dateStr = now.toLocaleDateString('th-TH') + ' ' + now.toLocaleTimeString('th-TH');
     
+    dbData.leftMembers.push({ icName, reason, date: dateStr });
     dbData.members.story = dbData.members.story.filter(m => m.toLowerCase() !== icName.toLowerCase());
     dbData.members.farm = dbData.members.farm.filter(m => m.toLowerCase() !== icName.toLowerCase());
     dbData.verifiedMembers = dbData.verifiedMembers.filter(m => m.toLowerCase() !== icName.toLowerCase());
 
     saveData();
     
+    const leaveEmbed = {
+        content: "@everyone 🥀 **บันทึกการอำลาสมาชิกตระกูล BLACK KINGDOM**",
+        embeds: [{
+            title: "🖤 มีสมาชิกขอลาออกจากแก๊ง",
+            description: `**ลาก่อนนะพี่น้อง...** ขอบคุณที่ร่วมเดินทางและสร้างความทรงจำดีๆ ด้วยกันมาตลอดทาง เส้นทางข้างหน้าขอให้โชคดี...\n\n👤 **ชื่อ IC:** ${icName}\n📝 **เหตุผลที่ออก:** ${reason}\n📅 **วันที่ออก:** ${dateStr}`,
+            color: 15158332, // สีแดงเข้ม (Red)
+            footer: {
+                text: "BLACK KINGDOM - เราจะไม่ลืมกัน"
+            }
+        }]
+    };
+
     try {
         await fetch(WEBHOOK_LEAVE, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ content: `@everyone 🥀 สมาชิกชื่อ **${icName}** ได้ทำเรื่องขอออกจากแก๊งแล้ว (เหตุผล: ${reason})` })
+            body: JSON.stringify(leaveEmbed)
         });
     } catch(e) {}
 
