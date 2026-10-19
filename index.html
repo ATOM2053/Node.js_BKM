@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -129,7 +130,7 @@
 
         main {
             flex: 1;
-            padding-top: 150px; /* ขยับลงมาไม่ให้บังตัวหนังสือ */
+            padding-top: 220px; /* ขยับลงมาชัวร์ๆ ไม่ให้แถบเมนูด้านบนบังเนื้อหาแน่นอน */
             padding-bottom: 40px;
         }
 
@@ -201,7 +202,6 @@
         }
         .form-control:focus { border-color: var(--accent-cyan); box-shadow: 0 0 8px var(--accent-glow); }
         
-        /* ปุ่มเลือกแบบกล่อง Custom Select */
         .custom-select-btn {
             background: rgba(6, 9, 17, 0.9);
             border: 1px solid var(--border-color);
@@ -222,7 +222,6 @@
         .form-divider { height: 1px; background: var(--border-color); margin: 5px 0; }
         .form-section-title { font-size: 1.05rem; color: var(--accent-cyan); font-weight: 600; display: flex; align-items: center; gap: 6px; margin-top: 5px; }
 
-        /* Modal ป๊อปอัพ */
         .bkm-modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -702,7 +701,6 @@
             document.getElementById('bkmModalOverlay').style.display = 'none';
         }
 
-        /* ฟังก์ชันเปิด Modal สำหรับเลือกเพศ */
         function openGenderModal(type) {
             const title = type === 'ic' ? 'เลือกเพศ IC' : 'เลือกเพศ OC';
             let options = `
@@ -734,7 +732,6 @@
             closeBKMModal();
         }
 
-        /* ฟังก์ชันเปิด Modal สำหรับเลือกสายการเล่น */
         function openPlayStyleModal() {
             showBKMModal({
                 icon: "fa-solid fa-gamepad",
