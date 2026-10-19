@@ -169,7 +169,6 @@
 
         .btn-bkm:hover { transform: translateY(-2px); box-shadow: 0 0 18px rgba(56, 189, 248, 0.6); }
 
-        /* ฟอร์มใบสมัครแบบแนวยาวลงมาด้านเดียว (Single Column) ตามที่ขอ */
         .form-container { max-width: 600px; margin: 0 auto; }
         .form-stack { display: flex; flex-direction: column; gap: 15px; }
         .form-group { display: flex; flex-direction: column; gap: 5px; }
@@ -191,7 +190,6 @@
         .form-divider { height: 1px; background: var(--border-color); margin: 5px 0; }
         .form-section-title { font-size: 1.05rem; color: var(--accent-cyan); font-weight: 600; display: flex; align-items: center; gap: 6px; margin-top: 5px; }
 
-        /* Custom Modal ของตัวเอง (แทน Alert/Confirm เดิม) */
         .bkm-modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -291,7 +289,6 @@
 </head>
 <body>
 
-    <!-- CUSTOM BKM MODAL DIALOG -->
     <div class="bkm-modal-overlay" id="bkmModalOverlay">
         <div class="bkm-modal-box">
             <div class="bkm-modal-icon" id="bkmModalIcon"><i class="fa-solid fa-heart-crack"></i></div>
@@ -323,7 +320,6 @@
     </nav>
 
     <main class="container">
-        <!-- 1. กรอกใบสมัคร (ปรับเป็นแบบแนวยาวลงมาด้านเดียว) -->
         <section id="apply" class="page-content active">
             <div class="page-header">
                 <h1 class="page-title">แบบฟอร์มสมัครเข้าแก๊ง BKM</h1>
@@ -408,7 +404,6 @@
             </div>
         </section>
 
-        <!-- 2. เช็คใบสมัคร -->
         <section id="myApplication" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">ตรวจสอบใบสมัครของฉัน</h1>
@@ -426,7 +421,6 @@
             </div>
         </section>
 
-        <!-- 3. โปรไฟล์ -->
         <section id="profile" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">โปรไฟล์สมาชิก BKM</h1>
@@ -443,18 +437,16 @@
                 <div style="text-align: left; background: rgba(6, 9, 17, 0.6); padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 0.88rem;">
                     <p><b>สายการเล่น:</b> <span id="profilePlayStyle">-</span></p>
                     <p><b>เลเวล:</b> <span id="profileLevel">-</span></p>
-                    <p><b>สถานะ:</b> <span style="color: #4ade80;">ลงทะเบียนสมาชิกแล้ว</span></p>
+                    <p><b>สถานะ:</b> <span id="profileStatusHtml"><span style="color: #ef4444; font-weight: bold;">ยังไม่ได้ลงทะเบียนสมาชิก</span></span></p>
                 </div>
             </div>
         </section>
 
-        <!-- 4. รายการทั้งหมด -->
         <section id="applicationsList" class="page-content">
             <div class="page-header"><h1 class="page-title">รายการใบสมัครทั้งหมด</h1></div>
             <div class="glass-card"><div id="appListContainer" style="display: flex; flex-direction: column; gap: 10px;">กำลังโหลด...</div></div>
         </section>
 
-        <!-- 5. สมาชิก & ออนไลน์ -->
         <section id="memberList" class="page-content">
             <div class="page-header"><h1 class="page-title">สมาชิก & สถานะคนออนเว็บ</h1></div>
             <div class="glass-card">
@@ -476,7 +468,6 @@
             </div>
         </section>
 
-        <!-- 6. ขอออกแก๊ง (มีระบบถามซ้ำ แสดงข้อความเศร้า / ดีใจ) -->
         <section id="leaveGang" class="page-content">
             <div class="page-header"><h1 class="page-title">ระบบขอออกแก๊ง</h1></div>
             <div class="glass-card form-container" style="max-width: 500px;">
@@ -494,7 +485,6 @@
             </div>
         </section>
 
-        <!-- 7. คุณสมบัติผู้สมัคร -->
         <section id="qualifications" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">คุณสมบัติผู้สมัคร (QUALIFICATIONS)</h1>
@@ -561,7 +551,6 @@
             </div>
         </section>
 
-        <!-- 8. กฎแก๊ง -->
         <section id="gangRules" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">กฎการโดนใบ</h1>
@@ -591,14 +580,12 @@
             </div>
         </section>
 
-        <!-- 9. กฎกิจกรรม -->
         <section id="activityRules" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">กฎการเล่นกิจกรรมแก๊ง</h1>
                 <p class="page-subtitle">ข้อบังคับในการลงเล่นกิจกรรม AirDrop, ยึดคุก และ วอยึดโซน</p>
             </div>
 
-            <!-- กฎวอยึดโซน -->
             <div class="glass-card" style="margin-bottom: 20px;">
                 <h3 style="color: var(--accent-cyan); margin-bottom: 10px; font-size: 1.05rem;"><i class="fa-solid fa-burst"></i> กฎวอยึดโซน</h3>
                 <ul class="rule-list">
@@ -617,7 +604,6 @@
                 </div>
             </div>
 
-            <!-- กฎยึดคุก Pawria Town -->
             <div class="glass-card" style="margin-bottom: 20px;">
                 <h3 style="color: var(--accent-cyan); margin-bottom: 10px; font-size: 1.05rem;"><i class="fa-solid fa-dungeon"></i> กฎยึดคุก Pawria Town (เวลาเล่น: 20:00 น.)</h3>
                 <ul class="rule-list">
@@ -635,7 +621,6 @@
                 </ul>
             </div>
 
-            <!-- กฎ AirDrop -->
             <div class="glass-card">
                 <h3 style="color: var(--accent-cyan); margin-bottom: 10px; font-size: 1.05rem;"><i class="fa-solid fa-box-open"></i> กฎการเล่น AirDrop (รอบเวลา: 13:00, 18:00, 21:00 น.)</h3>
                 <ul class="rule-list">
@@ -650,7 +635,6 @@
             </div>
         </section>
 
-        <!-- 10. ติดต่อ -->
         <section id="contact" class="page-content">
             <div class="page-header"><h1 class="page-title">ข้อมูลติดต่อ</h1></div>
             <div class="glass-card" style="text-align: center;">
@@ -674,7 +658,6 @@
             });
         });
 
-        // ฟังก์ชันควบคุม Custom Modal ของตัวเอง
         function showBKMModal({ icon, title, desc, actionHtml }) {
             document.getElementById('bkmModalIcon').innerHTML = `<i class="${icon}"></i>`;
             document.getElementById('bkmModalTitle').innerText = title;
@@ -687,7 +670,6 @@
             document.getElementById('bkmModalOverlay').style.display = 'none';
         }
 
-        // ระบบถามซ้ำก่อนออกจากแก๊ง
         function promptLeaveGang() {
             const icName = document.getElementById('leaveIcName').value.trim();
             const reason = document.getElementById('leaveReason').value.trim();
@@ -706,7 +688,6 @@
             });
         }
 
-        // ถ้ากดอยู่ต่อ (แสดงความยินดี)
         function cancelLeaveGang() {
             showBKMModal({
                 icon: "fa-solid fa-face-grin-hearts",
@@ -716,7 +697,6 @@
             });
         }
 
-        // ถ้ากดยืนยันออก (แสดงข้อความอำลาเศร้าๆ)
         async function confirmLeaveGang(icName, reason) {
             closeBKMModal();
             try {
@@ -893,8 +873,13 @@
                 document.getElementById('profileDiscord').innerText = 'Discord: ' + localApp.discordTag;
                 document.getElementById('profilePlayStyle').innerText = localApp.playStyle;
                 document.getElementById('profileLevel').innerText = localApp.level;
-            } else if(myIcName) {
-                document.getElementById('profileIcName').innerText = myIcName;
+                document.getElementById('profileStatusHtml').innerHTML = '<span style="color: #4ade80;">ลงทะเบียนสมาชิกแล้ว</span>';
+            } else {
+                document.getElementById('profileIcName').innerText = 'ยังไม่ได้ตั้งชื่อ IC';
+                document.getElementById('profileDiscord').innerText = 'Discord: -';
+                document.getElementById('profilePlayStyle').innerText = '-';
+                document.getElementById('profileLevel').innerText = '-';
+                document.getElementById('profileStatusHtml').innerHTML = '<span style="color: #ef4444; font-weight: bold;">ยังไม่ได้ลงทะเบียนสมาชิก</span>';
             }
         }
 
