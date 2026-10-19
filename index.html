@@ -46,7 +46,7 @@
         ::-webkit-scrollbar-track { background: var(--bg-dark); }
         ::-webkit-scrollbar-thumb { background: var(--accent-deep); border-radius: 4px; }
 
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 15px; width: 100%; }
+        .container { max-width: 900px; margin: 0 auto; padding: 0 15px; width: 100%; }
 
         .navbar {
             position: fixed;
@@ -65,6 +65,7 @@
             justify-content: space-between;
             align-items: center;
             height: 65px;
+            max-width: 1100px;
         }
 
         .logo {
@@ -163,50 +164,88 @@
             justify-content: center;
             gap: 8px;
             text-decoration: none;
+            width: 100%;
         }
 
         .btn-bkm:hover { transform: translateY(-2px); box-shadow: 0 0 18px rgba(56, 189, 248, 0.6); }
 
-        .form-container { max-width: 750px; margin: 0 auto; }
-        .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        /* ฟอร์มใบสมัครแบบแนวยาวลงมาด้านเดียว (Single Column) ตามที่ขอ */
+        .form-container { max-width: 600px; margin: 0 auto; }
+        .form-stack { display: flex; flex-direction: column; gap: 15px; }
         .form-group { display: flex; flex-direction: column; gap: 5px; }
-        .form-group.full-width { grid-column: span 2; }
-        .form-group label { font-size: 0.85rem; font-weight: 500; color: var(--text-main); display: flex; align-items: center; gap: 6px; }
+        .form-group label { font-size: 0.88rem; font-weight: 500; color: var(--text-main); display: flex; align-items: center; gap: 6px; }
         .form-group label i { color: var(--accent-cyan); }
         .form-control {
             background: rgba(6, 9, 17, 0.9);
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            padding: 10px 12px;
+            padding: 11px 14px;
             color: #fff;
-            font-size: 0.9rem;
+            font-size: 0.92rem;
             outline: none;
             width: 100%;
         }
         .form-control:focus { border-color: var(--accent-cyan); box-shadow: 0 0 8px var(--accent-glow); }
-        textarea.form-control { resize: vertical; min-height: 80px; }
+        textarea.form-control { resize: vertical; min-height: 90px; }
         select.form-control option { background: #0f172a; color: #fff; }
-        .form-divider { grid-column: span 2; height: 1px; background: var(--border-color); margin: 5px 0; }
-        .form-section-title { grid-column: span 2; font-size: 1rem; color: var(--accent-cyan); font-weight: 600; display: flex; align-items: center; gap: 6px; }
+        .form-divider { height: 1px; background: var(--border-color); margin: 5px 0; }
+        .form-section-title { font-size: 1.05rem; color: var(--accent-cyan); font-weight: 600; display: flex; align-items: center; gap: 6px; margin-top: 5px; }
 
-        /* การ์ดคุณสมบัติผู้สมัคร */
-        .qual-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
-        .qual-card { display: flex; align-items: flex-start; gap: 14px; background: rgba(6, 9, 17, 0.6); border: 1px solid var(--border-color); padding: 16px; border-radius: 12px; }
-        .qual-icon { width: 42px; height: 42px; background: rgba(56, 189, 248, 0.12); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--accent-cyan); font-size: 1.2rem; flex-shrink: 0; border: 1px solid var(--border-color); }
-        .qual-text h4 { font-size: 1rem; color: #fff; margin-bottom: 2px; }
-        .qual-text p { font-size: 0.85rem; color: var(--text-sub); }
-        .badge-important { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.5); font-size: 0.7rem; padding: 2px 6px; border-radius: 12px; margin-left: 5px; }
+        /* Custom Modal ของตัวเอง (แทน Alert/Confirm เดิม) */
+        .bkm-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(6, 9, 17, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .bkm-modal-box {
+            background: #0f172a;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 420px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            animation: modalPop 0.3s ease-out;
+        }
+        @keyframes modalPop {
+            from { transform: scale(0.85); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .bkm-modal-icon { font-size: 2.5rem; color: var(--accent-cyan); margin-bottom: 12px; }
+        .bkm-modal-title { font-size: 1.25rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
+        .bkm-modal-desc { font-size: 0.9rem; color: var(--text-sub); margin-bottom: 20px; line-height: 1.5; }
+        .bkm-modal-btns { display: flex; gap: 10px; }
+        .bkm-modal-btn {
+            flex: 1; padding: 10px; border-radius: 25px; font-weight: 600; font-size: 0.9rem; cursor: pointer; border: none; transition: 0.2s;
+        }
+        .bkm-btn-confirm { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; }
+        .bkm-btn-cancel { background: rgba(56, 189, 248, 0.15); color: var(--accent-cyan); border: 1px solid var(--border-color); }
+        .bkm-btn-ok { background: linear-gradient(135deg, var(--accent-deep), var(--accent-blue)); color: #fff; width: 100%; }
 
-        .penalty-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
-        .penalty-item { background: rgba(6, 9, 17, 0.6); border: 1px solid var(--border-color); padding: 12px 15px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 0.88rem; }
+        .qual-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+        .qual-card { display: flex; align-items: flex-start; gap: 12px; background: rgba(6, 9, 17, 0.6); border: 1px solid var(--border-color); padding: 14px; border-radius: 12px; }
+        .qual-icon { width: 38px; height: 38px; background: rgba(56, 189, 248, 0.12); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--accent-cyan); font-size: 1.1rem; flex-shrink: 0; border: 1px solid var(--border-color); }
+        .qual-text h4 { font-size: 0.95rem; color: #fff; margin-bottom: 2px; }
+        .qual-text p { font-size: 0.82rem; color: var(--text-sub); }
+        .badge-important { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.5); font-size: 0.68rem; padding: 2px 5px; border-radius: 10px; margin-left: 4px; }
+
+        .penalty-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
+        .penalty-item { background: rgba(6, 9, 17, 0.6); border: 1px solid var(--border-color); padding: 10px 14px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 0.85rem; }
         
         .rule-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-        .rule-list li { background: rgba(6, 9, 17, 0.6); border: 1px solid rgba(255, 255, 255, 0.05); padding: 10px 14px; border-radius: 8px; font-size: 0.88rem; display: flex; align-items: flex-start; gap: 8px; }
+        .rule-list li { background: rgba(6, 9, 17, 0.6); border: 1px solid rgba(255, 255, 255, 0.05); padding: 10px 12px; border-radius: 8px; font-size: 0.85rem; display: flex; align-items: flex-start; gap: 8px; }
         .rule-list li i { color: var(--accent-cyan); margin-top: 3px; flex-shrink: 0; }
 
-        .member-category-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 15px; margin-top: 15px; }
+        .member-category-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 15px; }
         .member-box { background: rgba(6, 9, 17, 0.7); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; }
-        .member-box h3 { color: var(--accent-cyan); font-size: 1rem; margin-bottom: 10px; border-bottom: 1px solid var(--border-color); padding-bottom: 6px; }
+        .member-box h3 { color: var(--accent-cyan); font-size: 0.95rem; margin-bottom: 10px; border-bottom: 1px solid var(--border-color); padding-bottom: 6px; }
         .member-list { list-style: none; display: flex; flex-direction: column; gap: 6px; max-height: 250px; overflow-y: auto; }
         .member-item { background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
         .online-dot { width: 7px; height: 7px; background-color: #4ade80; border-radius: 50%; box-shadow: 0 0 6px #4ade80; display: inline-block; margin-right: 6px; }
@@ -247,15 +286,23 @@
                 border: 1px solid var(--border-color);
                 border-radius: 10px;
             }
-            .form-grid { grid-template-columns: 1fr; }
-            .form-group.full-width, .form-divider, .form-section-title { grid-column: span 1; }
         }
     </style>
 </head>
 <body>
 
+    <!-- CUSTOM BKM MODAL DIALOG -->
+    <div class="bkm-modal-overlay" id="bkmModalOverlay">
+        <div class="bkm-modal-box">
+            <div class="bkm-modal-icon" id="bkmModalIcon"><i class="fa-solid fa-heart-crack"></i></div>
+            <div class="bkm-modal-title" id="bkmModalTitle">แจ้งเตือน</div>
+            <div class="bkm-modal-desc" id="bkmModalDesc">ข้อความรายละเอียด...</div>
+            <div id="bkmModalActionArea"></div>
+        </div>
+    </div>
+
     <nav class="navbar">
-        <div class="container nav-container">
+        <div class="container nav-container" style="max-width: 1100px;">
             <div class="logo" onclick="switchTab('apply')">
                 <i class="fa-solid fa-crown"></i> BKM <span>GANG</span>
             </div>
@@ -276,15 +323,15 @@
     </nav>
 
     <main class="container">
-        <!-- 1. กรอกใบสมัคร -->
+        <!-- 1. กรอกใบสมัคร (ปรับเป็นแบบแนวยาวลงมาด้านเดียว) -->
         <section id="apply" class="page-content active">
             <div class="page-header">
                 <h1 class="page-title">แบบฟอร์มสมัครเข้าแก๊ง BKM</h1>
-                <p class="page-subtitle">รองรับมือถือ (MB) และ PC สมัครแล้วข้อมูลบันทึกทันที</p>
+                <p class="page-subtitle">กรอกข้อมูลให้ครบถ้วนเพื่อเข้าสู่ระบบสมาชิกตระกูล</p>
             </div>
             <div class="glass-card form-container">
                 <form id="applyForm">
-                    <div class="form-grid">
+                    <div class="form-stack">
                         <div class="form-section-title"><i class="fa-solid fa-user-gear"></i> ข้อมูลในเกม (IC)</div>
                         <div class="form-group">
                             <label for="icName"><i class="fa-solid fa-signature"></i> ชื่อ IC</label>
@@ -333,7 +380,7 @@
 
                         <div class="form-divider"></div>
                         <div class="form-section-title"><i class="fa-solid fa-clipboard-question"></i> ข้อมูลการเล่น</div>
-                        <div class="form-group full-width">
+                        <div class="form-group">
                             <label for="playStyle"><i class="fa-solid fa-gamepad"></i> สายการเล่น</label>
                             <select id="playStyle" class="form-control" required>
                                 <option value="" disabled selected>เลือกสายการเล่น</option>
@@ -341,7 +388,7 @@
                                 <option value="สายฟาร์ม">สายฟาร์ม</option>
                             </select>
                         </div>
-                        <div class="form-group full-width">
+                        <div class="form-group">
                             <label for="reason"><i class="fa-solid fa-heart"></i> เหตุผลที่เข้าร่วม</label>
                             <textarea id="reason" class="form-control" placeholder="อธิบายเหตุผล..." required></textarea>
                         </div>
@@ -353,7 +400,7 @@
                             <label for="testerTag"><i class="fa-solid fa-user-check"></i> แท็กผู้คุมสอบ</label>
                             <input type="text" id="testerTag" class="form-control" placeholder="@ผู้คุมสอบ" required>
                         </div>
-                        <button type="submit" class="btn-bkm" id="submitBtn" style="grid-column: span 2; width: 100%; margin-top: 10px;">
+                        <button type="submit" class="btn-bkm" id="submitBtn" style="margin-top: 10px;">
                             <i class="fa-solid fa-paper-plane"></i> ส่งใบสมัครเข้าแก๊ง
                         </button>
                     </div>
@@ -372,7 +419,7 @@
                     <label for="searchIcName"><i class="fa-solid fa-signature"></i> กรอกชื่อ IC ของคุณ</label>
                     <input type="text" id="searchIcName" class="form-control" placeholder="เช่น Bael">
                 </div>
-                <button type="button" class="btn-bkm" onclick="searchMyApplication()" style="width: 100%;">
+                <button type="button" class="btn-bkm" onclick="searchMyApplication()">
                     <i class="fa-solid fa-magnifying-glass"></i> ค้นหาใบสมัคร
                 </button>
                 <div id="myAppResult" style="margin-top: 15px;"></div>
@@ -383,7 +430,7 @@
         <section id="profile" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">โปรไฟล์สมาชิก BKM</h1>
-                <p class="page-subtitle">จัดการรูปโปรไฟล์และข้อมูลส่วนตัว (บันทึกถาวร)</p>
+                <p class="page-subtitle">จัดการรูปโปรไฟล์และข้อมูลส่วนตัว</p>
             </div>
             <div class="glass-card form-container" style="max-width: 400px; text-align: center;">
                 <div class="avatar-container">
@@ -429,11 +476,11 @@
             </div>
         </section>
 
-        <!-- 6. ขอออกแก๊ง -->
+        <!-- 6. ขอออกแก๊ง (มีระบบถามซ้ำ แสดงข้อความเศร้า / ดีใจ) -->
         <section id="leaveGang" class="page-content">
             <div class="page-header"><h1 class="page-title">ระบบขอออกแก๊ง</h1></div>
             <div class="glass-card form-container" style="max-width: 500px;">
-                <form id="leaveForm">
+                <form id="leaveForm" onsubmit="event.preventDefault(); promptLeaveGang();">
                     <div class="form-group" style="margin-bottom: 12px;">
                         <label for="leaveIcName">ชื่อ IC ของคุณ</label>
                         <input type="text" id="leaveIcName" class="form-control" placeholder="เช่น Bael" required>
@@ -442,12 +489,12 @@
                         <label for="leaveReason">เหตุผลการออก</label>
                         <textarea id="leaveReason" class="form-control" placeholder="ระบุเหตุผล..." required></textarea>
                     </div>
-                    <button type="button" class="btn-bkm" onclick="submitLeaveGang()" style="width: 100%; background: linear-gradient(135deg, #ef4444, #dc2626);">ขอออกแก๊ง</button>
+                    <button type="submit" class="btn-bkm" style="background: linear-gradient(135deg, #ef4444, #dc2626);">ขอออกแก๊ง</button>
                 </form>
             </div>
         </section>
 
-        <!-- 7. คุณสมบัติผู้สมัคร (อัปเดตข้อมูลครบถ้วน 100%) -->
+        <!-- 7. คุณสมบัติผู้สมัคร -->
         <section id="qualifications" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">คุณสมบัติผู้สมัคร (QUALIFICATIONS)</h1>
@@ -627,6 +674,74 @@
             });
         });
 
+        // ฟังก์ชันควบคุม Custom Modal ของตัวเอง
+        function showBKMModal({ icon, title, desc, actionHtml }) {
+            document.getElementById('bkmModalIcon').innerHTML = `<i class="${icon}"></i>`;
+            document.getElementById('bkmModalTitle').innerText = title;
+            document.getElementById('bkmModalDesc').innerHTML = desc;
+            document.getElementById('bkmModalActionArea').innerHTML = actionHtml;
+            document.getElementById('bkmModalOverlay').style.display = 'flex';
+        }
+
+        function closeBKMModal() {
+            document.getElementById('bkmModalOverlay').style.display = 'none';
+        }
+
+        // ระบบถามซ้ำก่อนออกจากแก๊ง
+        function promptLeaveGang() {
+            const icName = document.getElementById('leaveIcName').value.trim();
+            const reason = document.getElementById('leaveReason').value.trim();
+            if(!icName || !reason) { alert('กรุณากรอกข้อมูลให้ครบ'); return; }
+
+            showBKMModal({
+                icon: "fa-solid fa-heart-crack",
+                title: "แน่ใจแล้วเหรอ... ที่จะทิ้งพวกเราไป 🥀",
+                desc: `คุณกำลังจะทำเรื่องออกจากแก๊งในนาม <b>"${icName}"</b><br>ใจร้ายจัง... จะไม่สู้ต่อกับพวกเราแล้วจริงๆ เหรออื้อหือ?`,
+                actionHtml: `
+                    <div class="bkm-modal-btns">
+                        <button type="button" class="bkm-modal-btn bkm-btn-cancel" onclick="cancelLeaveGang()">อยู่ต่อดีกว่า (เย้ ดีใจด้วยนะ!)</button>
+                        <button type="button" class="bkm-modal-btn bkm-btn-confirm" onclick="confirmLeaveGang('${icName}', '${reason}')">ตัดสินใจออก (ลาก่อน...)</button>
+                    </div>
+                `
+            });
+        }
+
+        // ถ้ากดอยู่ต่อ (แสดงความยินดี)
+        function cancelLeaveGang() {
+            showBKMModal({
+                icon: "fa-solid fa-face-grin-hearts",
+                title: "เย้! ดีใจที่สุดเลยที่อยู่ต่อร้ากกก 🩵",
+                desc: "รู้แล้วว่ารักกัน! อยู่สร้างตำนานลุยกิจกรรมไปด้วยกันต่อนะคะ ครอบครัว BKM ของเราอบอุ่นที่สุดแล้ว!",
+                actionHtml: `<button type="button" class="bkm-modal-btn bkm-btn-ok" onclick="closeBKMModal()">ลุยกันต่อเลย!</button>`
+            });
+        }
+
+        // ถ้ากดยืนยันออก (แสดงข้อความอำลาเศร้าๆ)
+        async function confirmLeaveGang(icName, reason) {
+            closeBKMModal();
+            try {
+                const res = await fetch('/api/leave-gang', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ icName, reason })
+                });
+                if(res.ok) {
+                    localStorage.removeItem('bkm_user_ic');
+                    localStorage.removeItem('bkm_my_application');
+                    localStorage.removeItem('bkm_user_avatar');
+
+                    showBKMModal({
+                        icon: "fa-solid fa-skull",
+                        title: "ลาก่อนนะพี่น้อง... ขอให้โชคดี 🥀",
+                        desc: `บันทึกการอำลาของ <b>${icName}</b> ถูกส่งไปยัง Discord เรียบร้อยแล้ว... ขอบคุณที่เคยร่วมสร้างความทรงจำดีๆ ด้วยกัน ขอให้เส้นทางข้างหน้าเจอแต่สิ่งที่ดีนะ`,
+                        actionHtml: `<button type="button" class="bkm-modal-btn bkm-btn-ok" onclick="location.reload()">เข้าใจแล้ว</button>`
+                    });
+                }
+            } catch(e) {
+                alert('เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์');
+            }
+        }
+
         let myIcName = localStorage.getItem('bkm_user_ic') || '';
         let myVisitorId = myIcName || ('Visitor_' + Math.floor(Math.random() * 10000));
 
@@ -697,7 +812,12 @@
                 });
                 const result = await res.json();
                 if(res.ok && result.success) {
-                    alert('บันทึกใบสมัครเข้าสู่ระบบเว็บไซต์เรียบร้อยแล้ว!');
+                    showBKMModal({
+                        icon: "fa-solid fa-circle-check",
+                        title: "ส่งใบสมัครสำเร็จ!",
+                        desc: "บันทึกข้อมูลเข้าสู่ระบบเว็บไซต์เรียบร้อยแล้ว ยินดีต้อนรับสู่ครอบครัว BKM!",
+                        actionHtml: `<button type="button" class="bkm-modal-btn bkm-btn-ok" onclick="closeBKMModal()">ตกลง</button>`
+                    });
                     this.reset();
                     loadProfileData();
                 } else {
@@ -809,24 +929,6 @@
                 const container = document.getElementById('webOnlineList');
                 if(users.length === 0) { container.innerHTML = '<li class="member-item">ไม่มีผู้ใช้งานออนไลน์ขณะนี้</li>'; return; }
                 container.innerHTML = users.map(u => `<li class="member-item"><span><span class="online-dot"></span>${u}</span><span style="color: #4ade80;">Online</span></li>`).join('');
-            } catch(e) {}
-        }
-
-        async function submitLeaveGang() {
-            const icName = document.getElementById('leaveIcName').value.trim();
-            const reason = document.getElementById('leaveReason').value.trim();
-            if(!icName || !reason) { alert('กรุณากรอกข้อมูลให้ครบ'); return; }
-
-            try {
-                const res = await fetch('/api/leave-gang', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ icName, reason })
-                });
-                if(res.ok) {
-                    alert(`ทำเรื่องออกจากแก๊งของ ${icName} เรียบร้อยแล้ว`);
-                    document.getElementById('leaveForm').reset();
-                }
             } catch(e) {}
         }
     </script>
