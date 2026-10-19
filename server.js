@@ -12,20 +12,20 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname)));
 
 // ==========================================
-// DISCORD WEBHOOK URLS (ชุดใหม่ล่าสุด)
+// DISCORD WEBHOOK URLS (ที่คุณให้มาล่าสุด)
 // ==========================================
 const WEBHOOK_ACTIVITY = "https://discord.com/api/webhooks/1561540195990503515/yyN8MSqet9GI9F0FTazdWWeQqTCqMF0NQbmeXAt0C010I9rjjx3WQ8JxON_jWDWlGyRk"; // แจ้งเตือนกิจกรรม
-const WEBHOOK_LEAVE    = "https://discord.com/api/webhooks/1561540462287003718/FJxLU9mRgP2j8V5ky-CooEF7T_7VZFenUKsEw6hzIzLw7AZhgkPIKfOoZswBWO4Qulyd"; // แจ้งเตือนคนออกแก๊ง
-const WEBHOOK_APPLY    = "https://discord.com/api/webhooks/1561540629245468803/gSA6xNyPloD4rFGPFt4KFnq7TvkFWf5wvu5KwAw2BqnvLhOcfwFqNr8ErLe9_XDA_boj"; // แจ้งเตือนกรอกใบสมัคร
+const WEBHOOK_LEAVE    = "https://discord.com/api/webhooks/1561540462287003718/FJxLU9mRgP2j8V5ky-CooEF7T_7VZFenUKsEw6hzIzLw7AZhgkPIKfOoZswBWO4Qulyd"; // คนออกแก๊ง
+const WEBHOOK_APPLY    = "https://discord.com/api/webhooks/1561540629245468803/gSA6xNyPloD4rFGPFt4KFnq7TvkFWf5wvu5KwAw2BqnvLhOcfwFqNr8ErLe9_XDA_boj"; // กรอกใบสมัคร
 const WEBHOOK_RESTART  = "https://discord.com/api/webhooks/1560924711201017998/3QBfcYYIfGi_bcp0hiCmFd8ud1GefXvExfwc8XqJBqHClCOqJ0QIMO5QjK78slKGIm9R"; // แจ้งเตือนเซิร์ฟจะรี
 
-// ระบบป้องกันสแปม (Rate Limiting)
+// ระบบป้องกันสแปม (Rate Limiting) ป้องกันบอตและผู้ไม่หวังดีสแปมยิง Discord Webhook
 const requestRateLimit = {};
 function antiSpam(req, res, next) {
     const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
     const now = Date.now();
-    if (requestRateLimit[ip] && now - requestRateLimit[ip] < 180000) { // ล็อก 3 นาที
-        return res.status(429).json({ success: false, message: 'คุณส่งข้อมูลถี่เกินไป กรุณารอ 3 นาทีก่อนส่งอีกครั้ง' });
+    if (requestRateLimit[ip] && now - requestRateLimit[ip] < 120000) { // ล็อก 2 นาที
+        return res.status(429).json({ success: false, message: 'คุณส่งข้อมูลถี่เกินไป กรุณารอ 2 นาทีก่อนส่งอีกครั้ง' });
     }
     requestRateLimit[ip] = now;
     next();
@@ -91,7 +91,7 @@ app.get('/api/search-application', (req, res) => {
     }
 });
 
-// 1. API รับใบสมัคร (WEBHOOK_APPLY)
+// 1. API รับใบสมัคร (WEBHOOK_APPLY) พร้อมระบบป้องกันสแปม
 app.post('/api/apply', antiSpam, async (req, res) => {
     const data = req.body;
     if(!data.icName) return res.status(400).json({ success: false, message: 'กรุณากรอกชื่อ IC' });
@@ -149,7 +149,7 @@ app.get('/api/members', (req, res) => res.json(dbData.members));
 // ==========================================
 const CRON_OPTIONS = { timezone: "Asia/Bangkok" };
 
-// 1. แจ้งเตือนเซิร์ฟเวอร์รีสตาร์ทตอน 00:00 (แจ้งเตือนก่อน 5 นาที เวลา 23:55 น.)
+// 1. แจ้งเตือนเซิร์ฟเวอร์รีสตาร์ทตอน 00:00 (แจ้งเตือนล่วงหน้า 5 นาที เวลา 23:55 น.)
 cron.schedule('55 23 * * *', async () => {
     try {
         await fetch(WEBHOOK_RESTART, {
