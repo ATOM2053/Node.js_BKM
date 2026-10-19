@@ -68,11 +68,12 @@
             max-width: 1100px;
         }
 
+        /* โลโก้พร้อมแอนิเมชันสีขยับ */
         .logo {
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: 700;
             color: var(--text-main);
             text-decoration: none;
@@ -80,7 +81,21 @@
         }
 
         .logo i { color: var(--gold-crown); }
-        .logo span { color: var(--accent-cyan); }
+
+        .animated-logo-text {
+            background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc, #e879f9, #38bdf8);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 4s ease infinite;
+            font-weight: 700;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
         .nav-links {
             display: flex;
@@ -115,7 +130,7 @@
 
         main {
             flex: 1;
-            padding-top: 120px;
+            padding-top: 130px; /* ดันระยะลงมาเพื่อกันโดนบัง */
             padding-bottom: 40px;
         }
 
@@ -301,7 +316,8 @@
     <nav class="navbar">
         <div class="container nav-container" style="max-width: 1100px;">
             <div class="logo" onclick="switchTab('apply')">
-                <i class="fa-solid fa-crown"></i> BKM <span>GANG</span>
+                <i class="fa-solid fa-crown"></i> 
+                <span class="animated-logo-text">BLACK KINGDOM (BKM)</span>
             </div>
             <div class="menu-toggle" id="menuToggle"><i class="fa-solid fa-bars"></i></div>
             <ul class="nav-links" id="navLinks">
