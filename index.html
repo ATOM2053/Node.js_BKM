@@ -48,7 +48,6 @@
 
         .container { max-width: 1100px; margin: 0 auto; padding: 0 15px; width: 100%; }
 
-        /* NAVBAR แก้ไขไม่ให้ทับเนื้อหา */
         .navbar {
             position: fixed;
             top: 0;
@@ -168,7 +167,6 @@
 
         .btn-bkm:hover { transform: translateY(-2px); box-shadow: 0 0 18px rgba(56, 189, 248, 0.6); }
 
-        /* ฟอร์มกรอกข้อมูล (รองรับ MB เต็มรูปแบบไม่ให้ล้นจอ) */
         .form-container { max-width: 750px; margin: 0 auto; }
         .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
         .form-group { display: flex; flex-direction: column; gap: 5px; }
@@ -191,7 +189,14 @@
         .form-divider { grid-column: span 2; height: 1px; background: var(--border-color); margin: 5px 0; }
         .form-section-title { grid-column: span 2; font-size: 1rem; color: var(--accent-cyan); font-weight: 600; display: flex; align-items: center; gap: 6px; }
 
-        /* จัดระเบียบกฎเกณฑ์ให้แสดงครบถ้วน ไม่ถูกตัดทอน */
+        /* การ์ดคุณสมบัติผู้สมัคร */
+        .qual-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
+        .qual-card { display: flex; align-items: flex-start; gap: 14px; background: rgba(6, 9, 17, 0.6); border: 1px solid var(--border-color); padding: 16px; border-radius: 12px; }
+        .qual-icon { width: 42px; height: 42px; background: rgba(56, 189, 248, 0.12); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--accent-cyan); font-size: 1.2rem; flex-shrink: 0; border: 1px solid var(--border-color); }
+        .qual-text h4 { font-size: 1rem; color: #fff; margin-bottom: 2px; }
+        .qual-text p { font-size: 0.85rem; color: var(--text-sub); }
+        .badge-important { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.5); font-size: 0.7rem; padding: 2px 6px; border-radius: 12px; margin-left: 5px; }
+
         .penalty-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
         .penalty-item { background: rgba(6, 9, 17, 0.6); border: 1px solid var(--border-color); padding: 12px 15px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 0.88rem; }
         
@@ -212,7 +217,6 @@
 
         .footer { background: rgba(6, 9, 17, 0.95); border-top: 1px solid var(--border-color); padding: 15px 0; text-align: center; color: var(--text-sub); font-size: 0.8rem; margin-top: auto; }
 
-        /* แก้ไขปัญหาหน้าจอโทรศัพท์มือถือ (MB) เมนูทับซ้อนและข้อมูลล้นจอ */
         @media (max-width: 868px) {
             .menu-toggle { display: block; }
             .nav-links {
@@ -443,13 +447,74 @@
             </div>
         </section>
 
-        <!-- 7. คุณสมบัติ -->
+        <!-- 7. คุณสมบัติผู้สมัคร (อัปเดตข้อมูลครบถ้วน 100%) -->
         <section id="qualifications" class="page-content">
-            <div class="page-header"><h1 class="page-title">คุณสมบัติผู้สมัคร</h1></div>
-            <div class="glass-card" style="font-size: 0.9rem;"><p style="text-align: center;">รับทั้ง ชาย / หญิง, เลเวล 3 ขึ้นไป, อายุ 15+ (ต่ำกว่าพิจารณาพิเศษ), มีเวลาออน, รองรับทั้ง MB และ PC พร้อมลุยทุกกิจกรรม</p></div>
+            <div class="page-header">
+                <h1 class="page-title">คุณสมบัติผู้สมัคร (QUALIFICATIONS)</h1>
+                <p class="page-subtitle">ข้อกำหนดสำหรับผู้ที่ต้องการเข้าร่วมตระกูล BLACK KINGDOM 🌊 🩵</p>
+            </div>
+            
+            <div class="qual-grid">
+                <div class="qual-card">
+                    <div class="qual-icon"><i class="fa-solid fa-venus-mars"></i></div>
+                    <div class="qual-text"><h4>รับทั้ง ชาย / หญิง</h4><p>เปิดรับสมาชิกทุกเพศ พร้อมลุยและช่วยเหลือกัน</p></div>
+                </div>
+                <div class="qual-card">
+                    <div class="qual-icon"><i class="fa-solid fa-chart-line"></i></div>
+                    <div class="qual-text"><h4>เลเวล 3 ขึ้นไป</h4><p>เข้าใจระบบพื้นฐานของเซิร์ฟเวอร์</p></div>
+                </div>
+                <div class="qual-card">
+                    <div class="qual-icon"><i class="fa-solid fa-brain"></i></div>
+                    <div class="qual-text"><h4>ไม่เรื้อน & วุฒิภาวะสูง</h4><p>ควบคุมอารมณ์ และมีวุฒิภาวะในการเล่น</p></div>
+                </div>
+                <div class="qual-card">
+                    <div class="qual-icon"><i class="fa-solid fa-handshake"></i></div>
+                    <div class="qual-text"><h4>ให้เกียรติกัน <span class="badge-important">สำคัญมาก</span></h4><p>พูดจาสุภาพ ให้เกียรติพี่น้องและผู้อื่นเสมอ</p></div>
+                </div>
+                <div class="qual-card">
+                    <div class="qual-icon"><i class="fa-solid fa-clock"></i></div>
+                    <div class="qual-text"><h4>มีเวลาให้ & ออน 3 ชม.+</h4><p>มีเวลาเล่นประจำ พร้อมร่วมกิจกรรมตระกูล</p></div>
+                </div>
+                <div class="qual-card">
+                    <div class="qual-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                    <div class="qual-text"><h4>รับอายุ 15 ปีขึ้นไป</h4><p>ต่ำกว่า 15 ปี จะได้รับการพิจารณาเป็นกรณีพิเศษ</p></div>
+                </div>
+                <div class="qual-card">
+                    <div class="qual-icon"><i class="fa-solid fa-user-ninja"></i></div>
+                    <div class="qual-text"><h4>รับแรงกดดันได้ดี</h4><p>พร้อมรับฟัง อดทน และแก้ไขในทุกสถานการณ์</p></div>
+                </div>
+                <div class="qual-card">
+                    <div class="qual-icon"><i class="fa-solid fa-shield-heart"></i></div>
+                    <div class="qual-text"><h4>ไม่หักหลังตระกูล <span class="badge-important">สำคัญมาก</span></h4><p>ซื่อสัตย์ ไม่นำข้อมูลหรือสกินไปเผยแพร่</p></div>
+                </div>
+                <div class="qual-card">
+                    <div class="qual-icon"><i class="fa-solid fa-crown"></i></div>
+                    <div class="qual-text"><h4>เชื่อฟังหลีด / รองหลีด</h4><p>เคารพคำสั่งและการตัดสินใจของผู้นำ</p></div>
+                </div>
+                <div class="qual-card">
+                    <div class="qual-icon"><i class="fa-solid fa-clipboard-check"></i></div>
+                    <div class="qual-text"><h4>ทำตามกฎได้ทุกข้อ</h4><p>ปฏิบัติตามกฎระเบียบของแก๊งอย่างเคร่งครัด</p></div>
+                </div>
+                <div class="qual-card">
+                    <div class="qual-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                    <div class="qual-text"><h4>รับทั้ง MB / PC</h4><p>รองรับผู้เล่นทั้งมือถือและคอมพิวเตอร์</p></div>
+                </div>
+                <div class="qual-card">
+                    <div class="qual-icon"><i class="fa-solid fa-gun"></i></div>
+                    <div class="qual-text"><h4>มีอาวุธประจำตัว</h4><p>หากไม่มีจะได้รับการพิจารณาตามความเหมาะสม</p></div>
+                </div>
+            </div>
+
+            <div style="background: linear-gradient(135deg, rgba(2, 132, 199, 0.2) 0%, rgba(56, 189, 248, 0.05) 100%); border: 1px solid var(--accent-blue); border-radius: 14px; padding: 20px; text-align: center; margin-top: 20px;">
+                <h3 style="color: var(--accent-cyan); font-size: 1.15rem; margin-bottom: 8px;"><i class="fa-solid fa-fire"></i> รันกิจกรรม 100% พร้อมลุยทุกกิจกรรม!</h3>
+                <p style="font-size: 0.88rem; color: var(--text-sub);">
+                    ทุกกิจกรรมไม่ว่าจะเป็น <b>แอร์ดรอป, ยึดโซน, ยึดคุก</b><br>
+                    <b style="color: #fca5a5;">*ไม่สร้างปัญหามาให้ หากสร้างปัญหาแล้วต้องรับผิดชอบด้วยนะคะ*</b>
+                </p>
+            </div>
         </section>
 
-        <!-- 8. กฎแก๊ง (แสดงครบถ้วน 18 ข้อเต็ม) -->
+        <!-- 8. กฎแก๊ง -->
         <section id="gangRules" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">กฎการโดนใบ</h1>
@@ -457,29 +522,29 @@
             </div>
             <div class="glass-card">
                 <div class="penalty-grid">
-                    <div class="penalty-item"><span class="penalty-num">1.</span> สมาชิกต้องฟังคำสั่งจากหลีดรองหลีดผ่าฝืน <span style="color:var(--yellow-warning);">ใบเหลือง🟨/ใบส้ม🟧</span></div>
-                    <div class="penalty-item"><span class="penalty-num">2.</span> นำพาความเดือดร้อนมาให้ตระกูลโดยไม่รับผิดชอบ <span style="color:var(--red-warning);">ใบแดง🟥/ใบดำ⬛</span></div>
-                    <div class="penalty-item"><span class="penalty-num">3.</span> นำพาผู้อื่นหรือคนภายนอกเข้าดิสโดยไม่ได้อนุญาต <span style="color:var(--yellow-warning);">ใบเหลือง🟨</span></div>
-                    <div class="penalty-item"><span class="penalty-num">4.</span> นำสกินแก๊งไปขายหรือจำหน่ายให้ผู้อื่น <span style="color:var(--red-warning);">ใบแดง🟥/ใบดำ⬛</span></div>
-                    <div class="penalty-item"><span class="penalty-num">5.</span> เล่นโปรเล่นมอด <span style="color:var(--text-main);">ใบดำ⬛</span></div>
-                    <div class="penalty-item"><span class="penalty-num">6.</span> ด่าเรื้อนไปด่าแก็งอื่น <span style="color:var(--orange-warning);">ใบส้ม🟧</span></div>
-                    <div class="penalty-item"><span class="penalty-num">7.</span> ไม่เชื่อฟังผู้คุมสายสตอรี่ <span style="color:var(--yellow-warning);">ใบเหลือง🟨/ใบส้ม🟧</span></div>
-                    <div class="penalty-item"><span class="penalty-num">8.</span> ไม่มีความรับผิดชอบ <span style="color:var(--yellow-warning);">ใบเหลือง🟨</span></div>
-                    <div class="penalty-item"><span class="penalty-num">9.</span> สอบสวนแล้วให้การเท็จ <span style="color:var(--red-warning);">ใบแดง🟥</span></div>
-                    <div class="penalty-item"><span class="penalty-num">10.</span> แจ้งลาโดยสาเหตุไม่ชัดเจน <span style="color:var(--yellow-warning);">ใบเหลือง🟨</span></div>
-                    <div class="penalty-item"><span class="penalty-num">11.</span> ส่งลิ้งค์ดิสมั่ว <span style="color:var(--yellow-warning);">ใบเหลือง🟨</span></div>
-                    <div class="penalty-item"><span class="penalty-num">12.</span> ด่าบุพการี <span style="color:var(--orange-warning);">ใบส้ม🟧</span></div>
-                    <div class="penalty-item"><span class="penalty-num">13.</span> ผ่าฝืนกดคลูดาวห์พบเจอสถานที่ต้องห้าม <span style="color:var(--red-warning);">โดน×2 🚫</span></div>
-                    <div class="penalty-item"><span class="penalty-num">14.</span> นำข้อมูลภายในแก็งไปเผยแพร่ <span style="color:var(--red-warning);">ใบแดง🟥/ใบดำ⬛</span></div>
-                    <div class="penalty-item"><span class="penalty-num">15.</span> ไม่จ่ายเงินแก๊ง <span style="color:var(--yellow-warning);">ใบเหลือง🟨</span></div>
-                    <div class="penalty-item"><span class="penalty-num">16.</span> ร่วมมือกับแก๊งอื่นในกิจกรรมยึดคุก/อื่นๆ <span style="color:var(--red-warning);">โดนใบ 🟥</span></div>
-                    <div class="penalty-item"><span class="penalty-num">17.</span> มีปัญหา เรื้อน หรือทำร้ายพันธมิตร <span style="color:var(--text-main);">โดนใบ⬛️</span></div>
-                    <div class="penalty-item"><span class="penalty-num">18.</span> คนในแก๊งทำโพเทคแก๊งแตก <span style="color:var(--yellow-warning);">ใบ🟨+เสียค่าโพเทค</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">1.</span> สมาชิกต้องฟังคำสั่งจากหลีดรองหลีดผ่าฝืน <span style="color:var(--yellow-warning);">ใบเหลือง🟨/ใบส้ม🟧</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">2.</span> นำพาความเดือดร้อนมาให้ตระกูลโดยไม่รับผิดชอบ <span style="color:var(--red-warning);">ใบแดง🟥/ใบดำ⬛</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">3.</span> นำพาผู้อื่นหรือคนภายนอกเข้าดิสโดยไม่ได้อนุญาต <span style="color:var(--yellow-warning);">ใบเหลือง🟨</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">4.</span> นำสกินแก๊งไปขายหรือจำหน่ายให้ผู้อื่น <span style="color:var(--red-warning);">ใบแดง🟥/ใบดำ⬛</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">5.</span> เล่นโปรเล่นมอด <span style="color:var(--text-main);">ใบดำ⬛</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">6.</span> ด่าเรื้อนไปด่าแก็งอื่น <span style="color:var(--orange-warning);">ใบส้ม🟧</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">7.</span> ไม่เชื่อฟังผู้คุมสายสตอรี่ <span style="color:var(--yellow-warning);">ใบเหลือง🟨/ใบส้ม🟧</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">8.</span> ไม่มีความรับผิดชอบ <span style="color:var(--yellow-warning);">ใบเหลือง🟨</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">9.</span> สอบสวนแล้วให้การเท็จ <span style="color:var(--red-warning);">ใบแดง🟥</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">10.</span> แจ้งลาโดยสาเหตุไม่ชัดเจน <span style="color:var(--yellow-warning);">ใบเหลือง🟨</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">11.</span> ส่งลิ้งค์ดิสมั่ว <span style="color:var(--yellow-warning);">ใบเหลือง🟨</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">12.</span> ด่าบุพการี <span style="color:var(--orange-warning);">ใบส้ม🟧</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">13.</span> ผ่าฝืนกดคลูดาวห์พบเจอสถานที่ต้องห้าม <span style="color:var(--red-warning);">โดน×2 🚫</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">14.</span> นำข้อมูลภายในแก็งไปเผยแพร่ <span style="color:var(--red-warning);">ใบแดง🟥/ใบดำ⬛</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">15.</span> ไม่จ่ายเงินแก๊ง <span style="color:var(--yellow-warning);">ใบเหลือง🟨</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">16.</span> ร่วมมือกับแก๊งอื่นในกิจกรรมยึดคุก/อื่นๆ <span style="color:var(--red-warning);">โดนใบ 🟥</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">17.</span> มีปัญหา เรื้อน หรือทำร้ายพันธมิตร <span style="color:var(--text-main);">โดนใบ⬛️</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">18.</span> คนในแก๊งทำโพเทคแก๊งแตก <span style="color:var(--yellow-warning);">ใบ🟨+เสียค่าโพเทค</span></div>
                 </div>
             </div>
         </section>
 
-        <!-- 9. กฎกิจกรรม (แสดงผลครบถ้วนสมบูรณ์) -->
+        <!-- 9. กฎกิจกรรม -->
         <section id="activityRules" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">กฎการเล่นกิจกรรมแก๊ง</h1>
@@ -552,7 +617,6 @@
     </footer>
 
     <script>
-        // ระบบเสียงเอฟเฟกต์เมื่อกดปุ่ม
         const clickSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3');
         clickSound.volume = 0.3;
 
