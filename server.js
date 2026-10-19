@@ -12,11 +12,11 @@ const PORT = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname)));
 
-// ดึงลิงก์ Webhook อย่างปลอดภัยผ่านไฟล์ .env
-const WEBHOOK_ACTIVITY = process.env.WEBHOOK_ACTIVITY;
-const WEBHOOK_LEAVE    = process.env.WEBHOOK_LEAVE;
-const WEBHOOK_APPLY    = process.env.WEBHOOK_APPLY;
-const WEBHOOK_RESTART  = process.env.WEBHOOK_RESTART;
+// ดึงลิงก์ Webhook อย่างปลอดภัยผ่านตัวแปรสั้นใน Render Environment
+const WEBHOOK_ACTIVITY = process.env.ACTIVITY;
+const WEBHOOK_LEAVE    = process.env.LEAVE;
+const WEBHOOK_APPLY    = process.env.APPLY;
+const WEBHOOK_RESTART  = process.env.RESTART;
 
 // ระบบป้องกันสแปม (Rate Limiting)
 const requestRateLimit = {};
