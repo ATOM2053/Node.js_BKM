@@ -68,12 +68,11 @@
             max-width: 1100px;
         }
 
-        /* โลโก้พร้อมแอนิเมชันสีขยับ */
         .logo {
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: var(--text-main);
             text-decoration: none;
@@ -130,7 +129,7 @@
 
         main {
             flex: 1;
-            padding-top: 130px; /* ดันระยะลงมาเพื่อกันโดนบัง */
+            padding-top: 150px; /* ขยับลงมาไม่ให้บังตัวหนังสือ */
             padding-bottom: 40px;
         }
 
@@ -189,6 +188,7 @@
         .form-group { display: flex; flex-direction: column; gap: 5px; }
         .form-group label { font-size: 0.88rem; font-weight: 500; color: var(--text-main); display: flex; align-items: center; gap: 6px; }
         .form-group label i { color: var(--accent-cyan); }
+        
         .form-control {
             background: rgba(6, 9, 17, 0.9);
             border: 1px solid var(--border-color);
@@ -200,15 +200,33 @@
             width: 100%;
         }
         .form-control:focus { border-color: var(--accent-cyan); box-shadow: 0 0 8px var(--accent-glow); }
+        
+        /* ปุ่มเลือกแบบกล่อง Custom Select */
+        .custom-select-btn {
+            background: rgba(6, 9, 17, 0.9);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 11px 14px;
+            color: #cbd5e1;
+            font-size: 0.92rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+        }
+        .custom-select-btn.selected { color: #fff; border-color: var(--accent-cyan); }
+
         textarea.form-control { resize: vertical; min-height: 90px; }
-        select.form-control option { background: #0f172a; color: #fff; }
         .form-divider { height: 1px; background: var(--border-color); margin: 5px 0; }
         .form-section-title { font-size: 1.05rem; color: var(--accent-cyan); font-weight: 600; display: flex; align-items: center; gap: 6px; margin-top: 5px; }
 
+        /* Modal ป๊อปอัพ */
         .bkm-modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(6, 9, 17, 0.85);
+            background: rgba(6, 9, 17, 0.88);
             backdrop-filter: blur(8px);
             z-index: 9999;
             display: none;
@@ -234,13 +252,15 @@
         .bkm-modal-icon { font-size: 2.5rem; color: var(--accent-cyan); margin-bottom: 12px; }
         .bkm-modal-title { font-size: 1.25rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
         .bkm-modal-desc { font-size: 0.9rem; color: var(--text-sub); margin-bottom: 20px; line-height: 1.5; }
-        .bkm-modal-btns { display: flex; gap: 10px; }
+        .bkm-modal-btns { display: flex; flex-direction: column; gap: 10px; }
         .bkm-modal-btn {
-            flex: 1; padding: 10px; border-radius: 25px; font-weight: 600; font-size: 0.9rem; cursor: pointer; border: none; transition: 0.2s;
+            width: 100%; padding: 12px; border-radius: 12px; font-weight: 600; font-size: 0.95rem; cursor: pointer; border: 1px solid var(--border-color); transition: 0.2s;
         }
-        .bkm-btn-confirm { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; }
-        .bkm-btn-cancel { background: rgba(56, 189, 248, 0.15); color: var(--accent-cyan); border: 1px solid var(--border-color); }
-        .bkm-btn-ok { background: linear-gradient(135deg, var(--accent-deep), var(--accent-blue)); color: #fff; width: 100%; }
+        .bkm-btn-option { background: rgba(15, 23, 42, 0.9); color: #fff; text-align: center; }
+        .bkm-btn-option:hover { background: var(--accent-deep); border-color: var(--accent-cyan); }
+        .bkm-btn-confirm { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; border:none; }
+        .bkm-btn-cancel { background: rgba(56, 189, 248, 0.15); color: var(--accent-cyan); }
+        .bkm-btn-ok { background: linear-gradient(135deg, var(--accent-deep), var(--accent-blue)); color: #fff; border:none; }
 
         .qual-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
         .qual-card { display: flex; align-items: flex-start; gap: 12px; background: rgba(6, 9, 17, 0.6); border: 1px solid var(--border-color); padding: 14px; border-radius: 12px; }
@@ -354,12 +374,11 @@
                             <input type="number" id="icAge" class="form-control" placeholder="เช่น 25" required>
                         </div>
                         <div class="form-group">
-                            <label for="icGender"><i class="fa-solid fa-venus-mars"></i> เพศ IC</label>
-                            <select id="icGender" class="form-control" required>
-                                <option value="" disabled selected>เลือกเพศ IC</option>
-                                <option value="ชาย">ชาย</option>
-                                <option value="หญิง">หญิง</option>
-                            </select>
+                            <label><i class="fa-solid fa-venus-mars"></i> เพศ IC</label>
+                            <div class="custom-select-btn" id="btnIcGender" onclick="openGenderModal('ic')">
+                                <span id="textIcGender">เลือกเพศ IC</span> <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                            <input type="hidden" id="icGender" required>
                         </div>
                         <div class="form-group">
                             <label for="level"><i class="fa-solid fa-ranking-star"></i> เลเวล</label>
@@ -377,13 +396,11 @@
                             <input type="number" id="ocAge" class="form-control" placeholder="อายุจริง" required>
                         </div>
                         <div class="form-group">
-                            <label for="ocGender"><i class="fa-solid fa-venus-mars"></i> เพศ OC</label>
-                            <select id="ocGender" class="form-control" required>
-                                <option value="" disabled selected>เลือกเพศ OC</option>
-                                <option value="ชาย">ชาย</option>
-                                <option value="หญิง">หญิง</option>
-                                <option value="อื่นๆ">อื่นๆ</option>
-                            </select>
+                            <label><i class="fa-solid fa-venus-mars"></i> เพศ OC</label>
+                            <div class="custom-select-btn" id="btnOcGender" onclick="openGenderModal('oc')">
+                                <span id="textOcGender">เลือกเพศ OC</span> <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                            <input type="hidden" id="ocGender" required>
                         </div>
                         <div class="form-group">
                             <label for="onlineHours"><i class="fa-solid fa-clock"></i> ชม. ออนไลน์ต่อวัน</label>
@@ -393,12 +410,11 @@
                         <div class="form-divider"></div>
                         <div class="form-section-title"><i class="fa-solid fa-clipboard-question"></i> ข้อมูลการเล่น</div>
                         <div class="form-group">
-                            <label for="playStyle"><i class="fa-solid fa-gamepad"></i> สายการเล่น</label>
-                            <select id="playStyle" class="form-control" required>
-                                <option value="" disabled selected>เลือกสายการเล่น</option>
-                                <option value="สายสตอรี่">สายสตอรี่</option>
-                                <option value="สายฟาร์ม">สายฟาร์ม</option>
-                            </select>
+                            <label><i class="fa-solid fa-gamepad"></i> สายการเล่น</label>
+                            <div class="custom-select-btn" id="btnPlayStyle" onclick="openPlayStyleModal()">
+                                <span id="textPlayStyle">เลือกสายการเล่น</span> <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                            <input type="hidden" id="playStyle" required>
                         </div>
                         <div class="form-group">
                             <label for="reason"><i class="fa-solid fa-heart"></i> เหตุผลที่เข้าร่วม</label>
@@ -686,6 +702,60 @@
             document.getElementById('bkmModalOverlay').style.display = 'none';
         }
 
+        /* ฟังก์ชันเปิด Modal สำหรับเลือกเพศ */
+        function openGenderModal(type) {
+            const title = type === 'ic' ? 'เลือกเพศ IC' : 'เลือกเพศ OC';
+            let options = `
+                <button type="button" class="bkm-modal-btn bkm-btn-option" onclick="selectGender('${type}', 'ชาย')">♂️ ชาย</button>
+                <button type="button" class="bkm-modal-btn bkm-btn-option" onclick="selectGender('${type}', 'หญิง')">♀️ หญิง</button>
+            `;
+            if(type === 'oc') {
+                options += `<button type="button" class="bkm-modal-btn bkm-btn-option" onclick="selectGender('${type}', 'อื่นๆ')">⚧️ อื่นๆ</button>`;
+            }
+            
+            showBKMModal({
+                icon: "fa-solid fa-venus-mars",
+                title: title,
+                desc: "กรุณาเลือกเพศที่คุณต้องการ",
+                actionHtml: `<div class="bkm-modal-btns">${options}</div>`
+            });
+        }
+
+        function selectGender(type, val) {
+            if(type === 'ic') {
+                document.getElementById('icGender').value = val;
+                document.getElementById('textIcGender').innerText = val;
+                document.getElementById('btnIcGender').classList.add('selected');
+            } else {
+                document.getElementById('ocGender').value = val;
+                document.getElementById('textOcGender').innerText = val;
+                document.getElementById('btnOcGender').classList.add('selected');
+            }
+            closeBKMModal();
+        }
+
+        /* ฟังก์ชันเปิด Modal สำหรับเลือกสายการเล่น */
+        function openPlayStyleModal() {
+            showBKMModal({
+                icon: "fa-solid fa-gamepad",
+                title: "เลือกสายการเล่น",
+                desc: "กรุณาเลือกสายการเล่นที่คุณต้องการลงทะเบียน",
+                actionHtml: `
+                    <div class="bkm-modal-btns">
+                        <button type="button" class="bkm-modal-btn bkm-btn-option" onclick="selectPlayStyle('สายสตอรี่')">🎭 สายสตอรี่</button>
+                        <button type="button" class="bkm-modal-btn bkm-btn-option" onclick="selectPlayStyle('สายฟาร์ม')">🚜 สายฟาร์ม</button>
+                    </div>
+                `
+            });
+        }
+
+        function selectPlayStyle(val) {
+            document.getElementById('playStyle').value = val;
+            document.getElementById('textPlayStyle').innerText = val;
+            document.getElementById('btnPlayStyle').classList.add('selected');
+            closeBKMModal();
+        }
+
         function promptLeaveGang() {
             const icName = document.getElementById('leaveIcName').value.trim();
             const reason = document.getElementById('leaveReason').value.trim();
@@ -774,6 +844,16 @@
 
         document.getElementById('applyForm').addEventListener('submit', async function(e) {
             e.preventDefault();
+
+            const icGenderVal = document.getElementById('icGender').value;
+            const ocGenderVal = document.getElementById('ocGender').value;
+            const playStyleVal = document.getElementById('playStyle').value;
+
+            if(!icGenderVal || !ocGenderVal || !playStyleVal) {
+                alert('กรุณาเลือกเพศ และ สายการเล่นให้ครบถ้วนก่อนครับ');
+                return;
+            }
+
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังบันทึกข้อมูล...';
@@ -786,13 +866,13 @@
             const data = {
                 icName: icNameVal,
                 icAge: document.getElementById('icAge').value,
-                icGender: document.getElementById('icGender').value,
+                icGender: icGenderVal,
                 level: document.getElementById('level').value,
                 ocName: document.getElementById('ocName').value,
                 ocAge: document.getElementById('ocAge').value,
-                ocGender: document.getElementById('ocGender').value,
+                ocGender: ocGenderVal,
                 onlineHours: document.getElementById('onlineHours').value,
-                playStyle: document.getElementById('playStyle').value,
+                playStyle: playStyleVal,
                 reason: document.getElementById('reason').value,
                 discordTag: document.getElementById('discordTag').value,
                 testerTag: document.getElementById('testerTag').value
@@ -815,6 +895,9 @@
                         actionHtml: `<button type="button" class="bkm-modal-btn bkm-btn-ok" onclick="closeBKMModal()">ตกลง</button>`
                     });
                     this.reset();
+                    document.getElementById('textIcGender').innerText = 'เลือกเพศ IC';
+                    document.getElementById('textOcGender').innerText = 'เลือกเพศ OC';
+                    document.getElementById('textPlayStyle').innerText = 'เลือกสายการเล่น';
                     loadProfileData();
                 } else {
                     alert(result.message || 'เกิดข้อผิดพลาดในการส่งใบสมัคร');
