@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const fetch = require('node-fetch');
@@ -11,13 +12,13 @@ const PORT = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname)));
 
-// DISCORD WEBHOOK URLS
-const WEBHOOK_ACTIVITY = "https://discord.com/api/webhooks/1561540195990503515/yyN8MSqet9GI9F0FTazdWWeQqTCqMF0NQbmeXAt0C010I9rjjx3WQ8JxON_jWDWlGyRk"; 
-const WEBHOOK_LEAVE    = "https://discord.com/api/webhooks/1561540462287003718/FJxLU9mRgP2j8V5ky-CooEF7T_7VZFenUKsEw6hzIzLw7AZhgkPIKfOoZswBWO4Qulyd"; 
-const WEBHOOK_APPLY    = "https://discord.com/api/webhooks/1561540629245468803/gSA6xNyPloD4rFGPFt4KFnq7TvkFWf5wvu5KwAw2BqnvLhOcfwFqNr8ErLe9_XDA_boj"; 
-const WEBHOOK_RESTART  = "https://discord.com/api/webhooks/1560924711201017998/3QBfcYYIfGi_bcp0hiCmFd8ud1GefXvExfwc8XqJBqHClCOqJ0QIMO5QjK78slKGIm9R"; 
+// ดึงลิงก์ Webhook อย่างปลอดภัยผ่านไฟล์ .env
+const WEBHOOK_ACTIVITY = process.env.WEBHOOK_ACTIVITY;
+const WEBHOOK_LEAVE    = process.env.WEBHOOK_LEAVE;
+const WEBHOOK_APPLY    = process.env.WEBHOOK_APPLY;
+const WEBHOOK_RESTART  = process.env.WEBHOOK_RESTART;
 
-// ระบบป้องกันสแปม Rate Limit
+// ระบบป้องกันสแปม (Rate Limiting)
 const requestRateLimit = {};
 function antiSpam(req, res, next) {
     const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
@@ -86,7 +87,7 @@ app.get('/api/search-application', (req, res) => {
     }
 });
 
-// 1. API รับใบสมัคร
+// API รับใบสมัคร
 app.post('/api/apply', antiSpam, async (req, res) => {
     const data = req.body;
     if(!data.icName) return res.status(400).json({ success: false, message: 'กรุณากรอกชื่อ IC' });
@@ -125,11 +126,13 @@ app.post('/api/apply', antiSpam, async (req, res) => {
     };
 
     try {
-        await fetch(WEBHOOK_APPLY, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
+        if(WEBHOOK_APPLY) {
+            await fetch(WEBHOOK_APPLY, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+        }
         res.status(200).json({ success: true });
     } catch(err) {
         res.status(200).json({ success: true, message: 'บันทึกในเซิร์ฟเวอร์แล้ว' });
@@ -139,25 +142,31 @@ app.post('/api/apply', antiSpam, async (req, res) => {
 app.get('/api/applications', (req, res) => res.json(dbData.applications));
 app.get('/api/members', (req, res) => res.json(dbData.members));
 
-// ตั้งเวลาแจ้งเตือนกิจกรรม
+// ตั้งเวลาแจ้งเตือนอัตโนมัติ
 const CRON_OPTIONS = { timezone: "Asia/Bangkok" };
 
 cron.schedule('55 23 * * *', async () => {
     try {
-        await fetch(WEBHOOK_RESTART, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ content: `@everyone ⚠️ **ประกาศแจ้งเตือน! เซิร์ฟเวอร์จะทำการรีสตาร์ทในอีก 5 นาทีข้างหน้า (เวลา 00:00 น.) กรุณาเตรียมตัวให้พร้อมด้วยนะครับ/คะ!** 🌊🩵` })
-        });
+        if(WEBHOOK_RESTART) {
+            await fetch(WEBHOOK_RESTART, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content: `@everyone ⚠️ **ประกาศแจ้งเตือน! เซิร์ฟเวอร์จะทำการรีสตาร์ทในอีก 5 นาทีข้างหน้า (เวลา 00:00 น.) กรุณาเตรียมตัวให้พร้อมด้วยนะครับ/คะ!** 🌊🩵` })
+            });
+        }
     } catch(e) {}
 }, CRON_OPTIONS);
 
 cron.schedule('59 12,17,20 * * *', async () => {
-    await fetch(WEBHOOK_ACTIVITY, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: `@everyone ⏰ **AirDrop จะมาแล้วนะจ๊ะที่ร้ากก เตรียมตัวให้พร้อม!** 🌊🩵` })
-    });
+    try {
+        if(WEBHOOK_ACTIVITY) {
+            await fetch(WEBHOOK_ACTIVITY, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content: `@everyone ⏰ **AirDrop จะมาแล้วนะจ๊ะที่ร้ากก เตรียมตัวให้พร้อม!** 🌊🩵` })
+            });
+        }
+    } catch(e) {}
 }, CRON_OPTIONS);
 
 cron.schedule('0 13,18,21 * * *', async () => {
@@ -167,55 +176,79 @@ cron.schedule('0 13,18,21 * * *', async () => {
     if(hour === 18) timeLabel = "18:00 (6 โมงเย็น)";
     if(hour === 21) timeLabel = "21:00 (3 ทุ่ม)";
     
-    await fetch(WEBHOOK_ACTIVITY, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: `@everyone 🚨 **AirDrop รอบ ${timeLabel} มาแล้วนะจ๊ะที่ร้ากก ขอให้สมาชิกทุกคนเข้าแอร์กันด้วยนะจ๊ะที่ร้ากก** 🌊🩵` })
-    });
+    try {
+        if(WEBHOOK_ACTIVITY) {
+            await fetch(WEBHOOK_ACTIVITY, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content: `@everyone 🚨 **AirDrop รอบ ${timeLabel} มาแล้วนะจ๊ะที่ร้ากก ขอให้สมาชิกทุกคนเข้าแอร์กันด้วยนะจ๊ะที่ร้ากก** 🌊🩵` })
+            });
+        }
+    } catch(e) {}
 }, CRON_OPTIONS);
 
 cron.schedule('59 19 * * *', async () => {
-    await fetch(WEBHOOK_ACTIVITY, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: `@everyone ⏰ **ยึดคุกจะมาแล้วว ไปยึดคุกกันเถอะะ!** 🌊🩵` })
-    });
+    try {
+        if(WEBHOOK_ACTIVITY) {
+            await fetch(WEBHOOK_ACTIVITY, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content: `@everyone ⏰ **ยึดคุกจะมาแล้วว ไปยึดคุกกันเถอะะ!** 🌊🩵` })
+            });
+        }
+    } catch(e) {}
 }, CRON_OPTIONS);
 
 cron.schedule('0 20 * * *', async () => {
-    await fetch(WEBHOOK_ACTIVITY, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: `@everyone 🚨 **ขอให้ทุกคนเข้ามายึดคุกกันด้วยยยน้าา สู้ๆๆน้าาา** 🌊🩵` })
-    });
+    try {
+        if(WEBHOOK_ACTIVITY) {
+            await fetch(WEBHOOK_ACTIVITY, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content: `@everyone 🚨 **ขอให้ทุกคนเข้ามายึดคุกกันด้วยยยน้าา สู้ๆๆน้าาา** 🌊🩵` })
+            });
+        }
+    } catch(e) {}
 }, CRON_OPTIONS);
 
 cron.schedule('29 21 * * *', async () => {
-    await fetch(WEBHOOK_ACTIVITY, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: `@everyone ⏰ **ให้ทุกคนเตรียมของยึดโซนกันให้พร้อม ไม่อีโก้น้าาา ชุบเพื่อนด้วย สู้ๆน้าาอ้วนน!** 🌊🩵` })
-    });
+    try {
+        if(WEBHOOK_ACTIVITY) {
+            await fetch(WEBHOOK_ACTIVITY, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content: `@everyone ⏰ **ให้ทุกคนเตรียมของยึดโซนกันให้พร้อม ไม่อีโก้น้าาา ชุบเพื่อนด้วย สู้ๆน้าาอ้วนน!** 🌊🩵` })
+            });
+        }
+    } catch(e) {}
 }, CRON_OPTIONS);
 
 cron.schedule('30 21 * * *', async () => {
-    await fetch(WEBHOOK_ACTIVITY, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: `@everyone 🚨 **ยึดโซนมาแล้วลุ่ยเลยยๆ!** 🌊🩵` })
-    });
+    try {
+        if(WEBHOOK_ACTIVITY) {
+            await fetch(WEBHOOK_ACTIVITY, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content: `@everyone 🚨 **ยึดโซนมาแล้วลุ่ยเลยยๆ!** 🌊🩵` })
+            });
+        }
+    } catch(e) {}
 }, CRON_OPTIONS);
 
-// 2. API ขอออกแก๊ง (ปรับรูปแบบ Discord Embed ให้เหมือนเดิมตามภาพ)
+// API ขอออกแก๊ง
 app.post('/api/leave-gang', async (req, res) => {
     const { icName, reason } = req.body;
+    if(!icName) return res.status(400).json({ success: false });
+
     const now = new Date();
     const dateStr = now.toLocaleDateString('th-TH') + ' ' + now.toLocaleTimeString('th-TH');
     
     dbData.leftMembers.push({ icName, reason, date: dateStr });
+    
+    dbData.applications = dbData.applications.filter(m => m.icName.toLowerCase() !== icName.toLowerCase());
+    dbData.verifiedMembers = dbData.verifiedMembers.filter(m => m.toLowerCase() !== icName.toLowerCase());
     dbData.members.story = dbData.members.story.filter(m => m.toLowerCase() !== icName.toLowerCase());
     dbData.members.farm = dbData.members.farm.filter(m => m.toLowerCase() !== icName.toLowerCase());
-    dbData.verifiedMembers = dbData.verifiedMembers.filter(m => m.toLowerCase() !== icName.toLowerCase());
 
     saveData();
     
@@ -224,7 +257,7 @@ app.post('/api/leave-gang', async (req, res) => {
         embeds: [{
             title: "🖤 มีสมาชิกขอลาออกจากแก๊ง",
             description: `**ลาก่อนนะพี่น้อง...** ขอบคุณที่ร่วมเดินทางและสร้างความทรงจำดีๆ ด้วยกันมาตลอดทาง เส้นทางข้างหน้าขอให้โชคดี...\n\n👤 **ชื่อ IC:** ${icName}\n📝 **เหตุผลที่ออก:** ${reason}\n📅 **วันที่ออก:** ${dateStr}`,
-            color: 15158332, // สีแดงเข้ม (Red)
+            color: 15158332,
             footer: {
                 text: "BLACK KINGDOM - เราจะไม่ลืมกัน"
             }
@@ -232,11 +265,13 @@ app.post('/api/leave-gang', async (req, res) => {
     };
 
     try {
-        await fetch(WEBHOOK_LEAVE, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(leaveEmbed)
-        });
+        if(WEBHOOK_LEAVE) {
+            await fetch(WEBHOOK_LEAVE, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(leaveEmbed)
+            });
+        }
     } catch(e) {}
 
     res.status(200).json({ success: true });
