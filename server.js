@@ -11,15 +11,27 @@ const PORT = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname)));
 
+// ==========================================
 // DISCORD WEBHOOK URLS
-const WEBHOOK_APPLY = "https://discord.com/api/webhooks/1560910735494881402/nzUeuIZSq39cqTlifuljoYVAy78-Bn_XwKHH6K8in_5myVPsG1L6XQiculo68fOXwe_Q";
-const WEBHOOK_ACTIVITY = "https://discord.com/api/webhooks/1561321885386670140/Fx2iPim0F9bL00h8EC6lXSAtN054VAFQW0OGd1ZQTyz1KeWg9tO730nycZqx7kAvC6iY"; 
-const WEBHOOK_LEAVE = "https://discord.com/api/webhooks/1561320841059241994/VtmCOkw_XFJ2f-6xvBWIc8l4WcoucbQiPQlYr4624C5dBx5AZuQj5suUlIk0QXdKVq2h";
+// ==========================================
+const WEBHOOK_ACTIVITY = "https://discord.com/api/webhooks/1561321885386670140/Fx2iPim0F9bL00h8EC6lXSAtN054VAFQW0OGd1ZQTyz1KeWg9tO730nycZqx7kAvC6iY";
+const WEBHOOK_LEAVE    = "https://discord.com/api/webhooks/1561320841059241994/VtmCOkw_XFJ2f-6xvBWIc8l4WcoucbQiPQlYr4624C5dBx5AZuQj5suUlIk0QXdKVq2h";
+const WEBHOOK_APPLY    = "https://discord.com/api/webhooks/1560910735494881402/nzUeuIZSq39cqTlifuljoYVAy78-Bn_XwKHH6K8in_5myVPsG1L6XQiculo68fOXwe_Q";
+const WEBHOOK_RESTART  = "https://discord.com/api/webhooks/1560924711201017998/3QBfcYYIfGi_bcp0hiCmFd8ud1GefXvExfwc8XqJBqHClCOqJ0QIMO5QjK78slKGIm9R";
 
-// Webhook ใหม่สำหรับแจ้งเตือนเซิร์ฟเวอร์รีสตาร์ท (00:00)
-const WEBHOOK_RESTART = "https://discord.com/api/webhooks/1560924711201017998/3QBfcYYIfGi_bcp0hiCmFd8ud1GefXvExfwc8XqJBqHClCOqJ0QIMO5QjK78slKGIm9R";
+// ระบบป้องกันสแปม (Rate Limiting)
+const requestRateLimit = {};
+function antiSpam(req, res, next) {
+    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+    const now = Date.now();
+    if (requestRateLimit[ip] && now - requestRateLimit[ip] < 180000) { // ล็อก 3 นาทีถ้าส่งข้อมูลถี่เกินไป
+        return res.status(429).json({ success: false, message: 'คุณส่งข้อมูลถี่เกินไป กรุณารอ 3 นาทีก่อนส่งอีกครั้ง' });
+    }
+    requestRateLimit[ip] = now;
+    next();
+}
 
-// ไฟล์บันทึกข้อมูลถาวร (เซิร์ฟเวอร์ปิดข้อมูลไม่หาย)
+// ฐานข้อมูลไฟล์ถาวร
 const DB_FILE = path.join(__dirname, 'database.json');
 
 let dbData = {
@@ -46,23 +58,19 @@ function saveData() {
     }
 }
 
-// ระบบคนออนเว็บเรียลไทม์
+// ระบบออนไลน์บนหน้าเว็บเรียลไทม์
 let activeVisitors = {};
 
 app.post('/api/heartbeat', (req, res) => {
     const { visitorId } = req.body;
-    if (visitorId) {
-        activeVisitors[visitorId] = Date.now();
-    }
+    if (visitorId) activeVisitors[visitorId] = Date.now();
     res.sendStatus(200);
 });
 
 setInterval(() => {
     const now = Date.now();
     for (let id in activeVisitors) {
-        if (now - activeVisitors[id] > 25000) {
-            delete activeVisitors[id];
-        }
+        if (now - activeVisitors[id] > 25000) delete activeVisitors[id];
     }
 }, 10000);
 
@@ -70,19 +78,12 @@ app.get('/api/web-online', (req, res) => {
     res.json(Object.keys(activeVisitors));
 });
 
-app.get('/api/verify-member', (req, res) => {
-    const { icName } = req.query;
-    if(dbData.verifiedMembers.includes(icName)) {
-        res.json({ success: true });
-    } else {
-        res.json({ success: false });
-    }
-});
-
-// API ค้นหาใบสมัครของตัวเอง
+// ค้นหาใบสมัครของตัวเอง (ค้นหาแบบไม่สนตัวพิมพ์เล็ก-ใหญ่)
 app.get('/api/search-application', (req, res) => {
     const { icName } = req.query;
-    const found = dbData.applications.find(item => item.icName.toLowerCase() === icName.toLowerCase());
+    if(!icName) return res.json({ success: false });
+    
+    const found = dbData.applications.find(item => item.icName && item.icName.trim().toLowerCase() === icName.trim().toLowerCase());
     if(found) {
         res.json({ success: true, application: found });
     } else {
@@ -90,24 +91,25 @@ app.get('/api/search-application', (req, res) => {
     }
 });
 
-// 1. API รับใบสมัครส่งเข้า Discord และบันทึกข้อมูลถาวร
-app.post('/api/apply', async (req, res) => {
+// 1. API ส่งใบสมัคร (WEBHOOK_APPLY)
+app.post('/api/apply', antiSpam, async (req, res) => {
     const data = req.body;
-    
-    // ป้องกันข้อมูลซ้ำ
-    dbData.applications = dbData.applications.filter(item => item.icName !== data.icName);
+    if(!data.icName) return res.status(400).json({ success: false, message: 'กรุณากรอกชื่อ IC' });
+
+    // บันทึกและอัปเดตข้อมูลถาวร
+    dbData.applications = dbData.applications.filter(item => item.icName.toLowerCase() !== data.icName.toLowerCase());
     dbData.applications.push(data);
 
-    if(!dbData.verifiedMembers.includes(data.icName)) {
+    if(!dbData.verifiedMembers.some(m => m.toLowerCase() === data.icName.toLowerCase())) {
         dbData.verifiedMembers.push(data.icName);
     }
 
     if(data.playStyle === 'สายสตอรี่') {
-        if(!dbData.members.story.includes(data.icName)) dbData.members.story.push(data.icName);
-        dbData.members.farm = dbData.members.farm.filter(m => m !== data.icName);
+        if(!dbData.members.story.some(m => m.toLowerCase() === data.icName.toLowerCase())) dbData.members.story.push(data.icName);
+        dbData.members.farm = dbData.members.farm.filter(m => m.toLowerCase() !== data.icName.toLowerCase());
     } else {
-        if(!dbData.members.farm.includes(data.icName)) dbData.members.farm.push(data.icName);
-        dbData.members.story = dbData.members.story.filter(m => m !== data.icName);
+        if(!dbData.members.farm.some(m => m.toLowerCase() === data.icName.toLowerCase())) dbData.members.farm.push(data.icName);
+        dbData.members.story = dbData.members.story.filter(m => m.toLowerCase() !== data.icName.toLowerCase());
     }
 
     saveData();
@@ -136,14 +138,14 @@ app.post('/api/apply', async (req, res) => {
         });
         res.status(200).json({ success: true });
     } catch(err) {
-        res.status(500).json({ success: false });
+        res.status(200).json({ success: true, message: 'บันทึกเข้าเซิร์ฟเวอร์แล้ว' });
     }
 });
 
 app.get('/api/applications', (req, res) => res.json(dbData.applications));
 app.get('/api/members', (req, res) => res.json(dbData.members));
 
-// 2. API แจ้งเตือนกิจกรรม
+// 2. API กดปุ่มแจ้งเตือนกิจกรรมด้วยตนเอง (WEBHOOK_ACTIVITY)
 app.post('/api/notify-activity', async (req, res) => {
     const { activityName, timeText } = req.body;
     let msg = `@everyone 🚨 **ประกาศสำคัญ! กิจกรรม ${activityName} เริ่มขึ้นแล้ว!** รอบเวลา: ${timeText} 🌊🩵`;
@@ -173,7 +175,8 @@ app.post('/api/notify-activity', async (req, res) => {
 // ==========================================
 const CRON_OPTIONS = { timezone: "Asia/Bangkok" };
 
-// แจ้งเตือนรีสตาร์ทเซิร์ฟเวอร์ตอน 00:00 น. -> แจ้งเตือนก่อน 5 นาที (เวลา 23:55 น.)
+// --- 1. แจ้งเตือนเซิร์ฟเวอร์รีสตาร์ท (WEBHOOK_RESTART) ---
+// แจ้งเตือนก่อน 5 นาที ก่อนเวลา 00:00 น. (คือเวลา 23:55 น.)
 cron.schedule('55 23 * * *', async () => {
     try {
         await fetch(WEBHOOK_RESTART, {
@@ -181,12 +184,10 @@ cron.schedule('55 23 * * *', async () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ content: `@everyone ⚠️ **ประกาศแจ้งเตือน! เซิร์ฟเวอร์จะทำการรีสตาร์ทในอีก 5 นาทีข้างหน้า (เวลา 00:00 น.) กรุณาเตรียมตัวให้พร้อมด้วยนะครับ/คะ!** 🌊🩵` })
         });
-    } catch(e) {
-        console.error('Restart cron error:', e);
-    }
+    } catch(e) { console.error(e); }
 }, CRON_OPTIONS);
 
-// --- AIRDROP (13:00, 18:00, 21:00) ---
+// --- 2. แจ้งเตือนกิจกรรม AirDrop (WEBHOOK_ACTIVITY) ---
 cron.schedule('59 12,17,20 * * *', async () => {
     await fetch(WEBHOOK_ACTIVITY, {
         method: 'POST',
@@ -210,7 +211,7 @@ cron.schedule('0 13,18,21 * * *', async () => {
     });
 }, CRON_OPTIONS);
 
-// --- ยึดคุก (เวลา 20:00 น.) ---
+// --- 3. แจ้งเตือนกิจกรรมยึดคุก (WEBHOOK_ACTIVITY) ---
 cron.schedule('59 19 * * *', async () => {
     await fetch(WEBHOOK_ACTIVITY, {
         method: 'POST',
@@ -227,7 +228,7 @@ cron.schedule('0 20 * * *', async () => {
     });
 }, CRON_OPTIONS);
 
-// --- วอยึดโซน (เวลา 21:30 น.) ---
+// --- 4. แจ้งเตือนกิจกรรมวอยึดโซน (WEBHOOK_ACTIVITY) ---
 cron.schedule('29 21 * * *', async () => {
     await fetch(WEBHOOK_ACTIVITY, {
         method: 'POST',
@@ -244,20 +245,15 @@ cron.schedule('30 21 * * *', async () => {
     });
 }, CRON_OPTIONS);
 
-// 3. API ขอออกแก๊ง
+// 3. API ขอออกแก๊ง (WEBHOOK_LEAVE)
 app.post('/api/leave-gang', async (req, res) => {
     const { icName, reason } = req.body;
-    
-    if(!dbData.verifiedMembers.includes(icName)) {
-        return res.status(400).json({ success: false, message: 'ไม่พบรายชื่อนี้ในระบบ' });
-    }
-
     const dateStr = new Date().toLocaleString('th-TH');
-    dbData.leftMembers.push({ icName, reason, date: dateStr });
     
-    dbData.members.story = dbData.members.story.filter(m => m !== icName);
-    dbData.members.farm = dbData.members.farm.filter(m => m !== icName);
-    dbData.verifiedMembers = dbData.verifiedMembers.filter(m => m !== icName);
+    dbData.leftMembers.push({ icName, reason, date: dateStr });
+    dbData.members.story = dbData.members.story.filter(m => m.toLowerCase() !== icName.toLowerCase());
+    dbData.members.farm = dbData.members.farm.filter(m => m.toLowerCase() !== icName.toLowerCase());
+    dbData.verifiedMembers = dbData.verifiedMembers.filter(m => m.toLowerCase() !== icName.toLowerCase());
 
     saveData();
 
@@ -279,7 +275,7 @@ app.post('/api/leave-gang', async (req, res) => {
         });
         res.status(200).json({ success: true });
     } catch(err) {
-        res.status(500).json({ success: false });
+        res.status(200).json({ success: true });
     }
 });
 
