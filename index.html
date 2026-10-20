@@ -48,7 +48,6 @@
 
         .container { max-width: 900px; margin: 0 auto; padding: 0 15px; width: 100%; }
 
-        /* เปลี่ยนเป็น relative เพื่อไม่ให้แถบเมนูลอยมาทับเนื้อหา */
         .navbar {
             position: relative;
             top: 0;
@@ -130,7 +129,7 @@
 
         main {
             flex: 1;
-            padding-top: 25px; /* ไม่ต้องเผื่อพื้นที่เยอะแล้ว เพราะเมนูอยู่ด้านบนสุดปกติ */
+            padding-top: 25px;
             padding-bottom: 40px;
         }
 
@@ -275,7 +274,6 @@
         .rule-list li { background: rgba(6, 9, 17, 0.6); border: 1px solid rgba(255, 255, 255, 0.05); padding: 10px 12px; border-radius: 8px; font-size: 0.85rem; display: flex; align-items: flex-start; gap: 8px; }
         .rule-list li i { color: var(--accent-cyan); margin-top: 3px; flex-shrink: 0; }
 
-        .member-category-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 15px; }
         .member-box { background: rgba(6, 9, 17, 0.7); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; }
         .member-box h3 { color: var(--accent-cyan); font-size: 0.95rem; margin-bottom: 10px; border-bottom: 1px solid var(--border-color); padding-bottom: 6px; }
         .member-list { list-style: none; display: flex; flex-direction: column; gap: 6px; max-height: 250px; overflow-y: auto; }
@@ -481,19 +479,8 @@
             <div class="page-header"><h1 class="page-title">สมาชิก & สถานะคนออนเว็บ</h1></div>
             <div class="glass-card">
                 <h3 style="color: #fff; margin-bottom: 10px; font-size: 1rem;"><i class="fa-solid fa-signal" style="color: #4ade80;"></i> คนกำลังออนไลน์เว็บ</h3>
-                <div class="member-box" style="margin-bottom: 15px;">
+                <div class="member-box">
                     <ul class="member-list" id="webOnlineList"><li>กำลังโหลด...</li></ul>
-                </div>
-
-                <div class="member-category-grid">
-                    <div class="member-box">
-                        <h3><i class="fa-solid fa-masks-theater"></i> สายสตอรี่</h3>
-                        <ul class="member-list" id="storyMembersList"><li>ไม่มีสมาชิก</li></ul>
-                    </div>
-                    <div class="member-box">
-                        <h3><i class="fa-solid fa-tractor"></i> สายฟาร์ม</h3>
-                        <ul class="member-list" id="farmMembersList"><li>ไม่มีสมาชิก</li></ul>
-                    </div>
                 </div>
             </div>
         </section>
@@ -830,7 +817,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
             if(tabId === 'applicationsList') loadApplications();
-            if(tabId === 'memberList') { loadMembers(); loadWebOnlineUsers(); }
+            if(tabId === 'memberList') loadWebOnlineUsers();
             if(tabId === 'profile') loadProfileData();
         }
 
@@ -958,16 +945,34 @@
             }
         }
 
-        function loadProfileData() {
+        async function loadProfileData() {
             const savedAvatar = localStorage.getItem('bkm_user_avatar');
             if(savedAvatar) { document.getElementById('profileAvatar').src = savedAvatar; }
 
             const localApp = JSON.parse(localStorage.getItem('bkm_my_application') || '{}');
+            let icNameToSearch = myIcName || localApp.icName || '';
+
+            if(icNameToSearch) {
+                try {
+                    const res = await fetch(`/api/search-application?icName=${encodeURIComponent(icNameToSearch)}`);
+                    const data = await res.json();
+                    if(data.success && data.application) {
+                        const app = data.application;
+                        document.getElementById('profileIcName').innerText = app.icName;
+                        document.getElementById('profileDiscord').innerText = 'Discord: ' + app.discordTag;
+                        document.getElementById('profilePlayStyle').innerText = app.playStyle;
+                        document.getElementById('profileLevel').innerText = app.level;
+                        document.getElementById('profileStatusHtml').innerHTML = '<span style="color: #4ade80;">ลงทะเบียนสมาชิกแล้ว</span>';
+                        return;
+                    }
+                } catch(e) {}
+            }
+
             if(localApp.icName) {
                 document.getElementById('profileIcName').innerText = localApp.icName;
-                document.getElementById('profileDiscord').innerText = 'Discord: ' + localApp.discordTag;
-                document.getElementById('profilePlayStyle').innerText = localApp.playStyle;
-                document.getElementById('profileLevel').innerText = localApp.level;
+                document.getElementById('profileDiscord').innerText = 'Discord: ' + (localApp.discordTag || '-');
+                document.getElementById('profilePlayStyle').innerText = localApp.playStyle || '-';
+                document.getElementById('profileLevel').innerText = localApp.level || '-';
                 document.getElementById('profileStatusHtml').innerHTML = '<span style="color: #4ade80;">ลงทะเบียนสมาชิกแล้ว</span>';
             } else {
                 document.getElementById('profileIcName').innerText = 'ยังไม่ได้ตั้งชื่อ IC';
@@ -990,15 +995,6 @@
                         <p>สาย: ${item.playStyle} | Discord: ${item.discordTag}</p>
                     </div>
                 `).join('');
-            } catch(e) {}
-        }
-
-        async function loadMembers() {
-            try {
-                const res = await fetch('/api/members');
-                const data = await res.json();
-                document.getElementById('storyMembersList').innerHTML = data.story.map(m => `<li class="member-item">${m}</li>`).join('') || '<li class="member-item">ไม่มีสมาชิก</li>';
-                document.getElementById('farmMembersList').innerHTML = data.farm.map(m => `<li class="member-item">${m}</li>`).join('') || '<li class="member-item">ไม่มีสมาชิก</li>';
             } catch(e) {}
         }
 
