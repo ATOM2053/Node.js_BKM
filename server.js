@@ -12,11 +12,13 @@ const PORT = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname)));
 
-// ดึงลิงก์ Webhook อย่างปลอดภัยผ่านตัวแปรสั้นใน Render Environment
+// ดึงลิงก์ Webhook ผ่านตัวแปรสิ่งแวดล้อมใน Render
 const WEBHOOK_ACTIVITY = process.env.ACTIVITY;
 const WEBHOOK_LEAVE    = process.env.LEAVE;
 const WEBHOOK_APPLY    = process.env.APPLY;
 const WEBHOOK_RESTART  = process.env.RESTART;
+// เพิ่มตัวแปรสำหรับแจ้งเตือนสถานะเซิร์ฟเวอร์ (สามารถใช้ร่วมกับ ACTIVITY ได้)
+const WEBHOOK_ALERT    = process.env.ALERT || process.env.ACTIVITY;
 
 // ระบบป้องกันสแปม (Rate Limiting)
 const requestRateLimit = {};
@@ -75,6 +77,55 @@ app.get('/api/web-online', (req, res) => {
     res.json(Object.keys(activeVisitors));
 });
 
+// ==========================================
+// ระบบตรวจสอบคนออนเพื่อแจ้งเตือนเซิร์ฟเวอร์ใกล้ปิดอัตโนมัติ
+// ==========================================
+let lastServerAlertTime = 0;
+
+async function checkServerInactivityAndAlert() {
+    const onlineCount = Object.keys(activeVisitors).length;
+    
+    // ถ้าไม่มีคนออนเลย (0 คน)
+    if (onlineCount === 0) {
+        const now = Date.now();
+        // ป้องกันไม่ให้ส่งสแปมรัวๆ ให้เว้นช่วงแจ้งเตือนอย่างน้อย 15 นาที
+        if (now - lastServerAlertTime < 15 * 60 * 1000) return;
+        lastServerAlertTime = now;
+
+        const alertEmbed = {
+            content: "@everyone ⚠️ **แจ้งเตือนสถานะเซิร์ฟเวอร์เว็บ!**",
+            embeds: [{
+                title: "🚨 เซิร์ฟเวอร์ใกล้จะปิด / เข้าสู่โหมดพักการทำงาน",
+                description: "ขณะนี้ไม่มีสมาชิกหรือผู้ใช้งานออนไลน์อยู่บนเว็บไซต์เลย เซิร์ฟเวอร์กำลังจะสลีปชั่วคราว!",
+                color: 15158332, // สีแดงเตือน
+                fields: [
+                    { name: "👥 จำนวนคนออนเว็บ", value: "```0 คน```", inline: true },
+                    { name: "⏳ สถานะระบบ", value: "```กำลังจะพักการทำงานชั่วคราว```", inline: true },
+                    { name: "📢 คำแนะนำ", value: "หากต้องการใช้งานระบบจัดการแก๊งต่อ **กรุณากดเข้าหน้าเว็บ BKM ด่วน** เพื่อรักษาสถานะเซิร์ฟเวอร์ค่ะ!", inline: false }
+                ],
+                footer: { text: "BLACK KINGDOM • Inactivity Alert System" }
+            }]
+        };
+
+        try {
+            if (WEBHOOK_ALERT) {
+                await fetch(WEBHOOK_ALERT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(alertEmbed)
+                });
+            }
+        } catch (e) {
+            console.error('Error sending inactivity alert:', e);
+        }
+    }
+}
+
+// ตรวจสอบทุกๆ 1 นาที (60000 มิลลิวินาที)
+setInterval(checkServerInactivityAndAlert, 60000);
+
+// ==========================================
+
 app.get('/api/search-application', (req, res) => {
     const { icName } = req.query;
     if(!icName) return res.json({ success: false });
@@ -110,16 +161,17 @@ app.post('/api/apply', antiSpam, async (req, res) => {
     saveData();
 
     const payload = {
-        content: `@everyone @here\n📢 **มีใบสมัครใหม่เข้ามาครับ!**\n👤 **ผู้สมัคร:** ${data.discordTag}\n📋 **ผู้คุมสอบ:** ${data.testerTag}\n🔗 **ห้องรอสอบ:** https://discord.gg/C6kKrrGbm`,
+        content: `@everyone @here`,
         embeds: [{
             title: "🌊 🩵 ใบสมัครเข้าแก๊ง BLACK KINGDOM (BKM)",
             description: "มีผู้สนใจสมัครเข้าร่วมตระกูล กรุณาตรวจสอบข้อมูลและดำเนินการสอบตามขั้นตอน",
-            color: 3719416,
+            color: 3826936,
             fields: [
-                { name: "👤 ข้อมูล IC (ในเกม)", value: `• **ชื่อ IC:** ${data.icName}\n• **อายุ IC:** ${data.icAge} ปี\n• **เลเวล:** ${data.level}`, inline: false },
+                { name: "👤 ข้อมูล IC (ในเกม)", value: `• **ชื่อ IC:** \`${data.icName}\`\n• **อายุ IC:** ${data.icAge} ปี\n• **เลเวล:** Lv.${data.level}\n• **เพศ IC:** ${data.icGender}`, inline: false },
                 { name: "👽 ข้อมูล OC (นอกเกม)", value: `• **ชื่อ OC:** ${data.ocName}\n• **เวลาเล่น:** ${data.onlineHours}`, inline: false },
-                { name: "⚔️ สายการเล่น", value: data.playStyle, inline: false },
-                { name: "💬 เหตุผล", value: data.reason, inline: false }
+                { name: "⚔️ สายการเล่น", value: `\`\`\`${data.playStyle}\`\`\``, inline: true },
+                { name: "💬 เหตุผล", value: `\`\`\`${data.reason}\`\`\``, inline: false },
+                { name: "💬 Discord & ผู้คุม", value: `• **ผู้สมัคร:** ${data.discordTag}\n• **ผู้คุมสอบ:** ${data.testerTag}\n• **ห้องรอสอบ:** https://discord.gg/C6kKrrGbm`, inline: false }
             ],
             footer: { text: "BLACK KINGDOM System • " + new Date().toLocaleString('th-TH') }
         }]
@@ -142,16 +194,25 @@ app.post('/api/apply', antiSpam, async (req, res) => {
 app.get('/api/applications', (req, res) => res.json(dbData.applications));
 app.get('/api/members', (req, res) => res.json(dbData.members));
 
-// ตั้งเวลาแจ้งเตือนอัตโนมัติ
+// ตั้งเวลาแจ้งเตือนกิจกรรมและรีเซิร์ฟเวอร์
 const CRON_OPTIONS = { timezone: "Asia/Bangkok" };
 
 cron.schedule('55 23 * * *', async () => {
     try {
         if(WEBHOOK_RESTART) {
+            const embed = {
+                content: "@everyone ⚠️ **ประกาศแจ้งเตือนการรีเซิร์ฟเวอร์**",
+                embeds: [{
+                    title: "🔄 เซิร์ฟเวอร์กำลังจะรีสตาร์ท",
+                    description: "เซิร์ฟเวอร์จะทำการรีสตาร์ทในอีก **5 นาทีข้างหน้า (เวลา 00:00 น.)** กรุณาเตรียมตัวและเก็บของให้เรียบร้อยด้วยนะครับ/คะ!",
+                    color: 16776960,
+                    footer: { text: "BLACK KINGDOM • System Restart Alert" }
+                }]
+            };
             await fetch(WEBHOOK_RESTART, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ content: `@everyone ⚠️ **ประกาศแจ้งเตือน! เซิร์ฟเวอร์จะทำการรีสตาร์ทในอีก 5 นาทีข้างหน้า (เวลา 00:00 น.) กรุณาเตรียมตัวให้พร้อมด้วยนะครับ/คะ!** 🌊🩵` })
+                body: JSON.stringify(embed)
             });
         }
     } catch(e) {}
@@ -160,10 +221,19 @@ cron.schedule('55 23 * * *', async () => {
 cron.schedule('59 12,17,20 * * *', async () => {
     try {
         if(WEBHOOK_ACTIVITY) {
+            const embed = {
+                content: "@everyone ⏰ **เตรียมตัวให้พร้อม!**",
+                embeds: [{
+                    title: "📦 AirDrop กำลังจะมาแล้วนะจ๊ะที่ร้ากก",
+                    description: "สมาชิกทุกท่านเตรียมตัว เตรียมอาวุธและเกราะให้พร้อมลุยรอบถัดไปกันได้เลย!",
+                    color: 3826936,
+                    footer: { text: "BLACK KINGDOM • Activity Preparation" }
+                }]
+            };
             await fetch(WEBHOOK_ACTIVITY, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ content: `@everyone ⏰ **AirDrop จะมาแล้วนะจ๊ะที่ร้ากก เตรียมตัวให้พร้อม!** 🌊🩵` })
+                body: JSON.stringify(embed)
             });
         }
     } catch(e) {}
@@ -178,10 +248,19 @@ cron.schedule('0 13,18,21 * * *', async () => {
     
     try {
         if(WEBHOOK_ACTIVITY) {
+            const embed = {
+                content: "@everyone 🚨 **AirDrop เริ่มแล้ว!**",
+                embeds: [{
+                    title: `⚔️ AirDrop รอบเวลา ${timeLabel} มาแล้วจ้า!`,
+                    description: "ขอให้สมาชิกทุกคนเข้าแอร์และลุยไปด้วยกัน ลุยให้เต็มที่เลยน้าาา 🌊🩵",
+                    color: 15158332,
+                    footer: { text: "BLACK KINGDOM • AirDrop Event" }
+                }]
+            };
             await fetch(WEBHOOK_ACTIVITY, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ content: `@everyone 🚨 **AirDrop รอบ ${timeLabel} มาแล้วนะจ๊ะที่ร้ากก ขอให้สมาชิกทุกคนเข้าแอร์กันด้วยนะจ๊ะที่ร้ากก** 🌊🩵` })
+                body: JSON.stringify(embed)
             });
         }
     } catch(e) {}
@@ -190,10 +269,19 @@ cron.schedule('0 13,18,21 * * *', async () => {
 cron.schedule('59 19 * * *', async () => {
     try {
         if(WEBHOOK_ACTIVITY) {
+            const embed = {
+                content: "@everyone ⏰ **เตรียมตัวยึดคุก!**",
+                embeds: [{
+                    title: "🏰 กิจกรรมยึดคุกกำลังจะเริ่มใน 1 นาที",
+                    description: "ไปรวมตัวและเตรียมความพร้อมกันให้พร้อม ไปยึดคุกกันเถอะะ!",
+                    color: 3826936,
+                    footer: { text: "BLACK KINGDOM • Prison Event Prep" }
+                }]
+            };
             await fetch(WEBHOOK_ACTIVITY, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ content: `@everyone ⏰ **ยึดคุกจะมาแล้วว ไปยึดคุกกันเถอะะ!** 🌊🩵` })
+                body: JSON.stringify(embed)
             });
         }
     } catch(e) {}
@@ -202,10 +290,19 @@ cron.schedule('59 19 * * *', async () => {
 cron.schedule('0 20 * * *', async () => {
     try {
         if(WEBHOOK_ACTIVITY) {
+            const embed = {
+                content: "@everyone 🚨 **ลุยยึดคุกกันเลย!**",
+                embeds: [{
+                    title: "⚔️ กิจกรรมยึดคุก Pawria Town เริ่มแล้ว",
+                    description: "ขอให้ทุกคนเข้ามายึดคุกกันด้วยน้าา สู้ๆๆ น้าทุกคน พาชัยชนะกลับมากัน!",
+                    color: 15158332,
+                    footer: { text: "BLACK KINGDOM • Prison War" }
+                }]
+            };
             await fetch(WEBHOOK_ACTIVITY, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ content: `@everyone 🚨 **ขอให้ทุกคนเข้ามายึดคุกกันด้วยยยน้าา สู้ๆๆน้าาา** 🌊🩵` })
+                body: JSON.stringify(embed)
             });
         }
     } catch(e) {}
@@ -214,10 +311,19 @@ cron.schedule('0 20 * * *', async () => {
 cron.schedule('29 21 * * *', async () => {
     try {
         if(WEBHOOK_ACTIVITY) {
+            const embed = {
+                content: "@everyone ⏰ **เตรียมของยึดโซนด่วน!**",
+                embeds: [{
+                    title: "🛡️ กิจกรรมยึดโซนกำลังจะมาใน 1 นาที",
+                    description: "ให้ทุกคนเตรียมของยึดโซนกันให้พร้อม ไม่อีโก้น้า ชุบเพื่อนด้วย สู้ๆ น้าอ้วนน!",
+                    color: 3826936,
+                    footer: { text: "BLACK KINGDOM • Zone War Prep" }
+                }]
+            };
             await fetch(WEBHOOK_ACTIVITY, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ content: `@everyone ⏰ **ให้ทุกคนเตรียมของยึดโซนกันให้พร้อม ไม่อีโก้น้าาา ชุบเพื่อนด้วย สู้ๆน้าาอ้วนน!** 🌊🩵` })
+                body: JSON.stringify(embed)
             });
         }
     } catch(e) {}
@@ -226,10 +332,19 @@ cron.schedule('29 21 * * *', async () => {
 cron.schedule('30 21 * * *', async () => {
     try {
         if(WEBHOOK_ACTIVITY) {
+            const embed = {
+                content: "@everyone 🚨 **ยึดโซนมาแล้ว ลุยเลยยย!**",
+                embeds: [{
+                    title: "🔥 กิจกรรมยึดโซนเริ่มขึ้นแล้ว",
+                    description: "เข้าพื้นที่แล้วลุยกันให้เต็มที่ สามัคคีคือพลัง พวกเราทำได้อยู่แล้ว!",
+                    color: 15158332,
+                    footer: { text: "BLACK KINGDOM • Zone War Live" }
+                }]
+            };
             await fetch(WEBHOOK_ACTIVITY, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ content: `@everyone 🚨 **ยึดโซนมาแล้วลุ่ยเลยยๆ!** 🌊🩵` })
+                body: JSON.stringify(embed)
             });
         }
     } catch(e) {}
@@ -256,7 +371,7 @@ app.post('/api/leave-gang', async (req, res) => {
         content: "@everyone 🥀 **บันทึกการอำลาสมาชิกตระกูล BLACK KINGDOM**",
         embeds: [{
             title: "🖤 มีสมาชิกขอลาออกจากแก๊ง",
-            description: `**ลาก่อนนะพี่น้อง...** ขอบคุณที่ร่วมเดินทางและสร้างความทรงจำดีๆ ด้วยกันมาตลอดทาง เส้นทางข้างหน้าขอให้โชคดี...\n\n👤 **ชื่อ IC:** ${icName}\n📝 **เหตุผลที่ออก:** ${reason}\n📅 **วันที่ออก:** ${dateStr}`,
+            description: `**ลาก่อนนะพี่น้อง...** ขอบคุณที่ร่วมเดินทางและสร้างความทรงจำดีๆ ด้วยกันมาตลอดทาง เส้นทางข้างหน้าขอให้โชคดี...\n\n👤 **ชื่อ IC:** \`${icName}\`\n📝 **เหตุผลที่ออก:** \`${reason}\`\n📅 **วันที่ออก:** ${dateStr}`,
             color: 15158332,
             footer: {
                 text: "BLACK KINGDOM - เราจะไม่ลืมกัน"
