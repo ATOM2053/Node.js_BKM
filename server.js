@@ -92,7 +92,7 @@ app.get('/api/web-online', (req, res) => {
 });
 
 // ==========================================
-// ระบบตรวจสอบคนออนเพื่อแจ้งเตือนเซิร์ฟเวอร์ใกล้ปิด (ตรวจสอบและแจ้งเตือนทุกๆ 13 นาที)
+// ระบบตรวจสอบคนออนเพื่อแจ้งเตือนเซิร์ฟเวอร์ (แจ้งเตือนทุกๆ 12 ชั่วโมง เมื่อไม่มีคนออน)
 // ==========================================
 let lastServerAlertTime = 0;
 
@@ -102,8 +102,8 @@ async function checkServerInactivityAndAlert() {
     // ถ้าไม่มีคนออนเลย (0 คน)
     if (onlineCount === 0) {
         const now = Date.now();
-        // กำหนดระยะเวลาเว้นช่วงแจ้งเตือนซ้ำเป็น ทุกๆ 13 นาที (13 * 60 * 1000 มิลลิวินาที)
-        if (now - lastServerAlertTime < 13 * 60 * 1000) return;
+        // กำหนดระยะเวลาเว้นช่วงแจ้งเตือนซ้ำเป็น ทุกๆ 12 ชั่วโมง (12 * 60 * 60 * 1000 มิลลิวินาที)
+        if (now - lastServerAlertTime < 12 * 60 * 60 * 1000) return;
         lastServerAlertTime = now;
 
         const alertEmbed = {
@@ -135,8 +135,8 @@ async function checkServerInactivityAndAlert() {
     }
 }
 
-// ตั้งเวลาให้ฟังก์ชันตรวจสอบทำงานทุกๆ 13 นาทีตรง (13 * 60 * 1000 มิลลิวินาที)
-setInterval(checkServerInactivityAndAlert, 13 * 60 * 1000);
+// ตรวจสอบสถานะทุกๆ 1 นาที แต่จะส่งแจ้งเตือนซ้ำห่างกันทุกๆ 12 ชั่วโมงตามเงื่อนไขด้านบน
+setInterval(checkServerInactivityAndAlert, 60000);
 
 // ==========================================
 
