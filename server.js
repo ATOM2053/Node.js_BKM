@@ -17,8 +17,22 @@ const WEBHOOK_ACTIVITY = process.env.ACTIVITY;
 const WEBHOOK_LEAVE    = process.env.LEAVE;
 const WEBHOOK_APPLY    = process.env.APPLY;
 const WEBHOOK_RESTART  = process.env.RESTART;
-// เพิ่มตัวแปรสำหรับแจ้งเตือนสถานะเซิร์ฟเวอร์ (สามารถใช้ร่วมกับ ACTIVITY ได้)
 const WEBHOOK_ALERT    = process.env.ALERT || process.env.ACTIVITY;
+
+// ==========================================
+// ระบบ Self-Ping ป้องกันเซิร์ฟเวอร์ Render หลับ (AFK อัตโนมัติ)
+// ==========================================
+const RENDER_EXTERNAL_URL = process.env.RENDER_EXTERNAL_URL || `http://localhost:${PORT}`;
+
+setInterval(async () => {
+    try {
+        await fetch(RENDER_EXTERNAL_URL);
+        console.log(`[AFK Auto-Ping] Keep-alive sent to ${RENDER_EXTERNAL_URL} at ${new Date().toLocaleTimeString('th-TH')}`);
+    } catch (err) {
+        console.error('[AFK Auto-Ping Error]:', err.message);
+    }
+}, 10 * 60 * 1000); // ยิงทุกๆ 10 นาที
+// ==========================================
 
 // ระบบป้องกันสแปม (Rate Limiting)
 const requestRateLimit = {};
@@ -78,7 +92,7 @@ app.get('/api/web-online', (req, res) => {
 });
 
 // ==========================================
-// ระบบตรวจสอบคนออนเพื่อแจ้งเตือนเซิร์ฟเวอร์ใกล้ปิดอัตโนมัติ
+// ระบบตรวจสอบคนออนเพื่อแจ้งเตือนเซิร์ฟเวอร์ใกล้ปิด (ตรวจสอบและแจ้งเตือนทุกๆ 13 นาที)
 // ==========================================
 let lastServerAlertTime = 0;
 
@@ -88,8 +102,8 @@ async function checkServerInactivityAndAlert() {
     // ถ้าไม่มีคนออนเลย (0 คน)
     if (onlineCount === 0) {
         const now = Date.now();
-        // ป้องกันไม่ให้ส่งสแปมรัวๆ ให้เว้นช่วงแจ้งเตือนอย่างน้อย 15 นาที
-        if (now - lastServerAlertTime < 15 * 60 * 1000) return;
+        // กำหนดระยะเวลาเว้นช่วงแจ้งเตือนซ้ำเป็น ทุกๆ 13 นาที (13 * 60 * 1000 มิลลิวินาที)
+        if (now - lastServerAlertTime < 13 * 60 * 1000) return;
         lastServerAlertTime = now;
 
         const alertEmbed = {
@@ -121,8 +135,8 @@ async function checkServerInactivityAndAlert() {
     }
 }
 
-// ตรวจสอบทุกๆ 1 นาที (60000 มิลลิวินาที)
-setInterval(checkServerInactivityAndAlert, 60000);
+// ตั้งเวลาให้ฟังก์ชันตรวจสอบทำงานทุกๆ 13 นาทีตรง (13 * 60 * 1000 มิลลิวินาที)
+setInterval(checkServerInactivityAndAlert, 13 * 60 * 1000);
 
 // ==========================================
 
