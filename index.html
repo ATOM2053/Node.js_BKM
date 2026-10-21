@@ -81,16 +81,17 @@
 
         .logo i { color: var(--gold-crown); }
 
+        /* เอฟเฟกต์สีสลับกันไปมาแบบต่อเนื่อง */
         .animated-logo-text {
-            background: linear-gradient(90deg, #38bdf8, #818cf8, #c084fc, #e879f9, #38bdf8);
-            background-size: 300% 100%;
+            background: linear-gradient(270deg, #38bdf8, #c084fc, #f43f5e, #fbbf24, #34d399, #38bdf8);
+            background-size: 400% 400%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: gradientShift 4s ease infinite;
+            animation: rainbowShift 6s ease infinite;
             font-weight: 700;
         }
 
-        @keyframes gradientShift {
+        @keyframes rainbowShift {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
@@ -346,6 +347,8 @@
                 <li><button class="nav-tab" onclick="switchTab('qualifications')"><i class="fa-solid fa-user-check"></i> คุณสมบัติ</button></li>
                 <li><button class="nav-tab" onclick="switchTab('gangRules')"><i class="fa-solid fa-gavel"></i> กฎแก๊ง</button></li>
                 <li><button class="nav-tab" onclick="switchTab('activityRules')"><i class="fa-solid fa-shield-halved"></i> กฎกิจกรรม</button></li>
+                <!-- เมนูเกมเลข ม.4 (ซ่อนไว้ถ้ายังไม่ได้กรอกใบสมัคร หรือกดออกแก๊ง) -->
+                <li><button class="nav-tab" id="gameNavTab" onclick="switchTab('mathGame')" style="display: none;"><i class="fa-solid fa-gamepad"></i> เกมเลข ม.4</button></li>
                 <li><button class="nav-tab" onclick="switchTab('contact')"><i class="fa-solid fa-address-book"></i> ติดต่อ</button></li>
             </ul>
         </div>
@@ -429,6 +432,44 @@
                         </button>
                     </div>
                 </form>
+            </div>
+        </section>
+
+        <!-- หมวดหมู่เกมตอบคำถามคณิตศาสตร์ ม.4 (100 ข้อ ผิดเริ่มใหม่) -->
+        <section id="mathGame" class="page-content">
+            <div class="page-header">
+                <h1 class="page-title">เกมตอบคำถามคณิตศาสตร์ ม.4</h1>
+                <p class="page-subtitle">ทำโจทย์ให้ครบ 100 ข้อ ห้ามตอบผิดแม้แต่ข้อเดียว! (ถ้าผิดเริ่มนับข้อที่ 1 ใหม่)</p>
+            </div>
+            <div class="glass-card form-container" style="max-width: 550px; text-align: center;">
+                <div id="gameStartScreen">
+                    <div style="font-size: 3rem; color: var(--accent-cyan); margin-bottom: 15px;"><i class="fa-solid fa-brain"></i></div>
+                    <h3 style="margin-bottom: 10px; color: #fff;">ท้าทายสมองระดับ ม.4</h3>
+                    <p style="color: var(--text-sub); font-size: 0.9rem; margin-bottom: 20px;">
+                        คุณต้องตอบคำถามคณิตศาสตร์ (เซต, ตรรกศาสตร์, จำนวนจริง, ฟังก์ชัน) ทั้งหมด 100 ข้อติดต่อกันให้ถูกต้อง หากตอบผิด 1 ข้อ เกมจะรีเซ็ตกลับไปเริ่มข้อที่ 1 ทันที!
+                    </p>
+                    <button type="button" class="btn-bkm" onclick="startMathGame()"><i class="fa-solid fa-play"></i> เริ่มเล่นเกม</button>
+                </div>
+
+                <div id="gamePlayScreen" style="display: none; text-align: left;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; font-size: 0.9rem;">
+                        <span style="color: var(--accent-cyan); font-weight: bold;" id="gameProgressText">ข้อที่ 1 / 100</span>
+                        <span style="color: var(--red-warning);" id="gameFailCount">ผิดพลาด: 0 ครั้ง</span>
+                    </div>
+                    <div id="questionBox" style="font-size: 1.1rem; font-weight: 600; color: #fff; margin-bottom: 20px; background: rgba(6, 9, 17, 0.6); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color); text-align: center;">
+                        โจทย์คำถาม...
+                    </div>
+                    <div id="choicesBox" style="display: flex; flex-direction: column; gap: 10px;">
+                        <!-- ตัวเลือก -->
+                    </div>
+                </div>
+
+                <div id="gameWinScreen" style="display: none; text-align: center;">
+                    <div style="font-size: 3.5rem; color: #4ade80; margin-bottom: 15px;"><i class="fa-solid fa-trophy"></i></div>
+                    <h2 style="color: #fff; margin-bottom: 10px;">สุดยอดมาก! ผ่าน 100 ข้อแล้ว!</h2>
+                    <p style="color: var(--text-sub); margin-bottom: 20px;">คุณมีความรู้ความสามารถทางคณิตศาสตร์ ม.4 ยอดเยี่ยมสมเป็นสมาชิก BKM!</p>
+                    <button type="button" class="btn-bkm" onclick="startMathGame()">เล่นใหม่อีกรอบ</button>
+                </div>
             </div>
         </section>
 
@@ -779,6 +820,9 @@
                     localStorage.removeItem('bkm_my_application');
                     localStorage.removeItem('bkm_user_avatar');
 
+                    // ซ่อนเมนูเกมเมื่อออกแก๊ง
+                    checkMemberStatus();
+
                     showBKMModal({
                         icon: "fa-solid fa-skull",
                         title: "ลาก่อนนะพี่น้อง... ขอให้โชคดี 🥀",
@@ -794,7 +838,138 @@
         let myIcName = localStorage.getItem('bkm_user_ic') || '';
         let myVisitorId = myIcName || ('Visitor_' + Math.floor(Math.random() * 10000));
 
-        window.addEventListener('DOMContentLoaded', () => { loadProfileData(); });
+        window.addEventListener('DOMContentLoaded', () => { 
+            loadProfileData(); 
+            checkMemberStatus();
+        });
+
+        // ฟังก์ชันตรวจสอบสถานะการเป็นสมาชิก เพื่อซ่อน/แสดง เมนูเกม ม.4
+        function checkMemberStatus() {
+            const localApp = JSON.parse(localStorage.getItem('bkm_my_application') || '{}');
+            const gameNavTab = document.getElementById('gameNavTab');
+            if (localApp && localApp.icName) {
+                // หากกรอกใบสมัครแล้ว แสดงเมนูเกม
+                if(gameNavTab) gameNavTab.style.display = 'flex';
+            } else {
+                // หากยังไม่กรอก หรือ ออกแก๊งไปแล้ว ซ่อนเมนูเกม
+                if(gameNavTab) gameNavTab.style.display = 'none';
+            }
+        }
+
+        // ระบบเกมตอบคำถามคณิตศาสตร์ ม.4 (100 ข้อ ผิดเริ่มใหม่)
+        let currentGameQuestion = 1;
+        const totalGameQuestions = 100;
+        let gameFailCount = 0;
+        let currentCorrectAnswer = 0;
+
+        function startMathGame() {
+            currentGameQuestion = 1;
+            gameFailCount = 0;
+            document.getElementById('gameStartScreen').style.display = 'none';
+            document.getElementById('gameWinScreen').style.display = 'none';
+            document.getElementById('gamePlayScreen').style.display = 'block';
+            loadNextMathQuestion();
+        }
+
+        function loadNextMathQuestion() {
+            if (currentGameQuestion > totalGameQuestions) {
+                document.getElementById('gamePlayScreen').style.display = 'none';
+                document.getElementById('gameWinScreen').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('gameProgressText').innerText = `ข้อที่ ${currentGameQuestion} / ${totalGameQuestions}`;
+            document.getElementById('gameFailCount').innerText = `ผิดพลาด: ${gameFailCount} ครั้ง`;
+
+            // สุ่มโจทย์เลขระดับ ม.4 ง่าย-ปานกลาง (เซต, ตรรกศาสตร์, ฟังก์ชัน, จำนวนจริง)
+            const qType = Math.floor(Math.random() * 4);
+            let questionText = "";
+            let correctAnswer = 0;
+            let choices = [];
+
+            if (qType === 0) {
+                // เซต: หาจำนวนสมาชิกของ A union B
+                const nA = Math.floor(Math.random() * 15) + 5;
+                const nB = Math.floor(Math.random() * 15) + 5;
+                const nIntersect = Math.floor(Math.random() * 4) + 1;
+                correctAnswer = nA + nB - nIntersect;
+                questionText = `กำหนดให้ n(A) = ${nA}, n(B) = ${nB} และ n(A ∩ B) = ${nIntersect} จงหาค่า n(A ∪ B)`;
+            } else if (qType === 1) {
+                // ตรรกศาสตร์: ค่าความจริง ประพจน์
+                const p = Math.random() < 0.5;
+                const q = Math.random() < 0.5;
+                // สมมติถามค่าความจริงของ p -> q (ถ้า p แล้ว q)
+                correctAnswer = (!p || q) ? "จริง (T)" : "เท็จ (F)";
+                questionText = `กำหนดให้ประพจน์ p มีค่าความจริงเป็น ${p ? 'T' : 'F'} และ q มีค่าความจริงเป็น ${q ? 'T' : 'F'} จงหาค่าความจริงของประพจน์ (p → q)`;
+                
+                // สำหรับตรรกศาสตร์เซ็ตตัวเลือกแบบ T/F
+                choices = ["จริง (T)", "เท็จ (F)"];
+                // เติมตัวเลือกหลอกถ้าจำเป็น
+                if(choices.length < 4) {
+                    if(correctAnswer === "จริง (T)") choices.push("เท็จ (F)");
+                    else choices.push("จริง (T)");
+                }
+            } else if (qType === 2) {
+                // จำนวนจริง / พหุนาม: แยกตัวประกอบ หรือแก้สมการดีกรี 1 / 2
+                const a = Math.floor(Math.random() * 5) + 1;
+                const b = Math.floor(Math.random() * 10) + 1;
+                correctAnswer = -b;
+                questionText = `จงหาคำตอบของสมการ: x + ${b} = 0`;
+            } else {
+                // ฟังก์ชัน: หาค่า f(x)
+                const m = Math.floor(Math.random() * 4) + 2;
+                const c = Math.floor(Math.random() * 10) + 1;
+                const x = Math.floor(Math.random() * 5) + 1;
+                correctAnswer = m * x + c;
+                questionText = `กำหนดให้ f(x) = ${m}x + ${c} จงหาค่าของ f(${x})`;
+            }
+
+            // ถ้าไม่ใช่ข้อตรรกศาสตร์ ให้สุ่มสร้างตัวเลือกตัวเลข 4 ตัว
+            if (qType !== 1) {
+                choices = [correctAnswer];
+                while (choices.length < 4) {
+                    let wrong = correctAnswer + (Math.floor(Math.random() * 10) - 5);
+                    if (wrong !== correctAnswer && !choices.includes(wrong)) {
+                        choices.push(wrong);
+                    }
+                }
+                // สลับตำแหน่งตัวเลือก
+                choices.sort(() => Math.random() - 0.5);
+            }
+
+            currentCorrectAnswer = correctAnswer;
+
+            document.getElementById('questionBox').innerHTML = questionText;
+            const choicesContainer = document.getElementById('choicesBox');
+            choicesContainer.innerHTML = '';
+
+            choices.forEach(choice => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'bkm-modal-btn bkm-btn-option';
+                btn.style.padding = '12px';
+                btn.innerText = choice;
+                btn.onclick = () => checkMathAnswer(choice, correctAnswer);
+                choicesContainer.appendChild(btn);
+            });
+        }
+
+        function checkMathAnswer(selected, correct) {
+            if (selected == correct) {
+                // ตอบถูก ไปข้อต่อไป
+                currentGameQuestion++;
+                loadNextMathQuestion();
+            } else {
+                // ตอบผิด! ผิดเริ่มนับข้อที่ 1 ใหม่ทันที
+                gameFailCount++;
+                showBKMModal({
+                    icon: "fa-solid fa-triangle-exclamation",
+                    title: "ตอบผิดครับ! เริ่มนับข้อที่ 1 ใหม่",
+                    desc: `คุณตอบผิดที่ข้อ ${currentGameQuestion} (คำตอบที่ถูกต้องคือ: <b>${correct}</b>)<br>ระบบได้รีเซ็ตกลับไปเริ่มข้อที่ 1 ใหม่แล้ว ตั้งใจทำให้น้า!`,
+                    actionHtml: `<button type="button" class="bkm-modal-btn bkm-btn-ok" onclick="closeBKMModal(); startMathGame();">เริ่มทำใหม่</button>`
+                });
+            }
+        }
 
         setInterval(() => {
             fetch('/api/heartbeat', {
@@ -862,6 +1037,9 @@
             };
 
             localStorage.setItem('bkm_my_application', JSON.stringify(data));
+
+            // แสดงเมนูเกมทันทีเมื่อสมัครสำเร็จ
+            checkMemberStatus();
 
             try {
                 const res = await fetch('/api/apply', {
