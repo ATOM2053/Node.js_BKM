@@ -50,10 +50,7 @@
 
         .navbar {
             position: relative;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 2000;
+            top: 0; left: 0; width: 100%; z-index: 2000;
             background: rgba(6, 9, 17, 0.98);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border-color);
@@ -61,27 +58,15 @@
         }
 
         .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 65px;
-            max-width: 1100px;
+            display: flex; justify-content: space-between; align-items: center; height: 65px; max-width: 1100px;
         }
 
         .logo {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--text-main);
-            text-decoration: none;
-            cursor: pointer;
+            display: flex; align-items: center; gap: 8px; font-size: 1.1rem; font-weight: 700; color: var(--text-main); text-decoration: none; cursor: pointer;
         }
 
         .logo i { color: var(--gold-crown); }
 
-        /* เอฟเฟกต์สีสลับกันไปมาแบบต่อเนื่อง */
         .animated-logo-text {
             background: linear-gradient(270deg, #38bdf8, #c084fc, #f43f5e, #fbbf24, #34d399, #38bdf8);
             background-size: 400% 400%;
@@ -98,42 +83,21 @@
         }
 
         .nav-links {
-            display: flex;
-            gap: 5px;
-            list-style: none;
-            flex-wrap: wrap;
+            display: flex; gap: 5px; list-style: none; flex-wrap: wrap;
         }
 
         .nav-tab {
-            background: transparent;
-            border: none;
-            color: var(--text-sub);
-            padding: 6px 10px;
-            font-size: 0.82rem;
-            font-weight: 500;
-            cursor: pointer;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 5px;
+            background: transparent; border: none; color: var(--text-sub); padding: 6px 10px; font-size: 0.82rem; font-weight: 500; cursor: pointer; border-radius: 6px; transition: all 0.3s ease; display: flex; align-items: center; gap: 5px;
         }
 
         .nav-tab:hover { color: var(--accent-cyan); background: rgba(56, 189, 248, 0.1); }
         .nav-tab.active {
-            color: #fff;
-            background: linear-gradient(135deg, var(--accent-deep) 0%, var(--accent-blue) 100%);
-            box-shadow: 0 0 10px var(--accent-glow);
+            color: #fff; background: linear-gradient(135deg, var(--accent-deep) 0%, var(--accent-blue) 100%); box-shadow: 0 0 10px var(--accent-glow);
         }
 
         .menu-toggle { display: none; font-size: 1.4rem; color: var(--text-main); cursor: pointer; }
 
-        main {
-            flex: 1;
-            padding-top: 25px;
-            padding-bottom: 40px;
-        }
-
+        main { flex: 1; padding-top: 25px; padding-bottom: 40px; }
         .page-content { display: none; animation: fadeIn 0.3s ease-in-out; }
         .page-content.active { display: block; }
 
@@ -144,44 +108,21 @@
 
         .page-header { text-align: center; margin-bottom: 25px; }
         .page-title {
-            font-size: 1.75rem;
-            font-weight: 700;
+            font-size: 1.75rem; font-weight: 700;
             background: linear-gradient(135deg, #ffffff 30%, var(--accent-cyan) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             margin-bottom: 6px;
         }
         .page-subtitle { color: var(--text-sub); font-size: 0.88rem; }
 
         .glass-card {
-            background: var(--bg-card);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            padding: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            margin-bottom: 20px;
+            background: var(--bg-card); backdrop-filter: blur(12px); border: 1px solid var(--border-color); border-radius: 14px; padding: 20px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); margin-bottom: 20px;
         }
 
         .btn-bkm {
             background: linear-gradient(135deg, var(--accent-deep) 0%, var(--accent-blue) 100%);
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 0 12px var(--accent-glow);
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            text-decoration: none;
-            width: 100%;
+            color: #fff; padding: 10px 20px; border-radius: 25px; font-size: 0.9rem; font-weight: 600; border: none; cursor: pointer; box-shadow: 0 0 12px var(--accent-glow); transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; width: 100%;
         }
-
         .btn-bkm:hover { transform: translateY(-2px); box-shadow: 0 0 18px rgba(56, 189, 248, 0.6); }
 
         .form-container { max-width: 600px; margin: 0 auto; }
@@ -191,30 +132,12 @@
         .form-group label i { color: var(--accent-cyan); }
         
         .form-control {
-            background: rgba(6, 9, 17, 0.9);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 11px 14px;
-            color: #fff;
-            font-size: 0.92rem;
-            outline: none;
-            width: 100%;
+            background: rgba(6, 9, 17, 0.9); border: 1px solid var(--border-color); border-radius: 8px; padding: 11px 14px; color: #fff; font-size: 0.92rem; outline: none; width: 100%;
         }
         .form-control:focus { border-color: var(--accent-cyan); box-shadow: 0 0 8px var(--accent-glow); }
         
         .custom-select-btn {
-            background: rgba(6, 9, 17, 0.9);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 11px 14px;
-            color: #cbd5e1;
-            font-size: 0.92rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            width: 100%;
-            text-align: left;
+            background: rgba(6, 9, 17, 0.9); border: 1px solid var(--border-color); border-radius: 8px; padding: 11px 14px; color: #cbd5e1; font-size: 0.92rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer; width: 100%; text-align: left;
         }
         .custom-select-btn.selected { color: #fff; border-color: var(--accent-cyan); }
 
@@ -223,38 +146,16 @@
         .form-section-title { font-size: 1.05rem; color: var(--accent-cyan); font-weight: 600; display: flex; align-items: center; gap: 6px; margin-top: 5px; }
 
         .bkm-modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(6, 9, 17, 0.88);
-            backdrop-filter: blur(8px);
-            z-index: 9999;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(6, 9, 17, 0.88); backdrop-filter: blur(8px); z-index: 9999; display: none; align-items: center; justify-content: center; padding: 20px;
         }
         .bkm-modal-box {
-            background: #0f172a;
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            width: 100%;
-            max-width: 420px;
-            padding: 25px;
-            text-align: center;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-            animation: modalPop 0.3s ease-out;
-        }
-        @keyframes modalPop {
-            from { transform: scale(0.85); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+            background: #0f172a; border: 1px solid var(--border-color); border-radius: 16px; width: 100%; max-width: 420px; padding: 25px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.6);
         }
         .bkm-modal-icon { font-size: 2.5rem; color: var(--accent-cyan); margin-bottom: 12px; }
         .bkm-modal-title { font-size: 1.25rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
         .bkm-modal-desc { font-size: 0.9rem; color: var(--text-sub); margin-bottom: 20px; line-height: 1.5; }
         .bkm-modal-btns { display: flex; flex-direction: column; gap: 10px; }
-        .bkm-modal-btn {
-            width: 100%; padding: 12px; border-radius: 12px; font-weight: 600; font-size: 0.95rem; cursor: pointer; border: 1px solid var(--border-color); transition: 0.2s;
-        }
+        .bkm-modal-btn { width: 100%; padding: 12px; border-radius: 12px; font-weight: 600; font-size: 0.95rem; cursor: pointer; border: 1px solid var(--border-color); transition: 0.2s; }
         .bkm-btn-option { background: rgba(15, 23, 42, 0.9); color: #fff; text-align: center; }
         .bkm-btn-option:hover { background: var(--accent-deep); border-color: var(--accent-cyan); }
         .bkm-btn-confirm { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; border:none; }
@@ -287,35 +188,13 @@
 
         .footer { background: rgba(6, 9, 17, 0.95); border-top: 1px solid var(--border-color); padding: 15px 0; text-align: center; color: var(--text-sub); font-size: 0.8rem; margin-top: auto; }
 
-        @media (max-width: 868px) {
+        @media (max-width: 960px) {
             .menu-toggle { display: block; }
             .nav-links {
-                position: absolute;
-                top: 65px;
-                left: -100%;
-                width: 100%;
-                background: rgba(6, 9, 17, 0.98);
-                backdrop-filter: blur(25px);
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
-                padding: 20px 15px;
-                align-content: start;
-                transition: all 0.3s ease;
-                z-index: 1999;
-                border-top: 1px solid var(--border-color);
-                box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+                position: absolute; top: 65px; left: -100%; width: 100%; background: rgba(6, 9, 17, 0.98); backdrop-filter: blur(25px); display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 20px 15px; align-content: start; transition: all 0.3s ease; z-index: 1999; border-top: 1px solid var(--border-color); box-shadow: 0 10px 20px rgba(0,0,0,0.5);
             }
             .nav-links.active { left: 0; }
-            .nav-tab {
-                width: 100%;
-                justify-content: flex-start;
-                padding: 12px 14px;
-                font-size: 0.88rem;
-                background: rgba(15, 23, 42, 0.8);
-                border: 1px solid var(--border-color);
-                border-radius: 10px;
-            }
+            .nav-tab { width: 100%; justify-content: flex-start; padding: 12px 14px; font-size: 0.88rem; background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border-color); border-radius: 10px; }
         }
     </style>
 </head>
@@ -341,13 +220,15 @@
                 <li><button class="nav-tab active" onclick="switchTab('apply')"><i class="fa-solid fa-file-pen"></i> กรอกใบสมัคร</button></li>
                 <li><button class="nav-tab" onclick="switchTab('myApplication')"><i class="fa-solid fa-id-card"></i> เช็คใบสมัคร</button></li>
                 <li><button class="nav-tab" onclick="switchTab('profile')"><i class="fa-solid fa-user-circle"></i> โปรไฟล์</button></li>
-                <li><button class="nav-tab" onclick="switchTab('applicationsList')"><i class="fa-solid fa-list-check"></i> ดูใบสมัครทั้งหมด</button></li>
-                <li><button class="nav-tab" onclick="switchTab('memberList')"><i class="fa-solid fa-users"></i> สมาชิก & ออนไลน์</button></li>
+                <li><button class="nav-tab" onclick="switchTab('checkinSection')"><i class="fa-solid fa-clipboard-check"></i> เช็กชื่อกิจกรรม</button></li>
+                <li><button class="nav-tab" onclick="switchTab('treasurySection')"><i class="fa-solid fa-box-archive"></i> คลังแก๊ง</button></li>
+                <li><button class="nav-tab" onclick="switchTab('leaderboardSection')"><i class="fa-solid fa-trophy"></i> จัดอันดับ</button></li>
+                <li><button class="nav-tab" onclick="switchTab('applicationsList')"><i class="fa-solid fa-list-check"></i> รายการใบสมัคร</button></li>
+                <li><button class="nav-tab" onclick="switchTab('memberList')"><i class="fa-solid fa-users"></i> ออนไลน์เว็บ</button></li>
                 <li><button class="nav-tab" onclick="switchTab('leaveGang')"><i class="fa-solid fa-right-from-bracket"></i> ขอออกแก๊ง</button></li>
                 <li><button class="nav-tab" onclick="switchTab('qualifications')"><i class="fa-solid fa-user-check"></i> คุณสมบัติ</button></li>
                 <li><button class="nav-tab" onclick="switchTab('gangRules')"><i class="fa-solid fa-gavel"></i> กฎแก๊ง</button></li>
                 <li><button class="nav-tab" onclick="switchTab('activityRules')"><i class="fa-solid fa-shield-halved"></i> กฎกิจกรรม</button></li>
-                <!-- เมนูเกมเลข ม.4 (ซ่อนไว้ถ้ายังไม่ได้กรอกใบสมัคร หรือกดออกแก๊ง) -->
                 <li><button class="nav-tab" id="gameNavTab" onclick="switchTab('mathGame')" style="display: none;"><i class="fa-solid fa-gamepad"></i> เกมเลข ม.4</button></li>
                 <li><button class="nav-tab" onclick="switchTab('contact')"><i class="fa-solid fa-address-book"></i> ติดต่อ</button></li>
             </ul>
@@ -355,6 +236,7 @@
     </nav>
 
     <main class="container">
+        <!-- 1. หน้ากรอกใบสมัคร -->
         <section id="apply" class="page-content active">
             <div class="page-header">
                 <h1 class="page-title">แบบฟอร์มสมัครเข้าแก๊ง BKM</h1>
@@ -435,7 +317,7 @@
             </div>
         </section>
 
-        <!-- หมวดหมู่เกมตอบคำถามคณิตศาสตร์ ม.4 (100 ข้อ ผิดเริ่มใหม่) -->
+        <!-- 2. เกมคณิตศาสตร์ ม.4 -->
         <section id="mathGame" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">เกมตอบคำถามคณิตศาสตร์ ม.4</h1>
@@ -446,7 +328,7 @@
                     <div style="font-size: 3rem; color: var(--accent-cyan); margin-bottom: 15px;"><i class="fa-solid fa-brain"></i></div>
                     <h3 style="margin-bottom: 10px; color: #fff;">ท้าทายสมองระดับ ม.4</h3>
                     <p style="color: var(--text-sub); font-size: 0.9rem; margin-bottom: 20px;">
-                        คุณต้องตอบคำถามคณิตศาสตร์ (เซต, ตรรกศาสตร์, จำนวนจริง, ฟังก์ชัน) ทั้งหมด 100 ข้อติดต่อกันให้ถูกต้อง หากตอบผิด 1 ข้อ เกมจะรีเซ็ตกลับไปเริ่มข้อที่ 1 ทันที!
+                        คุณต้องตอบคำถามคณิตศาสตร์ทั้ง 100 ข้อติดต่อกันให้ถูกต้อง หากตอบผิด 1 ข้อ เกมจะรีเซ็ตกลับไปเริ่มข้อที่ 1 ทันที!
                     </p>
                     <button type="button" class="btn-bkm" onclick="startMathGame()"><i class="fa-solid fa-play"></i> เริ่มเล่นเกม</button>
                 </div>
@@ -459,20 +341,101 @@
                     <div id="questionBox" style="font-size: 1.1rem; font-weight: 600; color: #fff; margin-bottom: 20px; background: rgba(6, 9, 17, 0.6); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color); text-align: center;">
                         โจทย์คำถาม...
                     </div>
-                    <div id="choicesBox" style="display: flex; flex-direction: column; gap: 10px;">
-                        <!-- ตัวเลือก -->
-                    </div>
+                    <div id="choicesBox" style="display: flex; flex-direction: column; gap: 10px;"></div>
                 </div>
 
                 <div id="gameWinScreen" style="display: none; text-align: center;">
                     <div style="font-size: 3.5rem; color: #4ade80; margin-bottom: 15px;"><i class="fa-solid fa-trophy"></i></div>
                     <h2 style="color: #fff; margin-bottom: 10px;">สุดยอดมาก! ผ่าน 100 ข้อแล้ว!</h2>
-                    <p style="color: var(--text-sub); margin-bottom: 20px;">คุณมีความรู้ความสามารถทางคณิตศาสตร์ ม.4 ยอดเยี่ยมสมเป็นสมาชิก BKM!</p>
+                    <p style="color: var(--text-sub); margin-bottom: 20px;">คุณมีความรู้ความสามารถทางคณิตศาสตร์ยอดเยี่ยมสมเป็นสมาชิก BKM!</p>
                     <button type="button" class="btn-bkm" onclick="startMathGame()">เล่นใหม่อีกรอบ</button>
                 </div>
             </div>
         </section>
 
+        <!-- 3. เช็กชื่อเข้ากิจกรรมแก๊ง -->
+        <section id="checkinSection" class="page-content">
+            <div class="page-header">
+                <h1 class="page-title">ระบบเช็กชื่อเข้ากิจกรรม</h1>
+                <p class="page-subtitle">ลงทะเบียนการเข้าร่วมกิจกรรมเพื่อบันทึกประวัติให้หัวหน้าแก๊งตรวจสอบ</p>
+            </div>
+            <div class="glass-card form-container" style="max-width: 500px;">
+                <form id="checkinForm">
+                    <div class="form-stack">
+                        <div class="form-group">
+                            <label for="checkinName"><i class="fa-solid fa-signature"></i> ชื่อ IC ของคุณ</label>
+                            <input type="text" id="checkinName" class="form-control" placeholder="เช่น Bael" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-shield-halved"></i> เลือกกิจกรรม</label>
+                            <select id="activityType" class="form-control" style="background: rgba(6, 9, 17, 0.9); color: #fff;">
+                                <option value="AirDrop (รอบ 13:00 / 18:00 / 21:00)">📦 AirDrop</option>
+                                <option value="ยึดคุก Pawria Town">🏰 ยึดคุก Pawria Town</option>
+                                <option value="กิจกรรมยึดโซน">🛡️ ยึดโซน</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-bkm" style="background: linear-gradient(135deg, #059669, #10b981);">
+                            <i class="fa-solid fa-clipboard-check"></i> บันทึกเช็กชื่อกิจกรรม
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- 4. คลังแก๊ง (เบิก-ฝาก) -->
+        <section id="treasurySection" class="page-content">
+            <div class="page-header">
+                <h1 class="page-title">ระบบคลังแก๊ง (เบิก / ฝากของ)</h1>
+                <p class="page-subtitle">แจ้งบันทึกการเบิกหรือฝากอุปกรณ์เข้าคลังตระกูล</p>
+            </div>
+            <div class="glass-card form-container" style="max-width: 500px;">
+                <form id="treasuryForm">
+                    <div class="form-stack">
+                        <div class="form-group">
+                            <label for="treasuryName"><i class="fa-solid fa-signature"></i> ชื่อ IC ของคุณ</label>
+                            <input type="text" id="treasuryName" class="form-control" placeholder="เช่น Bael" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fa-solid fa-exchange-alt"></i> ประเภทรายการ</label>
+                            <select id="treasuryType" class="form-control" style="background: rgba(6, 9, 17, 0.9); color: #fff;">
+                                <option value="เบิกของ">📤 เบิกของออกจากคลัง</option>
+                                <option value="ฝากของ">📥 ฝากของเข้าคลัง</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemName"><i class="fa-solid fa-box"></i> ชื่อสิ่งของ</label>
+                            <input type="text" id="itemName" class="form-control" placeholder="เช่น เกราะหนัก, ยาฟื้นฟู" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemQty"><i class="fa-solid fa-hashtag"></i> จำนวน</label>
+                            <input type="text" id="itemQty" class="form-control" placeholder="เช่น 5 ชิ้น" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemNote"><i class="fa-solid fa-note-sticky"></i> หมายเหตุ (ถ้ามี)</label>
+                            <input type="text" id="itemNote" class="form-control" placeholder="เช่น เอาไปลงวอร์โซน">
+                        </div>
+                        <button type="submit" class="btn-bkm" style="background: linear-gradient(135deg, #d97706, #f59e0b);">
+                            <i class="fa-solid fa-box-archive"></i> ส่งรายการเข้าคลัง Discord
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- 5. จัดอันดับ (Leaderboard) -->
+        <section id="leaderboardSection" class="page-content">
+            <div class="page-header">
+                <h1 class="page-title">🏆 กระดานจัดอันดับ (Leaderboard)</h1>
+                <p class="page-subtitle">Top 5 สมาชิกผู้ขยันร่วมกิจกรรมตระกูลสูงสุด</p>
+            </div>
+            <div class="glass-card form-container" style="max-width: 600px;">
+                <div id="leaderboardList" style="display: flex; flex-direction: column; gap: 10px;">
+                    <p style="text-align: center; color: var(--text-sub);">กำลังโหลดข้อมูลอันดับ...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. ตรวจสอบใบสมัครของฉัน -->
         <section id="myApplication" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">ตรวจสอบใบสมัครของฉัน</h1>
@@ -490,6 +453,7 @@
             </div>
         </section>
 
+        <!-- 7. โปรไฟล์สมาชิก -->
         <section id="profile" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">โปรไฟล์สมาชิก BKM</h1>
@@ -511,11 +475,13 @@
             </div>
         </section>
 
+        <!-- 8. รายการใบสมัครทั้งหมด -->
         <section id="applicationsList" class="page-content">
             <div class="page-header"><h1 class="page-title">รายการใบสมัครทั้งหมด</h1></div>
             <div class="glass-card"><div id="appListContainer" style="display: flex; flex-direction: column; gap: 10px;">กำลังโหลด...</div></div>
         </section>
 
+        <!-- 9. สมาชิก & ออนไลน์เว็บ -->
         <section id="memberList" class="page-content">
             <div class="page-header"><h1 class="page-title">สมาชิก & สถานะคนออนเว็บ</h1></div>
             <div class="glass-card">
@@ -526,6 +492,7 @@
             </div>
         </section>
 
+        <!-- 10. ขอออกแก๊ง -->
         <section id="leaveGang" class="page-content">
             <div class="page-header"><h1 class="page-title">ระบบขอออกแก๊ง</h1></div>
             <div class="glass-card form-container" style="max-width: 500px;">
@@ -543,12 +510,12 @@
             </div>
         </section>
 
+        <!-- 11. คุณสมบัติ -->
         <section id="qualifications" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">คุณสมบัติผู้สมัคร (QUALIFICATIONS)</h1>
                 <p class="page-subtitle">ข้อกำหนดสำหรับผู้ที่ต้องการเข้าร่วมตระกูล BLACK KINGDOM 🌊 🩵</p>
             </div>
-            
             <div class="qual-grid">
                 <div class="qual-card">
                     <div class="qual-icon"><i class="fa-solid fa-venus-mars"></i></div>
@@ -566,49 +533,10 @@
                     <div class="qual-icon"><i class="fa-solid fa-handshake"></i></div>
                     <div class="qual-text"><h4>ให้เกียรติกัน <span class="badge-important">สำคัญมาก</span></h4><p>พูดจาสุภาพ ให้เกียรติพี่น้องและผู้อื่นเสมอ</p></div>
                 </div>
-                <div class="qual-card">
-                    <div class="qual-icon"><i class="fa-solid fa-clock"></i></div>
-                    <div class="qual-text"><h4>มีเวลาให้ & ออน 3 ชม.+</h4><p>มีเวลาเล่นประจำ พร้อมร่วมกิจกรรมตระกูล</p></div>
-                </div>
-                <div class="qual-card">
-                    <div class="qual-icon"><i class="fa-solid fa-calendar-check"></i></div>
-                    <div class="qual-text"><h4>รับอายุ 15 ปีขึ้นไป</h4><p>ต่ำกว่า 15 ปี จะได้รับการพิจารณาเป็นกรณีพิเศษ</p></div>
-                </div>
-                <div class="qual-card">
-                    <div class="qual-icon"><i class="fa-solid fa-user-ninja"></i></div>
-                    <div class="qual-text"><h4>รับแรงกดดันได้ดี</h4><p>พร้อมรับฟัง อดทน และแก้ไขในทุกสถานการณ์</p></div>
-                </div>
-                <div class="qual-card">
-                    <div class="qual-icon"><i class="fa-solid fa-shield-heart"></i></div>
-                    <div class="qual-text"><h4>ไม่หักหลังตระกูล <span class="badge-important">สำคัญมาก</span></h4><p>ซื่อสัตย์ ไม่นำข้อมูลหรือสกินไปเผยแพร่</p></div>
-                </div>
-                <div class="qual-card">
-                    <div class="qual-icon"><i class="fa-solid fa-crown"></i></div>
-                    <div class="qual-text"><h4>เชื่อฟังหลีด / รองหลีด</h4><p>เคารพคำสั่งและการตัดสินใจของผู้นำ</p></div>
-                </div>
-                <div class="qual-card">
-                    <div class="qual-icon"><i class="fa-solid fa-clipboard-check"></i></div>
-                    <div class="qual-text"><h4>ทำตามกฎได้ทุกข้อ</h4><p>ปฏิบัติตามกฎระเบียบของแก๊งอย่างเคร่งครัด</p></div>
-                </div>
-                <div class="qual-card">
-                    <div class="qual-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
-                    <div class="qual-text"><h4>รับทั้ง MB / PC</h4><p>รองรับผู้เล่นทั้งมือถือและคอมพิวเตอร์</p></div>
-                </div>
-                <div class="qual-card">
-                    <div class="qual-icon"><i class="fa-solid fa-gun"></i></div>
-                    <div class="qual-text"><h4>มีอาวุธประจำตัว</h4><p>หากไม่มีจะได้รับการพิจารณาตามความเหมาะสม</p></div>
-                </div>
-            </div>
-
-            <div style="background: linear-gradient(135deg, rgba(2, 132, 199, 0.2) 0%, rgba(56, 189, 248, 0.05) 100%); border: 1px solid var(--accent-blue); border-radius: 14px; padding: 20px; text-align: center; margin-top: 20px;">
-                <h3 style="color: var(--accent-cyan); font-size: 1.15rem; margin-bottom: 8px;"><i class="fa-solid fa-fire"></i> รันกิจกรรม 100% พร้อมลุยทุกกิจกรรม!</h3>
-                <p style="font-size: 0.88rem; color: var(--text-sub);">
-                    ทุกกิจกรรมไม่ว่าจะเป็น <b>แอร์ดรอป, ยึดโซน, ยึดคุก</b><br>
-                    <b style="color: #fca5a5;">*ไม่สร้างปัญหามาให้ หากสร้างปัญหาแล้วต้องรับผิดชอบด้วยนะคะ*</b>
-                </p>
             </div>
         </section>
 
+        <!-- 12. กฎแก๊ง -->
         <section id="gangRules" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">กฎการโดนใบ</h1>
@@ -618,81 +546,26 @@
                 <div class="penalty-grid">
                     <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">1.</span> สมาชิกต้องฟังคำสั่งจากหลีดรองหลีดผ่าฝืน <span style="color:var(--yellow-warning);">ใบเหลือง🟨/ใบส้ม🟧</span></div>
                     <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">2.</span> นำพาความเดือดร้อนมาให้ตระกูลโดยไม่รับผิดชอบ <span style="color:var(--red-warning);">ใบแดง🟥/ใบดำ⬛</span></div>
-                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">3.</span> นำพาผู้อื่นหรือคนภายนอกเข้าดิสโดยไม่ได้อนุญาต <span style="color:var(--yellow-warning);">ใบเหลือง🟨</span></div>
-                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">4.</span> นำสกินแก๊งไปขายหรือจำหน่ายให้ผู้อื่น <span style="color:var(--red-warning);">ใบแดง🟥/ใบดำ⬛</span></div>
-                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">5.</span> เล่นโปรเล่นมอด <span style="color:var(--text-main);">ใบดำ⬛</span></div>
-                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">6.</span> ด่าเรื้อนไปด่าแก็งอื่น <span style="color:var(--orange-warning);">ใบส้ม🟧</span></div>
-                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">7.</span> ไม่เชื่อฟังผู้คุมสายสตอรี่ <span style="color:var(--yellow-warning);">ใบเหลือง🟨/ใบส้ม🟧</span></div>
-                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">8.</span> ไม่มีความรับผิดชอบ <span style="color:var(--yellow-warning);">ใบเหลือง🟨</span></div>
-                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">9.</span> สอบสวนแล้วให้การเท็จ <span style="color:var(--red-warning);">ใบแดง🟥</span></div>
-                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">10.</span> แจ้งลาโดยสาเหตุไม่ชัดเจน <span style="color:var(--yellow-warning);">ใบเหลือง🟨</span></div>
-                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">11.</span> ส่งลิ้งค์ดิสมั่ว <span style="color:var(--yellow-warning);">ใบเหลือง🟨</span></div>
-                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">12.</span> ด่าบุพการี <span style="color:var(--orange-warning);">ใบส้ม🟧</span></div>
-                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">13.</span> ผ่าฝืนกดคลูดาวห์พบเจอสถานที่ต้องห้าม <span style="color:var(--red-warning);">โดน×2 🚫</span></div>
-                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">14.</span> นำข้อมูลภายในแก็งไปเผยแพร่ <span style="color:var(--red-warning);">ใบแดง🟥/ใบดำ⬛</span></div>
-                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">15.</span> ไม่จ่ายเงินแก๊ง <span style="color:var(--yellow-warning);">ใบเหลือง🟨</span></div>
-                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">16.</span> ร่วมมือกับแก๊งอื่นในกิจกรรมยึดคุก/อื่นๆ <span style="color:var(--red-warning);">โดนใบ 🟥</span></div>
-                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">17.</span> มีปัญหา เรื้อน หรือทำร้ายพันธมิตร <span style="color:var(--text-main);">โดนใบ⬛️</span></div>
-                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">18.</span> คนในแก๊งทำโพเทคแก๊งแตก <span style="color:var(--yellow-warning);">ใบ🟨+เสียค่าโพเทค</span></div>
                 </div>
             </div>
         </section>
 
+        <!-- 13. กฎกิจกรรม -->
         <section id="activityRules" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">กฎการเล่นกิจกรรมแก๊ง</h1>
                 <p class="page-subtitle">ข้อบังคับในการลงเล่นกิจกรรม AirDrop, ยึดคุก และ วอยึดโซน</p>
             </div>
-
-            <div class="glass-card" style="margin-bottom: 20px;">
-                <h3 style="color: var(--accent-cyan); margin-bottom: 10px; font-size: 1.05rem;"><i class="fa-solid fa-burst"></i> กฎวอยึดโซน</h3>
-                <ul class="rule-list">
-                    <li><i class="fa-solid fa-check"></i> ห้าม DB หรือ ขับรถชนในโซน (ใบเหลือง)</li>
-                    <li><i class="fa-solid fa-check"></i> ห้ามตีนอกสถานที่ (ใบส้ม)</li>
-                    <li><i class="fa-solid fa-check"></i> ห้ามอุ้มศพกักศพ (ใบส้ม)</li>
-                    <li><i class="fa-solid fa-check"></i> ห้ามใส่สกินเด็กเล่นกิจกรรม (ใบส้ม)</li>
-                    <li><i class="fa-solid fa-check"></i> ห้ามเล่นโปรมอด (ใบแดง)</li>
-                    <li><i class="fa-solid fa-check"></i> ห้ามอีโม (ใบแดง)</li>
-                    <li><i class="fa-solid fa-check"></i> ห้าม Toxic หรือบัพแรงเกินไป (ใบแดง)</li>
-                </ul>
-                <div style="background: rgba(6,9,17,0.7); border: 1px dashed var(--accent-cyan); padding: 10px; border-radius: 8px; margin-top: 10px; font-size: 0.85rem; color: var(--accent-cyan);">
-                    • การเล่นวอยึดโซนต้องต่อสู้ภายในวงเท่านั้น ห้ามออกจากวงเพื่อไปปั๊มยา, ชุบชีวิต, อุ้มเพื่อนไปชุบ แล้วกลับเข้ามาใหม่<br>
-                    • ห้ามพันธมิตรหรือร่วมมือกับแก๊งอื่นในช่วงกิจกรรม<br>
-                    • หากไม่สามารถสู้ต่อได้ ให้ขับรถออกจากพื้นที่เพื่อยอมแพ้
-                </div>
-            </div>
-
-            <div class="glass-card" style="margin-bottom: 20px;">
-                <h3 style="color: var(--accent-cyan); margin-bottom: 10px; font-size: 1.05rem;"><i class="fa-solid fa-dungeon"></i> กฎยึดคุก Pawria Town (เวลาเล่น: 20:00 น.)</h3>
-                <ul class="rule-list">
-                    <li><i class="fa-solid fa-check"></i> 1. ต้องตีกันให้ตายจนเหลือเพียง 1 แก๊ง ถึงจะเก็บจุดยึดคุกได้ (ทำบัคเก็บ = ใบแดง / เก็บตอนคนยังไม่ตาย = ใบส้ม)</li>
-                    <li><i class="fa-solid fa-check"></i> 2. ห้ามร่วมมือกับแก๊งอื่น (ใบส้มทั้งแก๊ง)</li>
-                    <li><i class="fa-solid fa-check"></i> 3. ห้ามอีโม (ใบแดง)</li>
-                    <li><i class="fa-solid fa-check"></i> 4. ห้ามนำเรื่องกิจกรรมมาเป็นสตอรี่ความแค้นส่วนตัว (ใบเหลือง)</li>
-                    <li><i class="fa-solid fa-check"></i> 5. ห้ามใส่สกินเด็ก, สกินตัวเล็ก (ใบส้ม)</li>
-                    <li><i class="fa-solid fa-check"></i> 6. ห้าม Toxic หรือบัพกันแรงเกินไป (ใบแดง)</li>
-                    <li><i class="fa-solid fa-check"></i> 7. ห้ามใช้มอด โปร ทำบัค (ใบแดง)</li>
-                    <li><i class="fa-solid fa-check"></i> 8. ห้ามอุ้ม กักศพ</li>
-                    <li><i class="fa-solid fa-check"></i> 9. ห้ามบู๊ด เปิดซาวด์ก่อกวน (ใบเหลือง)</li>
-                    <li><i class="fa-solid fa-check"></i> 10. ห้ามดักจุดเกิด (ใบเหลือง)</li>
-                    <li><i class="fa-solid fa-check"></i> 11. ห้ามใส่แฟชั่นเล่นกิจกรรม</li>
-                </ul>
-            </div>
-
             <div class="glass-card">
-                <h3 style="color: var(--accent-cyan); margin-bottom: 10px; font-size: 1.05rem;"><i class="fa-solid fa-box-open"></i> กฎการเล่น AirDrop (รอบเวลา: 13:00, 18:00, 21:00 น.)</h3>
+                <h3 style="color: var(--accent-cyan); margin-bottom: 10px;">📦 กฎการเล่น AirDrop</h3>
                 <ul class="rule-list">
                     <li><i class="fa-solid fa-check"></i> ห้ามมีสตอรี่กันโดยเด็ดขาดในเวลากิจกรรม [ บังคับ ]</li>
                     <li><i class="fa-solid fa-check"></i> ห้าม Toxic หรือ บัพกันแรงเกินไป</li>
-                    <li><i class="fa-solid fa-check"></i> สามารถใช้ AED และ Bandage ในการ Heal ตัวเองได้</li>
-                    <li><i class="fa-solid fa-check"></i> ไม่สามารถใช้อีโมได้ เนื่องจากเป็นการเอาเปรียบ MB / มือถือ [ บังคับ ]</li>
-                    <li><i class="fa-solid fa-check"></i> ห้ามใช้ MOD / โปรแกรมโกง / สิ่งที่ทำให้ได้เปรียบฝั่งตรงข้าม [ โทษใบแดง / บังคับ ]</li>
-                    <li><i class="fa-solid fa-check"></i> สามารถใช้เกราะได้ปกติ</li>
-                    <li><i class="fa-solid fa-triangle-exclamation" style="color: var(--yellow-warning);"></i> <b style="color: var(--yellow-warning);">ห้ามตีก่อน 5 นาทีเด็ดขาด!</b></li>
                 </ul>
             </div>
         </section>
 
+        <!-- 14. ติดต่อ -->
         <section id="contact" class="page-content">
             <div class="page-header"><h1 class="page-title">ข้อมูลติดต่อ</h1></div>
             <div class="glass-card" style="text-align: center;">
@@ -737,13 +610,7 @@
             if(type === 'oc') {
                 options += `<button type="button" class="bkm-modal-btn bkm-btn-option" onclick="selectGender('${type}', 'อื่นๆ')">⚧️ อื่นๆ</button>`;
             }
-            
-            showBKMModal({
-                icon: "fa-solid fa-venus-mars",
-                title: title,
-                desc: "กรุณาเลือกเพศที่คุณต้องการ",
-                actionHtml: `<div class="bkm-modal-btns">${options}</div>`
-            });
+            showBKMModal({ icon: "fa-solid fa-venus-mars", title: title, desc: "กรุณาเลือกเพศที่คุณต้องการ", actionHtml: `<div class="bkm-modal-btns">${options}</div>` });
         }
 
         function selectGender(type, val) {
@@ -761,9 +628,7 @@
 
         function openPlayStyleModal() {
             showBKMModal({
-                icon: "fa-solid fa-gamepad",
-                title: "เลือกสายการเล่น",
-                desc: "กรุณาเลือกสายการเล่นที่คุณต้องการลงทะเบียน",
+                icon: "fa-solid fa-gamepad", title: "เลือกสายการเล่น", desc: "กรุณาเลือกสายการเล่นที่คุณต้องการลงทะเบียน",
                 actionHtml: `
                     <div class="bkm-modal-btns">
                         <button type="button" class="bkm-modal-btn bkm-btn-option" onclick="selectPlayStyle('สายสตอรี่')">🎭 สายสตอรี่</button>
@@ -788,22 +653,13 @@
             showBKMModal({
                 icon: "fa-solid fa-heart-crack",
                 title: "แน่ใจแล้วเหรอ... ที่จะทิ้งพวกเราไป 🥀",
-                desc: `คุณกำลังจะทำเรื่องออกจากแก๊งในนาม <b>"${icName}"</b><br>ใจร้ายจัง... จะไม่สู้ต่อกับพวกเราแล้วจริงๆ เหรออื้อหือ?`,
+                desc: `คุณกำลังจะทำเรื่องออกจากแก๊งในนาม <b>"${icName}"</b><br>ใจร้ายจัง... จะไม่สู้ต่อกับพวกเราแล้วจริงๆ เหรอ?`,
                 actionHtml: `
                     <div class="bkm-modal-btns">
-                        <button type="button" class="bkm-modal-btn bkm-btn-cancel" onclick="cancelLeaveGang()">อยู่ต่อดีกว่า (เย้ ดีใจด้วยนะ!)</button>
+                        <button type="button" class="bkm-modal-btn bkm-btn-cancel" onclick="closeBKMModal()">อยู่ต่อดีกว่า (เย้ ดีใจด้วยนะ!)</button>
                         <button type="button" class="bkm-modal-btn bkm-btn-confirm" onclick="confirmLeaveGang('${icName}', '${reason}')">ตัดสินใจออก (ลาก่อน...)</button>
                     </div>
                 `
-            });
-        }
-
-        function cancelLeaveGang() {
-            showBKMModal({
-                icon: "fa-solid fa-face-grin-hearts",
-                title: "เย้! ดีใจที่สุดเลยที่อยู่ต่อร้ากกก 🩵",
-                desc: "รู้แล้วว่ารักกัน! อยู่สร้างตำนานลุยกิจกรรมไปด้วยกันต่อนะคะ ครอบครัว BKM ของเราอบอุ่นที่สุดแล้ว!",
-                actionHtml: `<button type="button" class="bkm-modal-btn bkm-btn-ok" onclick="closeBKMModal()">ลุยกันต่อเลย!</button>`
             });
         }
 
@@ -819,14 +675,11 @@
                     localStorage.removeItem('bkm_user_ic');
                     localStorage.removeItem('bkm_my_application');
                     localStorage.removeItem('bkm_user_avatar');
-
-                    // ซ่อนเมนูเกมเมื่อออกแก๊ง
                     checkMemberStatus();
-
                     showBKMModal({
                         icon: "fa-solid fa-skull",
                         title: "ลาก่อนนะพี่น้อง... ขอให้โชคดี 🥀",
-                        desc: `บันทึกการอำลาของ <b>${icName}</b> ถูกส่งไปยัง Discord เรียบร้อยแล้ว... ขอบคุณที่เคยร่วมสร้างความทรงจำดีๆ ด้วยกัน ขอให้เส้นทางข้างหน้าเจอแต่สิ่งที่ดีนะ`,
+                        desc: `บันทึกการอำลาของ <b>${icName}</b> ถูกส่งไปยัง Discord เรียบร้อยแล้ว`,
                         actionHtml: `<button type="button" class="bkm-modal-btn bkm-btn-ok" onclick="location.reload()">เข้าใจแล้ว</button>`
                     });
                 }
@@ -843,20 +696,17 @@
             checkMemberStatus();
         });
 
-        // ฟังก์ชันตรวจสอบสถานะการเป็นสมาชิก เพื่อซ่อน/แสดง เมนูเกม ม.4
         function checkMemberStatus() {
             const localApp = JSON.parse(localStorage.getItem('bkm_my_application') || '{}');
             const gameNavTab = document.getElementById('gameNavTab');
             if (localApp && localApp.icName) {
-                // หากกรอกใบสมัครแล้ว แสดงเมนูเกม
                 if(gameNavTab) gameNavTab.style.display = 'flex';
             } else {
-                // หากยังไม่กรอก หรือ ออกแก๊งไปแล้ว ซ่อนเมนูเกม
                 if(gameNavTab) gameNavTab.style.display = 'none';
             }
         }
 
-        // ระบบเกมตอบคำถามคณิตศาสตร์ ม.4 (100 ข้อ ผิดเริ่มใหม่)
+        // เกมคณิตศาสตร์ ม.4
         let currentGameQuestion = 1;
         const totalGameQuestions = 100;
         let gameFailCount = 0;
@@ -881,42 +731,32 @@
             document.getElementById('gameProgressText').innerText = `ข้อที่ ${currentGameQuestion} / ${totalGameQuestions}`;
             document.getElementById('gameFailCount').innerText = `ผิดพลาด: ${gameFailCount} ครั้ง`;
 
-            // สุ่มโจทย์เลขระดับ ม.4 ง่าย-ปานกลาง (เซต, ตรรกศาสตร์, ฟังก์ชัน, จำนวนจริง)
             const qType = Math.floor(Math.random() * 4);
             let questionText = "";
             let correctAnswer = 0;
             let choices = [];
 
             if (qType === 0) {
-                // เซต: หาจำนวนสมาชิกของ A union B
                 const nA = Math.floor(Math.random() * 15) + 5;
                 const nB = Math.floor(Math.random() * 15) + 5;
                 const nIntersect = Math.floor(Math.random() * 4) + 1;
                 correctAnswer = nA + nB - nIntersect;
                 questionText = `กำหนดให้ n(A) = ${nA}, n(B) = ${nB} และ n(A ∩ B) = ${nIntersect} จงหาค่า n(A ∪ B)`;
             } else if (qType === 1) {
-                // ตรรกศาสตร์: ค่าความจริง ประพจน์
                 const p = Math.random() < 0.5;
                 const q = Math.random() < 0.5;
-                // สมมติถามค่าความจริงของ p -> q (ถ้า p แล้ว q)
                 correctAnswer = (!p || q) ? "จริง (T)" : "เท็จ (F)";
                 questionText = `กำหนดให้ประพจน์ p มีค่าความจริงเป็น ${p ? 'T' : 'F'} และ q มีค่าความจริงเป็น ${q ? 'T' : 'F'} จงหาค่าความจริงของประพจน์ (p → q)`;
-                
-                // สำหรับตรรกศาสตร์เซ็ตตัวเลือกแบบ T/F
                 choices = ["จริง (T)", "เท็จ (F)"];
-                // เติมตัวเลือกหลอกถ้าจำเป็น
                 if(choices.length < 4) {
                     if(correctAnswer === "จริง (T)") choices.push("เท็จ (F)");
                     else choices.push("จริง (T)");
                 }
             } else if (qType === 2) {
-                // จำนวนจริง / พหุนาม: แยกตัวประกอบ หรือแก้สมการดีกรี 1 / 2
-                const a = Math.floor(Math.random() * 5) + 1;
                 const b = Math.floor(Math.random() * 10) + 1;
                 correctAnswer = -b;
                 questionText = `จงหาคำตอบของสมการ: x + ${b} = 0`;
             } else {
-                // ฟังก์ชัน: หาค่า f(x)
                 const m = Math.floor(Math.random() * 4) + 2;
                 const c = Math.floor(Math.random() * 10) + 1;
                 const x = Math.floor(Math.random() * 5) + 1;
@@ -924,7 +764,6 @@
                 questionText = `กำหนดให้ f(x) = ${m}x + ${c} จงหาค่าของ f(${x})`;
             }
 
-            // ถ้าไม่ใช่ข้อตรรกศาสตร์ ให้สุ่มสร้างตัวเลือกตัวเลข 4 ตัว
             if (qType !== 1) {
                 choices = [correctAnswer];
                 while (choices.length < 4) {
@@ -933,12 +772,10 @@
                         choices.push(wrong);
                     }
                 }
-                // สลับตำแหน่งตัวเลือก
                 choices.sort(() => Math.random() - 0.5);
             }
 
             currentCorrectAnswer = correctAnswer;
-
             document.getElementById('questionBox').innerHTML = questionText;
             const choicesContainer = document.getElementById('choicesBox');
             choicesContainer.innerHTML = '';
@@ -956,21 +793,20 @@
 
         function checkMathAnswer(selected, correct) {
             if (selected == correct) {
-                // ตอบถูก ไปข้อต่อไป
                 currentGameQuestion++;
                 loadNextMathQuestion();
             } else {
-                // ตอบผิด! ผิดเริ่มนับข้อที่ 1 ใหม่ทันที
                 gameFailCount++;
                 showBKMModal({
                     icon: "fa-solid fa-triangle-exclamation",
                     title: "ตอบผิดครับ! เริ่มนับข้อที่ 1 ใหม่",
-                    desc: `คุณตอบผิดที่ข้อ ${currentGameQuestion} (คำตอบที่ถูกต้องคือ: <b>${correct}</b>)<br>ระบบได้รีเซ็ตกลับไปเริ่มข้อที่ 1 ใหม่แล้ว ตั้งใจทำให้น้า!`,
+                    desc: `คุณตอบผิดที่ข้อ ${currentGameQuestion} (คำตอบที่ถูกต้องคือ: <b>${correct}</b>)<br>ระบบได้รีเซ็ตกลับไปเริ่มข้อที่ 1 ใหม่แล้ว`,
                     actionHtml: `<button type="button" class="bkm-modal-btn bkm-btn-ok" onclick="closeBKMModal(); startMathGame();">เริ่มทำใหม่</button>`
                 });
             }
         }
 
+        // ระบบส่ง Heartbeat (Online Status)
         setInterval(() => {
             fetch('/api/heartbeat', {
                 method: 'POST',
@@ -985,7 +821,6 @@
             
             const target = document.getElementById(tabId);
             if(target) target.classList.add('active');
-            
             if(event && event.currentTarget) { event.currentTarget.classList.add('active'); }
 
             document.getElementById('navLinks').classList.remove('active');
@@ -994,15 +829,16 @@
             if(tabId === 'applicationsList') loadApplications();
             if(tabId === 'memberList') loadWebOnlineUsers();
             if(tabId === 'profile') loadProfileData();
+            if(tabId === 'leaderboardSection') loadLeaderboard();
         }
 
         document.getElementById('menuToggle').addEventListener('click', () => {
             document.getElementById('navLinks').classList.toggle('active');
         });
 
+        // จัดการฟอร์มสมัครแก๊ง
         document.getElementById('applyForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-
             const icGenderVal = document.getElementById('icGender').value;
             const ocGenderVal = document.getElementById('ocGender').value;
             const playStyleVal = document.getElementById('playStyle').value;
@@ -1037,8 +873,6 @@
             };
 
             localStorage.setItem('bkm_my_application', JSON.stringify(data));
-
-            // แสดงเมนูเกมทันทีเมื่อสมัครสำเร็จ
             checkMemberStatus();
 
             try {
@@ -1071,6 +905,74 @@
             }
         });
 
+        // จัดการฟอร์มเช็กชื่อกิจกรรม
+        document.getElementById('checkinForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const data = {
+                icName: document.getElementById('checkinName').value.trim(),
+                activityName: document.getElementById('activityType').value
+            };
+            try {
+                const res = await fetch('/api/checkin', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+                alert(result.message);
+                if(result.success) {
+                    this.reset();
+                }
+            } catch(e) {
+                alert('เกิดข้อผิดพลาดในการเชื่อมต่อ');
+            }
+        });
+
+        // จัดการฟอร์มคลังแก๊ง
+        document.getElementById('treasuryForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const data = {
+                icName: document.getElementById('treasuryName').value.trim(),
+                type: document.getElementById('treasuryType').value,
+                itemName: document.getElementById('itemName').value.trim(),
+                quantity: document.getElementById('itemQty').value.trim(),
+                note: document.getElementById('itemNote').value.trim()
+            };
+            try {
+                const res = await fetch('/api/treasury', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+                alert(result.message);
+                if(result.success) {
+                    this.reset();
+                }
+            } catch(e) {
+                alert('เกิดข้อผิดพลาดในการเชื่อมต่อ');
+            }
+        });
+
+        // โหลดข้อมูล Leaderboard
+        async function loadLeaderboard() {
+            try {
+                const res = await fetch('/api/leaderboard');
+                const list = await res.json();
+                const container = document.getElementById('leaderboardList');
+                if (list.length === 0) {
+                    container.innerHTML = '<p style="text-align: center; color: var(--text-sub);">ยังไม่มีประวัติการเช็กชื่อกิจกรรม</p>';
+                    return;
+                }
+                container.innerHTML = list.map((item, index) => `
+                    <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(6,9,17,0.7); padding: 12px 15px; border-radius: 10px; border: 1px solid var(--border-color);">
+                        <span style="font-weight: 600; color: #fff;">#${index + 1} 👤 ${item.icName}</span>
+                        <span style="background: rgba(56,189,248,0.2); color: var(--accent-cyan); padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; border: 1px solid var(--border-color);">เข้าร่วม ${item.totalEvents} ครั้ง</span>
+                    </div>
+                `).join('');
+            } catch (e) {}
+        }
+
         async function searchMyApplication() {
             const queryName = document.getElementById('searchIcName').value.trim();
             const resultBox = document.getElementById('myAppResult');
@@ -1088,25 +990,13 @@
                             <p><b>ชื่อ IC:</b> ${item.icName} (อายุ ${item.icAge} ปี)</p>
                             <p><b>เลเวล:</b> ${item.level} | <b>สายการเล่น:</b> ${item.playStyle}</p>
                             <p><b>ชื่อ OC:</b> ${item.ocName} | <b>Discord:</b> ${item.discordTag}</p>
-                            <p style="margin-top: 5px; color: #cbd5e1;"><b>เหตุผล:</b> ${item.reason}</p>
                         </div>
                     `;
                 } else {
-                    const localData = JSON.parse(localStorage.getItem('bkm_my_application') || '{}');
-                    if(localData.icName && localData.icName.toLowerCase() === queryName.toLowerCase()) {
-                        resultBox.innerHTML = `
-                            <div style="background: rgba(6, 9, 17, 0.85); padding: 15px; border-radius: 10px; border: 1px solid var(--accent-cyan); font-size: 0.88rem;">
-                                <h4 style="color: var(--accent-cyan); margin-bottom: 6px;"><i class="fa-solid fa-circle-check"></i> พบใบสมัคร (ข้อมูลเครื่องนี้)</h4>
-                                <p><b>ชื่อ IC:</b> ${localData.icName}</p>
-                                <p><b>เลเวล:</b> ${localData.level} | <b>สายการเล่น:</b> ${localData.playStyle}</p>
-                            </div>
-                        `;
-                    } else {
-                        resultBox.innerHTML = `<p style="text-align: center; color: #fca5a5; font-size: 0.88rem;">ไม่พบใบสมัครสำหรับชื่อ IC: "${queryName}"</p>`;
-                    }
+                    resultBox.innerHTML = `<p style="text-align: center; color: #fca5a5; font-size: 0.88rem;">ไม่พบใบสมัครสำหรับชื่อ IC: "${queryName}"</p>`;
                 }
             } catch(e) {
-                resultBox.innerHTML = `<p style="text-align: center; color: #fca5a5;">เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์</p>`;
+                resultBox.innerHTML = `<p style="text-align: center; color: #fca5a5;">เกิดข้อผิดพลาดในการเชื่อมต่อ</p>`;
             }
         }
 
@@ -1128,36 +1018,12 @@
             if(savedAvatar) { document.getElementById('profileAvatar').src = savedAvatar; }
 
             const localApp = JSON.parse(localStorage.getItem('bkm_my_application') || '{}');
-            let icNameToSearch = myIcName || localApp.icName || '';
-
-            if(icNameToSearch) {
-                try {
-                    const res = await fetch(`/api/search-application?icName=${encodeURIComponent(icNameToSearch)}`);
-                    const data = await res.json();
-                    if(data.success && data.application) {
-                        const app = data.application;
-                        document.getElementById('profileIcName').innerText = app.icName;
-                        document.getElementById('profileDiscord').innerText = 'Discord: ' + app.discordTag;
-                        document.getElementById('profilePlayStyle').innerText = app.playStyle;
-                        document.getElementById('profileLevel').innerText = app.level;
-                        document.getElementById('profileStatusHtml').innerHTML = '<span style="color: #4ade80;">ลงทะเบียนสมาชิกแล้ว</span>';
-                        return;
-                    }
-                } catch(e) {}
-            }
-
             if(localApp.icName) {
                 document.getElementById('profileIcName').innerText = localApp.icName;
                 document.getElementById('profileDiscord').innerText = 'Discord: ' + (localApp.discordTag || '-');
                 document.getElementById('profilePlayStyle').innerText = localApp.playStyle || '-';
                 document.getElementById('profileLevel').innerText = localApp.level || '-';
                 document.getElementById('profileStatusHtml').innerHTML = '<span style="color: #4ade80;">ลงทะเบียนสมาชิกแล้ว</span>';
-            } else {
-                document.getElementById('profileIcName').innerText = 'ยังไม่ได้ตั้งชื่อ IC';
-                document.getElementById('profileDiscord').innerText = 'Discord: -';
-                document.getElementById('profilePlayStyle').innerText = '-';
-                document.getElementById('profileLevel').innerText = '-';
-                document.getElementById('profileStatusHtml').innerHTML = '<span style="color: #ef4444; font-weight: bold;">ยังไม่ได้ลงทะเบียนสมาชิก</span>';
             }
         }
 
