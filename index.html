@@ -222,12 +222,13 @@
                 <li><button class="nav-tab" onclick="switchTab('checkinSection')"><i class="fa-solid fa-clipboard-check"></i> เช็กชื่อกิจกรรม</button></li>
                 <li><button class="nav-tab" onclick="switchTab('treasurySection')"><i class="fa-solid fa-box-archive"></i> คลังแก๊ง</button></li>
                 <li><button class="nav-tab" onclick="switchTab('leaderboardSection')"><i class="fa-solid fa-trophy"></i> จัดอันดับ</button></li>
+                <li><button class="nav-tab" onclick="switchTab('discordRules')"><i class="fa-brands fa-discord"></i> กฎดิสคอมมู</button></li>
+                <li><button class="nav-tab" onclick="switchTab('gangRules')"><i class="fa-solid fa-gavel"></i> กฎการโดนใบ</button></li>
+                <li><button class="nav-tab" onclick="switchTab('activityRules')"><i class="fa-solid fa-shield-halved"></i> กฎกิจกรรม</button></li>
+                <li><button class="nav-tab" onclick="switchTab('qualifications')"><i class="fa-solid fa-user-check"></i> คุณสมบัติ</button></li>
                 <li><button class="nav-tab" onclick="switchTab('applicationsList')"><i class="fa-solid fa-list-check"></i> รายการใบสมัคร</button></li>
                 <li><button class="nav-tab" onclick="switchTab('memberList')"><i class="fa-solid fa-users"></i> ออนไลน์เว็บ</button></li>
                 <li><button class="nav-tab" onclick="switchTab('leaveGang')"><i class="fa-solid fa-right-from-bracket"></i> ขอออกแก๊ง</button></li>
-                <li><button class="nav-tab" onclick="switchTab('qualifications')"><i class="fa-solid fa-user-check"></i> คุณสมบัติ</button></li>
-                <li><button class="nav-tab" onclick="switchTab('gangRules')"><i class="fa-solid fa-gavel"></i> กฎแก๊ง</button></li>
-                <li><button class="nav-tab" onclick="switchTab('activityRules')"><i class="fa-solid fa-shield-halved"></i> กฎกิจกรรม</button></li>
                 <li><button class="nav-tab" id="gameNavTab" onclick="switchTab('mathGame')" style="display: none;"><i class="fa-solid fa-gamepad"></i> เกมเลข ม.4</button></li>
                 <li><button class="nav-tab" onclick="switchTab('contact')"><i class="fa-solid fa-address-book"></i> ติดต่อ</button></li>
             </ul>
@@ -271,7 +272,6 @@
                             <label for="ocName"><i class="fa-solid fa-user"></i> ชื่อ OC</label>
                             <input type="text" id="ocName" class="form-control" placeholder="เช่น สมชาย" required>
                         </div>
-                        <!-- เพิ่มช่องกรอกอายุ OC ตรงนี้ -->
                         <div class="form-group">
                             <label for="ocAge"><i class="fa-solid fa-calendar-days"></i> อายุ OC</label>
                             <input type="number" id="ocAge" class="form-control" placeholder="เช่น 18" required>
@@ -317,7 +317,125 @@
             </div>
         </section>
 
-        <!-- 2. เกมคณิตศาสตร์ ม.4 -->
+        <!-- 📜 2. กฎดิสคอมมู (อัปเดตใหม่ล่าสุด) -->
+        <section id="discordRules" class="page-content">
+            <div class="page-header">
+                <h1 class="page-title">📜 กฎดิสคอมมู BKM</h1>
+                <p class="page-subtitle">อ่านเถอะ ไม่งั้นเดี๋ยวโดนเตะแล้วงงว่าทำไม 🗿</p>
+            </div>
+            <div class="glass-card">
+                <ul class="rule-list">
+                    <li><i class="fa-solid fa-handshake"></i> <div><b>01・🤝 อย่าหาทำกับคนอื่น:</b> คุยกันดี ๆ ได้ ไม่ต้องเปิดโหมดนักเลงใส่กัน ด่า เหยียด บูลลี่ คุกคาม หรือจงใจปั่นให้คนอื่นหัวร้อน = พักก่อนนะเพื่อน</div></li>
+                    <li><i class="fa-solid fa-comment-slash"></i> <div><b>02・💬 อย่าสแปมจนแชทเป็นนรก:</b> ส่งข้อความรัว ๆ, เมนชันไม่หยุด, กดอีโมจิเป็นร้อย = ใจเย็น ๆ นิ้วเอาไว้ใช้พรุ่งนี้ด้วย</div></li>
+                    <li><i class="fa-solid fa-bullhorn"></i> <div><b>03・📢 อย่าเนียนโฆษณา:</b> “แวะมาดิสเราได้นะครับ 🤭” ถ้าไม่ได้รับอนุญาต = โฆษณาอยู่ดีจ้า ติดต่อทีมงานก่อน</div></li>
+                    <li><i class="fa-solid fa-ban"></i> <div><b>04・🔞 อะไรไม่เหมาะสมก็เก็บไว้ที่บ้าน:</b> ห้ามส่งสื่อลามกหรือเนื้อหาทางเพศที่โจ่งแจ้ง รวมถึงอะไรที่ทำให้คนเปิดแชทแล้วต้องรีบปิดหน้าจอหนี 😭</div></li>
+                    <li><i class="fa-solid fa-user-lock"></i> <div><b>05・🔐 ข้อมูลส่วนตัว = ห้ามยุ่ง:</b> ข้อมูลส่วนตัวของคนอื่นไม่ใช่ของแจก อย่าเอาไปเผยแพร่ อย่าเอาไปขู่ และอย่าเอาไปเล่นสนุก</div></li>
+                    <li><i class="fa-solid fa-fire-flame-curved"></i> <div><b>06・🔥 ดราม่าได้ แต่อย่าเผาดิส:</b> มีปัญหากันคุยกันดี ๆ อย่าลากทั้งเซิร์ฟมาร่วมสงคราม แชทนี้ไม่ใช่สนามรบครับพี่</div></li>
+                    <li><i class="fa-solid fa-folder-open"></i> <div><b>07・📂 อยู่ห้องไหนใช้ให้ถูก:</b> มีห้องคุยเล่นก็ไปคุยเล่น มีห้องมีมก็ไปปล่อยมีม อย่าเอาเรื่อง “แมวที่บ้านผมไม่กินข้าว” ไปลงห้องประกาศ 💀</div></li>
+                    <li><i class="fa-solid fa-shield-cat"></i> <div><b>08・🛑 เจออะไรแปลก ๆ แจ้งทีมงาน:</b> เห็นคนทำผิดกฎ ไม่ต้องเปิดศึกเอง กดแจ้งทีมงาน แล้วนั่งจิบน้ำรออย่างสงบ 🧃</div></li>
+                    <li><i class="fa-solid fa-user-shield"></i> <div><b>09・👮 ทีมงานไม่ได้มีไว้ประดับเซิร์ฟ:</b> ถ้าทีมงานเข้ามาเตือน ขอให้รับฟังกันดี ๆ มีข้อสงสัยหรือคิดว่าตัดสินไม่แฟร์ → คุยกันได้แบบมีเหตุผล</div></li>
+                    <li><i class="fa-solid fa-gavel"></i> <div><b>10・⚖️ ทำผิด = มีบทลงโทษ:</b> อาจเริ่มตั้งแต่เตือน → Timeout → Kick → Ban ขึ้นอยู่กับความหนักเบาของเรื่อง “แต่ผมไม่รู้กฎ” ไม่ใช่บัตร VIP กันโดนลงโทษนะ 🗿</div></li>
+                </ul>
+                <div style="background: rgba(56, 189, 248, 0.1); border: 1px dashed var(--accent-cyan); border-radius: 10px; padding: 15px; margin-top: 15px; text-align: center;">
+                    <h4 style="color: var(--accent-cyan); font-size: 1rem;"><i class="fa-solid fa-brain"></i> กฎลับที่จริงๆ ก็ไม่ลับ</h4>
+                    <p style="font-size: 0.88rem; color: #cbd5e1; margin-top: 5px;"><b>ใช้สมองก่อนใช้คีย์บอร์ด</b> ถ้าสิ่งที่กำลังจะส่งทำให้ตัวเองคิดว่า “เอ๊ะ ส่งดีไหมวะ…” ก็อาจจะไม่ต้องส่งก็ได้ 555<br><b style="color: #4ade80;">อยู่กันแบบเพื่อน ๆ เคารพกัน เล่นกันให้สนุก แล้วดิสนี้จะน่าอยู่สำหรับทุกคน 💖</b></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 🟡 3. กฎการโดนใบ 18 ข้อ (อัปเดตใหม่ล่าสุด) -->
+        <section id="gangRules" class="page-content">
+            <div class="page-header">
+                <h1 class="page-title">กฎการโดนใบ BKM</h1>
+                <p class="page-subtitle">บทลงโทษภายในตระกูล BLACK KINGDOM ทั้งหมด 18 ข้อ</p>
+            </div>
+            <div class="glass-card">
+                <div class="penalty-grid">
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">1.</span> สมาชิกต้องฟังคำสั่งจากหลีดรองหลีดผ่าฝืน <span style="color:var(--yellow-warning);">ใบเหลือง🟨/ใบส้ม🟧</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">2.</span> นำพาความเดือดร้อนมาให้ตระกูลโดยไม่รับผิดชอบ <span style="color:var(--red-warning);">ใบแดง🟥/ใบดำ⬛</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">3.</span> นำพาผู้อื่นหรือคนภายนอกเข้าดิสโดยไม่ได้อนุญาต <span style="color:var(--yellow-warning);">ใบเหลือง🟨</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">4.</span> นำสกินแก๊งไปขายหรือจำหน่ายให้ผู้อื่น <span style="color:var(--red-warning);">ใบแดง🟥/ใบดำ⬛</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">5.</span> เล่นโปรเล่นมอด <span style="color:var(--text-main);">ใบดำ⬛</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">6.</span> ด่าเรื้อนไปด่าแก็งอื่น <span style="color:var(--orange-warning);">ใบส้ม🟧</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">7.</span> ไม่เชื่อฟังผู้คุมสายสตอรี่ <span style="color:var(--yellow-warning);">ใบเหลือง🟨/ใบส้ม🟧</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">8.</span> ไม่มีความรับผิดชอบ <span style="color:var(--yellow-warning);">ใบเหลือง🟨</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">9.</span> สอบสวนแล้วให้การเท็จ <span style="color:var(--red-warning);">ใบแดง🟥</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">10.</span> แจ้งลาโดยสาเหตุไม่ชัดเจน <span style="color:var(--yellow-warning);">ใบเหลือง🟨</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">11.</span> ส่งลิ้งค์ดิสมั่ว <span style="color:var(--yellow-warning);">ใบเหลือง🟨</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">12.</span> ด่าบุพการี <span style="color:var(--orange-warning);">ใบส้ม🟧</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">13.</span> ผ่าฝืนกดคลูดาวห์พบเจอสถานที่ต้องห้าม <span style="color:var(--red-warning);">โดน×2 🚫</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">14.</span> นำข้อมูลภายในแก็งไปเผยแพร่ <span style="color:var(--red-warning);">ใบแดง🟥/ใบดำ⬛</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">15.</span> ไม่จ่ายเงินแก๊ง <span style="color:var(--yellow-warning);">ใบเหลือง🟨</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">16.</span> เข้าร่วมกิจกรรมยึดคุก หรือกิจกรรมอื่นๆ หากรู้ว่าร่วมมือกับแก๊งอื่น <span style="color:var(--red-warning);">โดนใบ 🟥🟥🟥❗</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">17.</span> มีปัญหาหรือเรื้อนหรือทำให้ร้ายพันธมิตร <span style="color:var(--text-main);">โดนใบ ⚫⚫⚫❗❗❗</span></div>
+                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">18.</span> แก๊งมีโพเทคและคนในแก๊งทำโพเทคแตก <span style="color:var(--yellow-warning);">ใบ🟡🟡🟡❗+เสียค่าโพเทค</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ⚔️ 4. กฎกิจกรรมแก๊ง (AirDrop, ยึดคุก, วอยึดโซน) -->
+        <section id="activityRules" class="page-content">
+            <div class="page-header">
+                <h1 class="page-title">กฎการเล่นกิจกรรมแก๊ง</h1>
+                <p class="page-subtitle">ข้อบังคับในการลงเล่นกิจกรรม AirDrop, ยึดคุก Pawria Town และ วอยึดโซน</p>
+            </div>
+
+            <!-- AirDrop -->
+            <div class="glass-card" style="margin-bottom: 20px;">
+                <h3 style="color: var(--accent-cyan); margin-bottom: 10px; font-size: 1.1rem;"><i class="fa-solid fa-box-open"></i> กฎแอร์ดรอป (เวลาเล่น: 13:00, 18:00, 21:00 น.)</h3>
+                <ul class="rule-list">
+                    <li><i class="fa-solid fa-check"></i> ห้ามมีสตอรี่กันโดยเด็ดขาดในเวลากิจกรรม [ บังคับ ]</li>
+                    <li><i class="fa-solid fa-check"></i> ห้าม Toxic หรือ บัพกันแรงเกินไป</li>
+                    <li><i class="fa-solid fa-check"></i> สามารถใช้ AED ใน AirDrop ได้</li>
+                    <li><i class="fa-solid fa-check"></i> สามารถใช้ Bandage ในการ Heal ตัวเองได้</li>
+                    <li><i class="fa-solid fa-check"></i> ไม่สามารถใช้อีโมได้ เนื่องจากเป็นการเอาเปรียบ MB / มือถือ [ บังคับ ]</li>
+                    <li><i class="fa-solid fa-check"></i> ห้ามใช้ MOD / โปรแกรมโกง / สิ่งที่จะทำให้ได้เปรียบฝั่งตรงข้าม [ โทษใบแดง / บังคับ ]</li>
+                    <li><i class="fa-solid fa-check"></i> สามารถใช้เกราะได้ปกติ</li>
+                    <li><i class="fa-solid fa-triangle-exclamation" style="color: var(--yellow-warning);"></i> <b style="color: var(--yellow-warning);">ห้ามตีก่อน 5 นาทีเด็ดขาด!</b></li>
+                </ul>
+            </div>
+
+            <!-- ยึดคุก -->
+            <div class="glass-card" style="margin-bottom: 20px;">
+                <h3 style="color: var(--accent-cyan); margin-bottom: 10px; font-size: 1.1rem;"><i class="fa-solid fa-dungeon"></i> กฎยึดคุก Pawria Town (เวลาเล่น: 20:00 น.)</h3>
+                <ul class="rule-list">
+                    <li><i class="fa-solid fa-check"></i> 1. ต้องตีกันให้ตายจนเหลือเพียง 1 แก๊ง ถึงจะเก็บจุดยึดคุกได้ (ทำบัคเก็บ = ใบแดง / เก็บตอนผู้เล่นยังตายไม่หมด = ใบส้ม)</li>
+                    <li><i class="fa-solid fa-check"></i> 2. ห้ามร่วมมือกับแก๊งอื่น (ใบส้มทั้งแก๊ง)</li>
+                    <li><i class="fa-solid fa-check"></i> 3. ห้ามอีโม (ใบแดง)</li>
+                    <li><i class="fa-solid fa-check"></i> 4. ห้ามนำเรื่องกิจกรรมมาเป็นสตอรี่ (ความแค้นส่วนตัวในกิจกรรม) (ใบเหลือง)</li>
+                    <li><i class="fa-solid fa-check"></i> 5. ห้ามใส่สกินเด็ก, สกินตัวเล็ก (ใบส้ม)</li>
+                    <li><i class="fa-solid fa-check"></i> 6. ห้าม Toxic หรือบัพกันแรงเกินไป (ใบแดง)</li>
+                    <li><i class="fa-solid fa-check"></i> 7. ห้ามใช้มอด โปร ทำบัค (ใบแดง)</li>
+                    <li><i class="fa-solid fa-check"></i> 8. ห้ามอุ้ม กักศพ</li>
+                    <li><i class="fa-solid fa-check"></i> 9. ห้ามบู๊ด เปิดซาวด์ก่อกวน (ใบเหลือง)</li>
+                    <li><i class="fa-solid fa-check"></i> 10. ห้ามดักจุดเกิด (ใบเหลือง)</li>
+                    <li><i class="fa-solid fa-check"></i> 11. ห้ามใส่แฟชั่นเล่นกิจกรรม</li>
+                </ul>
+            </div>
+
+            <!-- ยึดโซน -->
+            <div class="glass-card">
+                <h3 style="color: var(--accent-cyan); margin-bottom: 10px; font-size: 1.1rem;"><i class="fa-solid fa-shield-halved"></i> กฎวอยึดโซน</h3>
+                <ul class="rule-list">
+                    <li><i class="fa-solid fa-check"></i> ห้าม DB หรือ ขับรถชนในโซน (ใบเหลือง)</li>
+                    <li><i class="fa-solid fa-check"></i> ห้ามตีนอกสถานที่ (ใบส้ม)</li>
+                    <li><i class="fa-solid fa-check"></i> ห้ามอุ้มศพกักศพ (ใบส้ม)</li>
+                    <li><i class="fa-solid fa-check"></i> ห้ามใส่สกินเด็กเล่นกิจกรรม (ใบส้ม)</li>
+                    <li><i class="fa-solid fa-check"></i> ห้ามเล่นโปรมอด (ใบแดง)</li>
+                    <li><i class="fa-solid fa-check"></i> ห้ามอีโม (ใบแดง)</li>
+                    <li><i class="fa-solid fa-check"></i> ห้าม Toxic หรือบัพแรงเกินไป (ใบแดง)</li>
+                </ul>
+                <div style="background: rgba(6, 9, 17, 0.7); border: 1px dashed var(--accent-cyan); padding: 12px; border-radius: 8px; margin-top: 12px; font-size: 0.85rem; color: #cbd5e1;">
+                    <b style="color: var(--accent-cyan);">📌 ข้อบังคับเพิ่มเติมสำหรับวอยึดโซน:</b><br>
+                    • การเล่นวอยึดโซนจะต้องต่อสู้ภายในวงเท่านั้น ห้ามออกจากวงเพื่อไปปั๊มยา, ชุบชีวิต หรือจะอุ้มเพื่อนไปชุบหรือทำกิจกรรมอื่นใด แล้วกลับเข้ามาวงใหม่<br>
+                    • ห้ามพันธมิตรกันหรือร่วมมือกันกับแก๊งอื่นในช่วงกิจกรรม<br>
+                    • หากไม่สามารถต่อสู้ต่อได้ หรือประสงค์จะถอนตัว ให้ขับรถออกจากพื้นที่นั้น เพื่อยอมแพ้<br>
+                    • ห้ามตีนอกบริเวณวงกิจกรรมเด็ดขาด ต้องตีกันในวงเท่านั้น
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. เกมคณิตศาสตร์ ม.4 -->
         <section id="mathGame" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">เกมตอบคำถามคณิตศาสตร์ ม.4</h1>
@@ -353,7 +471,7 @@
             </div>
         </section>
 
-        <!-- 3. เช็กชื่อเข้ากิจกรรมแก๊ง -->
+        <!-- 6. เช็กชื่อเข้ากิจกรรมแก๊ง -->
         <section id="checkinSection" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">ระบบเช็กชื่อเข้ากิจกรรม</h1>
@@ -382,7 +500,7 @@
             </div>
         </section>
 
-        <!-- 4. คลังแก๊ง (เบิก-ฝาก) -->
+        <!-- 7. คลังแก๊ง (เบิก-ฝาก) -->
         <section id="treasurySection" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">ระบบคลังแก๊ง (เบิก / ฝากของ)</h1>
@@ -422,7 +540,7 @@
             </div>
         </section>
 
-        <!-- 5. จัดอันดับ (Leaderboard) -->
+        <!-- 8. จัดอันดับ (Leaderboard) -->
         <section id="leaderboardSection" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">🏆 กระดานจัดอันดับ (Leaderboard)</h1>
@@ -435,7 +553,7 @@
             </div>
         </section>
 
-        <!-- 6. ตรวจสอบใบสมัครของฉัน -->
+        <!-- 9. ตรวจสอบใบสมัครของฉัน -->
         <section id="myApplication" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">ตรวจสอบใบสมัครของฉัน</h1>
@@ -453,7 +571,7 @@
             </div>
         </section>
 
-        <!-- 7. โปรไฟล์สมาชิก -->
+        <!-- 10. โปรไฟล์สมาชิก -->
         <section id="profile" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">โปรไฟล์สมาชิก BKM</h1>
@@ -475,42 +593,7 @@
             </div>
         </section>
 
-        <!-- 8. รายการใบสมัครทั้งหมด -->
-        <section id="applicationsList" class="page-content">
-            <div class="page-header"><h1 class="page-title">รายการใบสมัครทั้งหมด</h1></div>
-            <div class="glass-card"><div id="appListContainer" style="display: flex; flex-direction: column; gap: 10px;">กำลังโหลด...</div></div>
-        </section>
-
-        <!-- 9. สมาชิก & ออนไลน์เว็บ -->
-        <section id="memberList" class="page-content">
-            <div class="page-header"><h1 class="page-title">สมาชิก & สถานะคนออนเว็บ</h1></div>
-            <div class="glass-card">
-                <h3 style="color: #fff; margin-bottom: 10px; font-size: 1rem;"><i class="fa-solid fa-signal" style="color: #4ade80;"></i> คนกำลังออนไลน์เว็บ</h3>
-                <div class="member-box">
-                    <ul class="member-list" id="webOnlineList"><li>กำลังโหลด...</li></ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- 10. ขอออกแก๊ง -->
-        <section id="leaveGang" class="page-content">
-            <div class="page-header"><h1 class="page-title">ระบบขอออกแก๊ง</h1></div>
-            <div class="glass-card form-container" style="max-width: 500px;">
-                <form id="leaveForm" onsubmit="event.preventDefault(); promptLeaveGang();">
-                    <div class="form-group" style="margin-bottom: 12px;">
-                        <label for="leaveIcName">ชื่อ IC ของคุณ</label>
-                        <input type="text" id="leaveIcName" class="form-control" placeholder="เช่น Bael" required>
-                    </div>
-                    <div class="form-group" style="margin-bottom: 12px;">
-                        <label for="leaveReason">เหตุผลการออก</label>
-                        <textarea id="leaveReason" class="form-control" placeholder="ระบุเหตุผล..." required></textarea>
-                    </div>
-                    <button type="submit" class="btn-bkm" style="background: linear-gradient(135deg, #ef4444, #dc2626);">ขอออกแก๊ง</button>
-                </form>
-            </div>
-        </section>
-
-        <!-- 11. คุณสมบัติ -->
+        <!-- 11. คุณสมบัติผู้สมัคร -->
         <section id="qualifications" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">คุณสมบัติผู้สมัคร (QUALIFICATIONS)</h1>
@@ -536,36 +619,42 @@
             </div>
         </section>
 
-        <!-- 12. กฎแก๊ง -->
-        <section id="gangRules" class="page-content">
-            <div class="page-header">
-                <h1 class="page-title">กฎการโดนใบ</h1>
-                <p class="page-subtitle">บทลงโทษภายในตระกูล BLACK KINGDOM ครบถ้วนทุกข้อ</p>
-            </div>
+        <!-- 12. รายการใบสมัครทั้งหมด -->
+        <section id="applicationsList" class="page-content">
+            <div class="page-header"><h1 class="page-title">รายการใบสมัครทั้งหมด</h1></div>
+            <div class="glass-card"><div id="appListContainer" style="display: flex; flex-direction: column; gap: 10px;">กำลังโหลด...</div></div>
+        </section>
+
+        <!-- 13. สมาชิก & ออนไลน์เว็บ -->
+        <section id="memberList" class="page-content">
+            <div class="page-header"><h1 class="page-title">สมาชิก & สถานะคนออนเว็บ</h1></div>
             <div class="glass-card">
-                <div class="penalty-grid">
-                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">1.</span> สมาชิกต้องฟังคำสั่งจากหลีดรองหลีดผ่าฝืน <span style="color:var(--yellow-warning);">ใบเหลือง🟨/ใบส้ม🟧</span></div>
-                    <div class="penalty-item"><span style="color:var(--accent-cyan); font-weight:bold;">2.</span> นำพาความเดือดร้อนมาให้ตระกูลโดยไม่รับผิดชอบ <span style="color:var(--red-warning);">ใบแดง🟥/ใบดำ⬛</span></div>
+                <h3 style="color: #fff; margin-bottom: 10px; font-size: 1rem;"><i class="fa-solid fa-signal" style="color: #4ade80;"></i> คนกำลังออนไลน์เว็บ</h3>
+                <div class="member-box">
+                    <ul class="member-list" id="webOnlineList"><li>กำลังโหลด...</li></ul>
                 </div>
             </div>
         </section>
 
-        <!-- 13. กฎกิจกรรม -->
-        <section id="activityRules" class="page-content">
-            <div class="page-header">
-                <h1 class="page-title">กฎการเล่นกิจกรรมแก๊ง</h1>
-                <p class="page-subtitle">ข้อบังคับในการลงเล่นกิจกรรม AirDrop, ยึดคุก และ วอยึดโซน</p>
-            </div>
-            <div class="glass-card">
-                <h3 style="color: var(--accent-cyan); margin-bottom: 10px;">📦 กฎการเล่น AirDrop</h3>
-                <ul class="rule-list">
-                    <li><i class="fa-solid fa-check"></i> ห้ามมีสตอรี่กันโดยเด็ดขาดในเวลากิจกรรม [ บังคับ ]</li>
-                    <li><i class="fa-solid fa-check"></i> ห้าม Toxic หรือ บัพกันแรงเกินไป</li>
-                </ul>
+        <!-- 14. ขอออกแก๊ง -->
+        <section id="leaveGang" class="page-content">
+            <div class="page-header"><h1 class="page-title">ระบบขอออกแก๊ง</h1></div>
+            <div class="glass-card form-container" style="max-width: 500px;">
+                <form id="leaveForm" onsubmit="event.preventDefault(); promptLeaveGang();">
+                    <div class="form-group" style="margin-bottom: 12px;">
+                        <label for="leaveIcName">ชื่อ IC ของคุณ</label>
+                        <input type="text" id="leaveIcName" class="form-control" placeholder="เช่น Bael" required>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 12px;">
+                        <label for="leaveReason">เหตุผลการออก</label>
+                        <textarea id="leaveReason" class="form-control" placeholder="ระบุเหตุผล..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-bkm" style="background: linear-gradient(135deg, #ef4444, #dc2626);">ขอออกแก๊ง</button>
+                </form>
             </div>
         </section>
 
-        <!-- 14. ติดต่อ -->
+        <!-- 15. ติดต่อ -->
         <section id="contact" class="page-content">
             <div class="page-header"><h1 class="page-title">ข้อมูลติดต่อ</h1></div>
             <div class="glass-card" style="text-align: center;">
@@ -835,7 +924,6 @@
             document.getElementById('navLinks').classList.toggle('active');
         });
 
-        // จัดการฟอร์มสมัครแก๊ง (ดึงค่า ocAge, discordTag, testerTag ครบถ้วน)
         document.getElementById('applyForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const icGenderVal = document.getElementById('icGender').value;
@@ -862,13 +950,13 @@
                 icGender: icGenderVal,
                 level: document.getElementById('level').value,
                 ocName: document.getElementById('ocName').value,
-                ocAge: document.getElementById('ocAge').value, // ดึงอายุ OC
+                ocAge: document.getElementById('ocAge').value,
                 ocGender: ocGenderVal,
                 onlineHours: document.getElementById('onlineHours').value,
                 playStyle: playStyleVal,
                 reason: document.getElementById('reason').value,
-                discordTag: document.getElementById('discordTag').value, // ดึง Discord Tag
-                testerTag: document.getElementById('testerTag').value     // ดึง ผู้คุมสอบ
+                discordTag: document.getElementById('discordTag').value,
+                testerTag: document.getElementById('testerTag').value
             };
 
             localStorage.setItem('bkm_my_application', JSON.stringify(data));
