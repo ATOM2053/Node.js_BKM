@@ -18,6 +18,7 @@ const WEBHOOK_LEAVE    = process.env.LEAVE;
 const WEBHOOK_APPLY    = process.env.APPLY;
 const WEBHOOK_RESTART  = process.env.RESTART;
 const WEBHOOK_ALERT    = process.env.ALERT || process.env.ACTIVITY;
+const WEBHOOK_GENERAL  = process.env.GENERAL || process.env.ACTIVITY; // Webhook ห้องแชทรวม
 
 // ==========================================
 // ระบบ Self-Ping ป้องกันเซิร์ฟเวอร์ Render หลับ (AFK อัตโนมัติ)
@@ -66,7 +67,7 @@ if (fs.existsSync(DB_FILE)) {
 
 function saveData() {
     try {
-        fs.writeFileSync(DB_FILE, JSON.stringify(dbData, null, 2), 'utf8');
+        fs.writeFileSync(DB_FILE, JSON.stringify(DB_FILE, null, 2), 'utf8');
     } catch (e) {
         console.error('Error saving database file:', e);
     }
@@ -102,7 +103,7 @@ async function checkServerInactivityAndAlert() {
     // ถ้าไม่มีคนออนเลย (0 คน)
     if (onlineCount === 0) {
         const now = Date.now();
-        // กำหนดระยะเวลาเว้นช่วงแจ้งเตือนซ้ำเป็น ทุกๆ 12 ชั่วโมง (12 * 60 * 60 * 1000 มิลลิวินาที)
+        // กำหนดระยะเวลาเว้นช่วงแจ้งเตือนซ้ำเป็น ทุกๆ 12 ชั่วโมง
         if (now - lastServerAlertTime < 12 * 60 * 60 * 1000) return;
         lastServerAlertTime = now;
 
@@ -111,7 +112,7 @@ async function checkServerInactivityAndAlert() {
             embeds: [{
                 title: "🚨 เซิร์ฟเวอร์ใกล้จะปิด / เข้าสู่โหมดพักการทำงาน",
                 description: "ขณะนี้ไม่มีสมาชิกหรือผู้ใช้งานออนไลน์อยู่บนเว็บไซต์เลย เซิร์ฟเวอร์กำลังจะสลีปชั่วคราว!",
-                color: 15158332, // สีแดงเตือน
+                color: 15158332,
                 fields: [
                     { name: "👥 จำนวนคนออนเว็บ", value: "```0 คน```", inline: true },
                     { name: "⏳ สถานะระบบ", value: "```กำลังจะพักการทำงานชั่วคราว```", inline: true },
@@ -135,7 +136,6 @@ async function checkServerInactivityAndAlert() {
     }
 }
 
-// ตรวจสอบสถานะทุกๆ 1 นาที แต่จะส่งแจ้งเตือนซ้ำห่างกันทุกๆ 12 ชั่วโมงตามเงื่อนไขด้านบน
 setInterval(checkServerInactivityAndAlert, 60000);
 
 // ==========================================
@@ -210,6 +210,46 @@ app.get('/api/members', (req, res) => res.json(dbData.members));
 
 // ตั้งเวลาแจ้งเตือนกิจกรรมและรีเซิร์ฟเวอร์
 const CRON_OPTIONS = { timezone: "Asia/Bangkok" };
+
+// ==========================================
+// 🌙 ระบบแจ้งเตือนบอกฝันดี & ให้กำลังใจ (เวลา 23:00 น.)
+// ==========================================
+const nightQuotes = [
+    { title: "🌙 คืนนี้พักผ่อนให้เต็มที่นะพี่น้อง BKM", desc: "เหนื่อยมาทั้งวันแล้ว วางเรื่องเครียดๆ ลงก่อนนะ พรุ่งนี้ค่อยลุยกันใหม่ ฝันดีครับทุกคน! 🩵" },
+    { title: "✨ พรุ่งนี้จะเป็นวันที่ดีกว่าเดิมแน่นอน", desc: "ขอบคุณทุกคนที่เหน็ดเหนื่อยและสู้ไปด้วยกันในวันนี้ คืนนี้ชาร์จแบตให้เต็มที่ ฝันดีราตรีสวัสดิ์นะจ๊ะ 🌊" },
+    { title: "🌌 เหนื่อยไหมวันนี้? เก่งมากแล้วนะ!", desc: "ไม่ว่าจะเจออะไรมา วันนี้ทุกคนเก่งมากแล้ว พักสายตา หลับตาให้สบาย แล้วเจอกันใหม่พรุ่งนี้ครับ 🖤" },
+    { title: "😴 ถึงเวลาพักผ่อนของเหล่านักสู้แล้ว", desc: "ถอดอาวุธ วางคีย์บอร์ด แล้วไปนอนพักผ่อนกันได้แล้วนะ ฝันดีราตรีสวัสดิ์ชาว BKM ทุกคน!" },
+    { title: "🌠 พักผ่อนเอาแรง สู้ต่อวันพรุ่งนี้", desc: "ขอให้คืนนี้เป็นคืนที่หลับสนิท ไม่มีเรื่องให้ต้องกังวลใจ ราตรีสวัสดิ์นะพี่น้องทุกคน 💙" },
+    { title: "🧸 ฝันดีนะอ้วน! พักผ่อนเยอะๆ", desc: "อย่าลืมห่มผ้าหนาๆ รักษาสุขภาพกันด้วยนะ พรุ่งนี้ตื่นมาเจอกันใหม่พร้อมพลังเต็มร้อยครับ!" }
+];
+
+cron.schedule('0 23 * * *', async () => {
+    try {
+        if (WEBHOOK_GENERAL) {
+            // สุ่มประโยคซึ้งๆ ให้กำลังใจ
+            const randomQuote = nightQuotes[Math.floor(Math.random() * nightQuotes.length)];
+            
+            const embed = {
+                content: "@everyone 🌙 **ได้เวลาพักผ่อนแล้วนะทุกคน...**",
+                embeds: [{
+                    title: randomQuote.title,
+                    description: randomQuote.description,
+                    color: 7419530, // สีม่วงเข้มโทนกลางคืน
+                    footer: { text: "BLACK KINGDOM • Good Night & Sweet Dreams 🩵" }
+                }]
+            };
+
+            await fetch(WEBHOOK_GENERAL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(embed)
+            });
+        }
+    } catch (e) {
+        console.error('Error sending good night alert:', e);
+    }
+}, CRON_OPTIONS);
+// ==========================================
 
 cron.schedule('55 23 * * *', async () => {
     try {
