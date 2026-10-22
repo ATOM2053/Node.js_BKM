@@ -49,8 +49,7 @@
         .container { max-width: 900px; margin: 0 auto; padding: 0 15px; width: 100%; }
 
         .navbar {
-            position: relative;
-            top: 0; left: 0; width: 100%; z-index: 2000;
+            position: relative; top: 0; left: 0; width: 100%; z-index: 2000;
             background: rgba(6, 9, 17, 0.98);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border-color);
@@ -272,9 +271,10 @@
                             <label for="ocName"><i class="fa-solid fa-user"></i> ชื่อ OC</label>
                             <input type="text" id="ocName" class="form-control" placeholder="เช่น สมชาย" required>
                         </div>
+                        <!-- เพิ่มช่องกรอกอายุ OC ตรงนี้ -->
                         <div class="form-group">
                             <label for="ocAge"><i class="fa-solid fa-calendar-days"></i> อายุ OC</label>
-                            <input type="number" id="ocAge" class="form-control" placeholder="อายุจริง" required>
+                            <input type="number" id="ocAge" class="form-control" placeholder="เช่น 18" required>
                         </div>
                         <div class="form-group">
                             <label><i class="fa-solid fa-venus-mars"></i> เพศ OC</label>
@@ -806,7 +806,6 @@
             }
         }
 
-        // ระบบส่ง Heartbeat (Online Status)
         setInterval(() => {
             fetch('/api/heartbeat', {
                 method: 'POST',
@@ -836,7 +835,7 @@
             document.getElementById('navLinks').classList.toggle('active');
         });
 
-        // จัดการฟอร์มสมัครแก๊ง
+        // จัดการฟอร์มสมัครแก๊ง (ดึงค่า ocAge, discordTag, testerTag ครบถ้วน)
         document.getElementById('applyForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const icGenderVal = document.getElementById('icGender').value;
@@ -863,13 +862,13 @@
                 icGender: icGenderVal,
                 level: document.getElementById('level').value,
                 ocName: document.getElementById('ocName').value,
-                ocAge: document.getElementById('ocAge').value,
+                ocAge: document.getElementById('ocAge').value, // ดึงอายุ OC
                 ocGender: ocGenderVal,
                 onlineHours: document.getElementById('onlineHours').value,
                 playStyle: playStyleVal,
                 reason: document.getElementById('reason').value,
-                discordTag: document.getElementById('discordTag').value,
-                testerTag: document.getElementById('testerTag').value
+                discordTag: document.getElementById('discordTag').value, // ดึง Discord Tag
+                testerTag: document.getElementById('testerTag').value     // ดึง ผู้คุมสอบ
             };
 
             localStorage.setItem('bkm_my_application', JSON.stringify(data));
@@ -905,7 +904,6 @@
             }
         });
 
-        // จัดการฟอร์มเช็กชื่อกิจกรรม
         document.getElementById('checkinForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const data = {
@@ -920,15 +918,10 @@
                 });
                 const result = await res.json();
                 alert(result.message);
-                if(result.success) {
-                    this.reset();
-                }
-            } catch(e) {
-                alert('เกิดข้อผิดพลาดในการเชื่อมต่อ');
-            }
+                if(result.success) { this.reset(); }
+            } catch(e) { alert('เกิดข้อผิดพลาดในการเชื่อมต่อ'); }
         });
 
-        // จัดการฟอร์มคลังแก๊ง
         document.getElementById('treasuryForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const data = {
@@ -946,15 +939,10 @@
                 });
                 const result = await res.json();
                 alert(result.message);
-                if(result.success) {
-                    this.reset();
-                }
-            } catch(e) {
-                alert('เกิดข้อผิดพลาดในการเชื่อมต่อ');
-            }
+                if(result.success) { this.reset(); }
+            } catch(e) { alert('เกิดข้อผิดพลาดในการเชื่อมต่อ'); }
         });
 
-        // โหลดข้อมูล Leaderboard
         async function loadLeaderboard() {
             try {
                 const res = await fetch('/api/leaderboard');
@@ -989,7 +977,7 @@
                             <h4 style="color: var(--accent-cyan); margin-bottom: 6px;"><i class="fa-solid fa-circle-check"></i> พบใบสมัครแล้ว!</h4>
                             <p><b>ชื่อ IC:</b> ${item.icName} (อายุ ${item.icAge} ปี)</p>
                             <p><b>เลเวล:</b> ${item.level} | <b>สายการเล่น:</b> ${item.playStyle}</p>
-                            <p><b>ชื่อ OC:</b> ${item.ocName} | <b>Discord:</b> ${item.discordTag}</p>
+                            <p><b>ชื่อ OC:</b> ${item.ocName} (อายุ ${item.ocAge} ปี) | <b>Discord:</b> ${item.discordTag}</p>
                         </div>
                     `;
                 } else {
