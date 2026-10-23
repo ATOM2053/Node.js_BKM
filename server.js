@@ -22,6 +22,8 @@ const WEBHOOK_TREASURY = process.env.TREASURY || process.env.ACTIVITY;
 const WEBHOOK_CHECKIN  = process.env.CHECKIN || process.env.ACTIVITY;
 
 const RENDER_EXTERNAL_URL = process.env.RENDER_EXTERNAL_URL || `http://localhost:${PORT}`;
+
+// Self-Ping ให้เว็บไม่หลับ
 setInterval(async () => {
     try { await fetch(RENDER_EXTERNAL_URL); } catch (err) {}
 }, 10 * 60 * 1000);
@@ -91,7 +93,7 @@ app.get('/api/search-application', (req, res) => {
     }
 });
 
-// API รับใบสมัคร (แก้ไขให้ดึง ocAge, discordTag, testerTag มาครบถ้วน)
+// API รับใบสมัคร
 app.post('/api/apply', antiSpam, async (req, res) => {
     const data = req.body;
     if(!data.icName) return res.status(400).json({ success: false, message: 'กรุณากรอกชื่อ IC' });
@@ -232,8 +234,12 @@ app.get('/api/leaderboard', (req, res) => {
     res.json(sorted);
 });
 
+// ==========================================
+// ⏰ ระบบตั้งเวลาแจ้งเตือน DISCORD (CRON JOBS)
+// ==========================================
 const CRON_OPTIONS = { timezone: "Asia/Bangkok" };
 
+// 1. อรุณสวัสดิ์ (09:00)
 const morningQuotes = [
     "🌅 อรุณสวัสดิ์ชาว BKM ทุกคน! วันนี้ขอให้เป็นวันที่ดี ฟาร์มเดือดๆ ลุยกิจกรรมชนะรวดนะจ๊ะ 🩵",
     "☀️ ตื่นมาเจอเช้าวันใหม่ ขอให้พลังเต็มร้อย พร้อมลุยทุกภารกิจในเมืองแล้ววันนี้ สู้ๆ ครับพี่น้อง!",
@@ -254,12 +260,13 @@ cron.schedule('0 9 * * *', async () => {
     } catch (e) {}
 }, CRON_OPTIONS);
 
+// 2. บอกฝันดี (23:00)
 const nightQuotes = [
     "🌙 คืนนี้พักผ่อนให้เต็มที่นะพี่น้อง BKM เหนื่อยมาทั้งวันแล้ว วางเรื่องเครียดๆ ลงก่อนนะ พรุ่งนี้ค่อยลุยกันใหม่ ฝันดีครับทุกคน! 🩵",
     "✨ พรุ่งนี้จะเป็นวันที่ดีกว่าเดิมแน่นอน ขอบคุณทุกคนที่เหน็ดเหนื่อยและสู้ไปด้วยกันในวันนี้ คืนนี้ชาร์จแบตให้เต็มที่ ฝันดีราตรีสวัสดิ์นะจ๊ะ 🌊",
     "🌌 เหนื่อยไหมวันนี้? เก่งมากแล้วนะ! ไม่ว่าจะเจออะไรมา วันนี้ทุกคนเก่งมากแล้ว พักสายตา หลับตาให้สบาย แล้วเจอกันใหม่พรุ่งนี้ครับ 🖤",
     "😴 ถึงเวลาพักผ่อนของเหล่านักสู้แล้ว ถอดอาวุธ วางคีย์บอร์ด แล้วไปนอนพักผ่อนกันได้แล้วนะ ฝันดีราตรีสวัสดิ์ชาว BKM ทุกคน!",
-    "🌠 พักผ่อนเอาแรง สู้ต่อวันพรุ่งนี้ ขอให้คืนนี้เป็นคืนที่หลับสนิท ไม่มีเรื่องให้ต้องกังวลใจ ราตรีสวัสดิ์นะพี่น้องทุกคน 💙",
+    "🌠 พพักผ่อนเอาแรง สู้ต่อวันพรุ่งนี้ ขอให้คืนนี้เป็นคืนที่หลับสนิท ไม่มีเรื่องให้ต้องกังวลใจ ราตรีสวัสดิ์นะพี่น้องทุกคน 💙",
     "🧸 ฝันดีนะอ้วน! พักผ่อนเยอะๆ อย่าลืมห่มผ้าหนาๆ รักษาสุขภาพกันด้วยนะ พรุ่งนี้ตื่นมาเจอกันใหม่พร้อมพลังเต็มร้อยครับ!"
 ];
 
@@ -276,6 +283,101 @@ cron.schedule('0 23 * * *', async () => {
     } catch (e) {}
 }, CRON_OPTIONS);
 
+// 3. แจ้งเตือนรีเซิร์ฟเวอร์ (23:55)
+cron.schedule('55 23 * * *', async () => {
+    try {
+        if (WEBHOOK_RESTART || WEBHOOK_ACTIVITY) {
+            const targetWebhook = WEBHOOK_RESTART || WEBHOOK_ACTIVITY;
+            const embed = {
+                content: "@everyone ⚠️ **ประกาศแจ้งเตือนการรีเซิร์ฟเวอร์**",
+                embeds: [{
+                    title: "🔄 เซิร์ฟเวอร์กำลังจะรีสตาร์ท",
+                    description: "เซิร์ฟเวอร์จะทำการรีสตาร์ทในอีก **5 นาทีข้างหน้า** (เวลา 00:00 น.) กรุณาเตรียมตัวและเก็บของให้เรียบร้อยด้วยนะครับ/ค่ะ!",
+                    color: 16766720,
+                    footer: { text: "BLACK KINGDOM • System Restart Alert" }
+                }]
+            };
+            await fetch(targetWebhook, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(embed) });
+        }
+    } catch (e) {}
+}, CRON_OPTIONS);
+
+// 4. แจ้งเตือน AirDrop (13:00, 18:00, 21:00)
+cron.schedule('59 12,17,20 * * *', async () => {
+    try {
+        if (WEBHOOK_ACTIVITY) {
+            await fetch(WEBHOOK_ACTIVITY, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content: "@everyone ⚠️ **เตรียมตัวให้พร้อม! กิจกรรม AirDrop จะเริ่มในอีก 1 นาทีข้างหน้า!**" })
+            });
+        }
+    } catch (e) {}
+}, CRON_OPTIONS);
+
+cron.schedule('0 13,18,21 * * *', async () => {
+    try {
+        if (WEBHOOK_ACTIVITY) {
+            await fetch(WEBHOOK_ACTIVITY, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content: "@everyone 📦 **กิจกรรม AirDrop เริ่มแล้ว ลุยเลยพี่น้อง!**" })
+            });
+        }
+    } catch (e) {}
+}, CRON_OPTIONS);
+
+// 5. แจ้งเตือนยึดคุก Pawria Town (20:00)
+cron.schedule('59 19 * * *', async () => {
+    try {
+        if (WEBHOOK_ACTIVITY) {
+            await fetch(WEBHOOK_ACTIVITY, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content: "@everyone ⚠️ **เตรียมตัว! กิจกรรมยึดคุก Pawria Town จะเริ่มในอีก 1 นาทีข้างหน้า!**" })
+            });
+        }
+    } catch (e) {}
+}, CRON_OPTIONS);
+
+cron.schedule('0 20 * * *', async () => {
+    try {
+        if (WEBHOOK_ACTIVITY) {
+            await fetch(WEBHOOK_ACTIVITY, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content: "@everyone 🏰 **กิจกรรมยึดคุก Pawria Town เริ่มแล้ว!**" })
+            });
+        }
+    } catch (e) {}
+}, CRON_OPTIONS);
+
+// 6. แจ้งเตือนยึดโซน (21:30)
+cron.schedule('29 21 * * *', async () => {
+    try {
+        if (WEBHOOK_ACTIVITY) {
+            await fetch(WEBHOOK_ACTIVITY, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content: "@everyone ⚠️ **เตรียมตัว! กิจกรรมยึดโซนจะเริ่มในอีก 1 นาทีข้างหน้า!**" })
+            });
+        }
+    } catch (e) {}
+}, CRON_OPTIONS);
+
+cron.schedule('30 21 * * *', async () => {
+    try {
+        if (WEBHOOK_ACTIVITY) {
+            await fetch(WEBHOOK_ACTIVITY, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content: "@everyone 🛡️ **กิจกรรมยึดโซนเริ่มแล้ว เข้าวงด่วน!**" })
+            });
+        }
+    } catch (e) {}
+}, CRON_OPTIONS);
+
+// 7. ขอออกแก๊ง
 app.post('/api/leave-gang', async (req, res) => {
     const { icName, reason } = req.body;
     if(!icName) return res.status(400).json({ success: false });
