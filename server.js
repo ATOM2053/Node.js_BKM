@@ -23,7 +23,7 @@ const WEBHOOK_CHECKIN  = process.env.CHECKIN || process.env.ACTIVITY;
 
 const RENDER_EXTERNAL_URL = process.env.RENDER_EXTERNAL_URL || `http://localhost:${PORT}`;
 
-// Self-Ping ให้เว็บไม่หลับ
+// Self-Ping ให้เว็บออนตลอด 24 ชม.
 setInterval(async () => {
     try { await fetch(RENDER_EXTERNAL_URL); } catch (err) {}
 }, 10 * 60 * 1000);
@@ -93,7 +93,9 @@ app.get('/api/search-application', (req, res) => {
     }
 });
 
-// API รับใบสมัคร
+// ==========================================
+// 📝 API รับใบสมัครเข้าแก๊ง DEKHOTSKY [DHS]
+// ==========================================
 app.post('/api/apply', antiSpam, async (req, res) => {
     const data = req.body;
     if(!data.icName) return res.status(400).json({ success: false, message: 'กรุณากรอกชื่อ IC' });
@@ -118,17 +120,17 @@ app.post('/api/apply', antiSpam, async (req, res) => {
     const payload = {
         content: "@everyone @here",
         embeds: [{
-            title: "🌊 🩵 ใบสมัครเข้าแก๊ง BLACK KINGDOM (BKM)",
-            description: "มีผู้สนใจสมัครเข้าร่วมตระกูล กรุณาตรวจสอบข้อมูลและดำเนินการสอบตามขั้นตอน",
-            color: 3826936,
+            title: "⚡🧊 ใบสมัครเข้าแก๊ง DEKHOTSKY [DHS]",
+            description: "มีนักสู้คนใหม่ต้องการเข้าร่วมตระกูล **DEKHOTSKY [DHS]** กรุณาตรวจสอบข้อมูลและดำเนินการสอบเข้าแก๊ง",
+            color: 255, // สีฟ้าไอซ์นีออน #0000FF
             fields: [
                 { name: "👤 ข้อมูล IC (ในเกม)", value: `• **ชื่อ IC:** \`${data.icName}\`\n• **อายุ IC:** ${data.icAge} ปี\n• **เลเวล:** Lv.${data.level}\n• **เพศ IC:** ${data.icGender}`, inline: false },
                 { name: "👽 ข้อมูล OC (นอกเกม)", value: `• **ชื่อ OC:** ${data.ocName}\n• **อายุ OC:** ${data.ocAge || '-'} ปี\n• **เวลาเล่น:** ${data.onlineHours}`, inline: false },
                 { name: "⚔️ สายการเล่น", value: `\`\`\`${data.playStyle}\`\`\``, inline: true },
-                { name: "💬 เหตุผล", value: `\`\`\`${data.reason}\`\`\``, inline: false },
-                { name: "💬 Discord & ผู้คุม", value: `• **ผู้สมัคร:** ${data.discordTag || '-'}\n• **ผู้คุมสอบ:** ${data.testerTag || '-'}\n• **ห้องรอสอบ:** https://discord.gg/C6kKrrGbm`, inline: false }
+                { name: "💬 เหตุผลที่เข้าร่วม", value: `\`\`\`${data.reason}\`\`\``, inline: false },
+                { name: "💬 Discord & ผู้คุมสอบ", value: `• **ผู้สมัคร:** ${data.discordTag || '-'}\n• **ผู้คุมสอบ:** ${data.testerTag || '-'}\n• **ห้องรอสอบ:** https://discord.gg/C6kKrrGbm`, inline: false }
             ],
-            footer: { text: "BLACK KINGDOM System • " + new Date().toLocaleString('th-TH') }
+            footer: { text: "DEKHOTSKY [DHS] System • " + new Date().toLocaleString('th-TH') }
         }]
     };
 
@@ -149,6 +151,9 @@ app.post('/api/apply', antiSpam, async (req, res) => {
 app.get('/api/applications', (req, res) => res.json(dbData.applications));
 app.get('/api/members', (req, res) => res.json(dbData.members));
 
+// ==========================================
+// 📋 API เช็กชื่อกิจกรรม DEKHOTSKY [DHS]
+// ==========================================
 app.post('/api/checkin', antiSpam, async (req, res) => {
     const { icName, activityName } = req.body;
     if (!icName || !activityName) return res.status(400).json({ success: false, message: 'กรุณากรอกข้อมูลให้ครบถ้วน' });
@@ -160,12 +165,12 @@ app.post('/api/checkin', antiSpam, async (req, res) => {
     saveData();
 
     const embed = {
-        content: `📋 **บันทึกการเช็กชื่อเข้าร่วมกิจกรรม**`,
+        content: `📋 **บันทึกการเช็กชื่อกิจกรรม - DEKHOTSKY [DHS]**`,
         embeds: [{
-            title: `✅ สมาชิกเช็กชื่อสำเร็จ: ${activityName}`,
-            description: `• **ชื่อ IC:** \`${icName}\`\n• **เวลาเช็กชื่อ:** ${dateStr}`,
-            color: 3066993,
-            footer: { text: "BLACK KINGDOM • Attendance System" }
+            title: `⚡ เช็กชื่อสำเร็จ: ${activityName}`,
+            description: `• **นักสู้ DHS:** \`${icName}\`\n• **เวลาเช็กชื่อ:** ${dateStr}`,
+            color: 3670264, // #38bdf8
+            footer: { text: "DEKHOTSKY [DHS] • Attendance System" }
         }]
     };
 
@@ -184,6 +189,9 @@ app.post('/api/checkin', antiSpam, async (req, res) => {
 
 app.get('/api/attendance', (req, res) => res.json(dbData.attendance));
 
+// ==========================================
+// 📦 API บันทึกคลังแก๊ง DEKHOTSKY [DHS]
+// ==========================================
 app.post('/api/treasury', antiSpam, async (req, res) => {
     const { icName, type, itemName, quantity, note } = req.body;
     if (!icName || !type || !itemName || !quantity) return res.status(400).json({ success: false, message: 'กรุณากรอกข้อมูลให้ครบ' });
@@ -196,12 +204,12 @@ app.post('/api/treasury', antiSpam, async (req, res) => {
 
     const isWithdraw = type === 'เบิกของ';
     const embed = {
-        content: `📦 **รายงานคลังตระกูล BLACK KINGDOM**`,
+        content: `📦 **รายงานคลังตระกูล DEKHOTSKY [DHS]**`,
         embeds: [{
-            title: isWithdraw ? `📤 มีการแจ้งเบิกสิ่งของ` : `📥 มีการแจ้งฝากสิ่งของเข้าคลัง`,
-            description: `• **ผู้ทำรายการ:** \`${icName}\`\n• **ประเภท:** \`${type}\`\n• **รายการ:** \`${itemName}\`\n• **จำนวน:** \`${quantity}\`\n• **หมายเหตุ:** ${note || '-'}\n• **เวลา:** ${dateStr}`,
-            color: isWithdraw ? 15158332 : 3066993,
-            footer: { text: "BLACK KINGDOM • Treasury Management" }
+            title: isWithdraw ? `📤 แจ้งเบิกอุปกรณ์คลัง DHS` : `📥 แจ้งฝากอุปกรณ์เข้าคลัง DHS`,
+            description: `• **ผู้ทำรายการ:** \`${icName}\`\n• **ประเภท:** \`${type}\`\n• **รายการสิ่งของ:** \`${itemName}\`\n• **จำนวน:** \`${quantity}\`\n• **หมายเหตุ:** ${note || '-'}\n• **เวลา:** ${dateStr}`,
+            color: isWithdraw ? 15158332 : 255,
+            footer: { text: "DEKHOTSKY [DHS] • Treasury System" }
         }]
     };
 
@@ -235,16 +243,16 @@ app.get('/api/leaderboard', (req, res) => {
 });
 
 // ==========================================
-// ⏰ ระบบตั้งเวลาแจ้งเตือน DISCORD (CRON JOBS)
+// ⏰ ระบบตั้งเวลาแจ้งเตือน DISCORD DEKHOTSKY (CRON JOBS)
 // ==========================================
 const CRON_OPTIONS = { timezone: "Asia/Bangkok" };
 
-// 1. อรุณสวัสดิ์ (09:00)
+// 1. อรุณสวัสดิ์ยามเช้า DEKHOTSKY (09:00)
 const morningQuotes = [
-    "🌅 อรุณสวัสดิ์ชาว BKM ทุกคน! วันนี้ขอให้เป็นวันที่ดี ฟาร์มเดือดๆ ลุยกิจกรรมชนะรวดนะจ๊ะ 🩵",
-    "☀️ ตื่นมาเจอเช้าวันใหม่ ขอให้พลังเต็มร้อย พร้อมลุยทุกภารกิจในเมืองแล้ววันนี้ สู้ๆ ครับพี่น้อง!",
-    "☕ กาแฟพร้อม คีย์บอร์ดพร้อม! ขอให้วันนี้เป็นวันที่ราบรื่น เฮงๆ รวยๆ กันทุกคนนะชาว BKM 🌊",
-    "⛅ เช้าแล้วตื่นมารับความปัง! ขอให้วันนี้เจอแต่เรื่องราวดีๆ และสนุกกับการเล่นเกมไปด้วยกันครับ 🖤"
+    "🌅 อรุณสวัสดิ์เหล่านักสู้ DEKHOTSKY [DHS] ทุกคน! ตื่นมารับความปัง วันนี้ลุยกิจกรรมชนะรวดนะพวกเรา! ⚡🧊",
+    "☀️ เช้าวันใหม่มาถึงแล้ว! ขอให้ชาว DHS พร้อมลุย ฟาร์มเดือดๆ ลุยกิจกรรมให้โลกจำ สู้ๆ ครับพี่น้อง!",
+    "☕ กาแฟพร้อม ปืนพร้อม! ขอให้วันนี้เป็นวันที่ดี ลุยทุกกิจกรรมด้วยความชนะนะชาว DEKHOTSKY [DHS] 💙",
+    "⛅ ตื่นมารับพลังนีออนสีฟ้า! วันนี้ขอให้พี่น้อง DEKHOTSKY เล่นเกมสนุก ลุยไหนลุยนั่น ชัยชนะเป็นของพวกเรา!"
 ];
 
 cron.schedule('0 9 * * *', async () => {
@@ -252,22 +260,21 @@ cron.schedule('0 9 * * *', async () => {
         if (WEBHOOK_GENERAL) {
             const randomText = morningQuotes[Math.floor(Math.random() * morningQuotes.length)];
             const embed = {
-                content: "@everyone ☀️ **อรุณสวัสดิ์ยามเช้าจ้าทุกคน!**",
-                embeds: [{ description: randomText, color: 16776960, footer: { text: "BLACK KINGDOM • Good Morning" } }]
+                content: "@everyone ☀️ **อรุณสวัสดิ์ยามเช้าตระกูล DEKHOTSKY [DHS]!**",
+                embeds: [{ description: randomText, color: 3670264, footer: { text: "DEKHOTSKY [DHS] • Good Morning" } }]
             };
             await fetch(WEBHOOK_GENERAL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(embed) });
         }
     } catch (e) {}
 }, CRON_OPTIONS);
 
-// 2. บอกฝันดี (23:00)
+// 2. บอกฝันดี DEKHOTSKY (23:00)
 const nightQuotes = [
-    "🌙 คืนนี้พักผ่อนให้เต็มที่นะพี่น้อง BKM เหนื่อยมาทั้งวันแล้ว วางเรื่องเครียดๆ ลงก่อนนะ พรุ่งนี้ค่อยลุยกันใหม่ ฝันดีครับทุกคน! 🩵",
-    "✨ พรุ่งนี้จะเป็นวันที่ดีกว่าเดิมแน่นอน ขอบคุณทุกคนที่เหน็ดเหนื่อยและสู้ไปด้วยกันในวันนี้ คืนนี้ชาร์จแบตให้เต็มที่ ฝันดีราตรีสวัสดิ์นะจ๊ะ 🌊",
-    "🌌 เหนื่อยไหมวันนี้? เก่งมากแล้วนะ! ไม่ว่าจะเจออะไรมา วันนี้ทุกคนเก่งมากแล้ว พักสายตา หลับตาให้สบาย แล้วเจอกันใหม่พรุ่งนี้ครับ 🖤",
-    "😴 ถึงเวลาพักผ่อนของเหล่านักสู้แล้ว ถอดอาวุธ วางคีย์บอร์ด แล้วไปนอนพักผ่อนกันได้แล้วนะ ฝันดีราตรีสวัสดิ์ชาว BKM ทุกคน!",
-    "🌠 พพักผ่อนเอาแรง สู้ต่อวันพรุ่งนี้ ขอให้คืนนี้เป็นคืนที่หลับสนิท ไม่มีเรื่องให้ต้องกังวลใจ ราตรีสวัสดิ์นะพี่น้องทุกคน 💙",
-    "🧸 ฝันดีนะอ้วน! พักผ่อนเยอะๆ อย่าลืมห่มผ้าหนาๆ รักษาสุขภาพกันด้วยนะ พรุ่งนี้ตื่นมาเจอกันใหม่พร้อมพลังเต็มร้อยครับ!"
+    "🌙 คืนนี้พักผ่อนเอาแรงนะพี่น้อง DEKHOTSKY [DHS] เหนื่อยมาทั้งวันแล้ว วางอาวุธแล้วพักสายตากันนะทุกคน ฝันดีครับ! ⚡🧊",
+    "✨ ขอบคุณทุกคนที่เหน็ดเหนื่อยสู้รบและอยู่เคียงข้างกันในนาม DEKHOTSKY วันนี้เก่งกันมากๆ พรุ่งนี้ค่อยว่ากันใหม่ ฝันดีนะจ๊ะ 💙",
+    "🌌 เหนื่อยไหมวันนี้? เก่งมากแล้วนะพวกเรา DHS! คืนนี้หลับตาให้สบาย ชาร์จแบตให้เต็มที่ แล้วเจอกันวันพรุ่งนี้ครับ 🧊",
+    "😴 ได้เวลาพักผ่อนของตระกูล DEKHOTSKY แล้ว ถอดอาวุธ ปิดจอ แล้วไปนอนพักผ่อนกันได้แล้วนะ ฝันดีราตรีสวัสดิ์ทุกคน!",
+    "🧸 ฝันดีนะพวกเรา DHS! พักผ่อนเยอะๆ รักษาสุขภาพกันด้วย พรุ่งนี้ตื่นมาลุยต่อด้วยพลังเต็มร้อยครับ! ⚡"
 ];
 
 cron.schedule('0 23 * * *', async () => {
@@ -275,8 +282,8 @@ cron.schedule('0 23 * * *', async () => {
         if (WEBHOOK_GENERAL) {
             const randomText = nightQuotes[Math.floor(Math.random() * nightQuotes.length)];
             const embed = {
-                content: "@everyone 🌙 **ได้เวลาพักผ่อนแล้วนะทุกคน...**",
-                embeds: [{ description: randomText, color: 7419530, footer: { text: "BLACK KINGDOM • Good Night" } }]
+                content: "@everyone 🌙 **ได้เวลาพักผ่อนแล้วนะตระกูล DEKHOTSKY [DHS]...**",
+                embeds: [{ description: randomText, color: 255, footer: { text: "DEKHOTSKY [DHS] • Good Night" } }]
             };
             await fetch(WEBHOOK_GENERAL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(embed) });
         }
@@ -289,12 +296,12 @@ cron.schedule('55 23 * * *', async () => {
         if (WEBHOOK_RESTART || WEBHOOK_ACTIVITY) {
             const targetWebhook = WEBHOOK_RESTART || WEBHOOK_ACTIVITY;
             const embed = {
-                content: "@everyone ⚠️ **ประกาศแจ้งเตือนการรีเซิร์ฟเวอร์**",
+                content: "@everyone ⚠️ **ประกาศแจ้งเตือนตระกูล DEKHOTSKY [DHS]**",
                 embeds: [{
                     title: "🔄 เซิร์ฟเวอร์กำลังจะรีสตาร์ท",
-                    description: "เซิร์ฟเวอร์จะทำการรีสตาร์ทในอีก **5 นาทีข้างหน้า** (เวลา 00:00 น.) กรุณาเตรียมตัวและเก็บของให้เรียบร้อยด้วยนะครับ/ค่ะ!",
+                    description: "เซิร์ฟเวอร์จะทำการรีสตาร์ทในอีก **5 นาทีข้างหน้า** (เวลา 00:00 น.) กรุณาเตรียมตัวและเก็บของให้เรียบร้อยด้วยนะครับ!",
                     color: 16766720,
-                    footer: { text: "BLACK KINGDOM • System Restart Alert" }
+                    footer: { text: "DEKHOTSKY [DHS] • System Restart Alert" }
                 }]
             };
             await fetch(targetWebhook, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(embed) });
@@ -309,7 +316,7 @@ cron.schedule('59 12,17,20 * * *', async () => {
             await fetch(WEBHOOK_ACTIVITY, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ content: "@everyone ⚠️ **เตรียมตัวให้พร้อม! กิจกรรม AirDrop จะเริ่มในอีก 1 นาทีข้างหน้า!**" })
+                body: JSON.stringify({ content: "@everyone ⚠️ **เตรียมตัวให้พร้อม DEKHOTSKY! กิจกรรม AirDrop จะเริ่มในอีก 1 นาทีข้างหน้า!**" })
             });
         }
     } catch (e) {}
@@ -321,7 +328,7 @@ cron.schedule('0 13,18,21 * * *', async () => {
             await fetch(WEBHOOK_ACTIVITY, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ content: "@everyone 📦 **กิจกรรม AirDrop เริ่มแล้ว ลุยเลยพี่น้อง!**" })
+                body: JSON.stringify({ content: "@everyone 📦 **กิจกรรม AirDrop เริ่มแล้ว! DEKHOTSKY [DHS] เดือดแน่นอน ลุย!**" })
             });
         }
     } catch (e) {}
@@ -334,7 +341,7 @@ cron.schedule('59 19 * * *', async () => {
             await fetch(WEBHOOK_ACTIVITY, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ content: "@everyone ⚠️ **เตรียมตัว! กิจกรรมยึดคุก Pawria Town จะเริ่มในอีก 1 นาทีข้างหน้า!**" })
+                body: JSON.stringify({ content: "@everyone ⚠️ **เตรียมตัว DEKHOTSKY! กิจกรรมยึดคุก Pawria Town จะเริ่มในอีก 1 นาทีข้างหน้า!**" })
             });
         }
     } catch (e) {}
@@ -346,7 +353,7 @@ cron.schedule('0 20 * * *', async () => {
             await fetch(WEBHOOK_ACTIVITY, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ content: "@everyone 🏰 **กิจกรรมยึดคุก Pawria Town เริ่มแล้ว!**" })
+                body: JSON.stringify({ content: "@everyone 🏰 **กิจกรรมยึดคุก Pawria Town เริ่มแล้ว! DEKHOTSKY [DHS] ยึดจุดด่วน!**" })
             });
         }
     } catch (e) {}
@@ -359,7 +366,7 @@ cron.schedule('29 21 * * *', async () => {
             await fetch(WEBHOOK_ACTIVITY, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ content: "@everyone ⚠️ **เตรียมตัว! กิจกรรมยึดโซนจะเริ่มในอีก 1 นาทีข้างหน้า!**" })
+                body: JSON.stringify({ content: "@everyone ⚠️ **เตรียมตัว DHS! กิจกรรมยึดโซนจะเริ่มในอีก 1 นาทีข้างหน้า!**" })
             });
         }
     } catch (e) {}
@@ -371,7 +378,7 @@ cron.schedule('30 21 * * *', async () => {
             await fetch(WEBHOOK_ACTIVITY, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ content: "@everyone 🛡️ **กิจกรรมยึดโซนเริ่มแล้ว เข้าวงด่วน!**" })
+                body: JSON.stringify({ content: "@everyone 🛡️ **กิจกรรมยึดโซนเริ่มแล้ว! DEKHOTSKY [DHS] เข้าวงให้พร้อมยิง!**" })
             });
         }
     } catch (e) {}
@@ -394,12 +401,12 @@ app.post('/api/leave-gang', async (req, res) => {
     saveData();
     
     const leaveEmbed = {
-        content: "@everyone 🥀 **บันทึกการอำลาสมาชิกตระกูล BLACK KINGDOM**",
+        content: "@everyone 🥀 **บันทึกการอำลาสมาชิกตระกูล DEKHOTSKY [DHS]**",
         embeds: [{
             title: "🖤 มีสมาชิกขอลาออกจากแก๊ง",
-            description: `**ลาก่อนนะพี่น้อง...** ขอบคุณที่ร่วมเดินทางและสร้างความทรงจำดีๆ ด้วยกันมาตลอดทาง...\n\n👤 **ชื่อ IC:** \`${icName}\`\n📝 **เหตุผลที่ออก:** \`${reason}\`\n📅 **วันที่ออก:** ${dateStr}`,
+            description: `**ลาก่อนนะพี่น้อง...** ขอบคุณที่เคยร่วมเดินทางและต่อสู้ในนาม DEKHOTSKY [DHS] มาด้วยกัน...\n\n👤 **ชื่อ IC:** \`${icName}\`\n📝 **เหตุผลที่ออก:** \`${reason}\`\n📅 **วันที่ออก:** ${dateStr}`,
             color: 15158332,
-            footer: { text: "BLACK KINGDOM - เราจะไม่ลืมกัน" }
+            footer: { text: "DEKHOTSKY [DHS] - เราจะไม่ลืมกัน" }
         }]
     };
 
@@ -413,5 +420,5 @@ app.post('/api/leave-gang', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`BKM Gang Server is running on port ${PORT}`);
+    console.log(`DEKHOTSKY [DHS] Gang Server is running on port ${PORT}`);
 });
