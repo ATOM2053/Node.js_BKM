@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BLACK KINGDOM (BKM) 🌊 🩵 - ระบบจัดการและสมัครเข้าแก๊ง</title>
+    <title>DEKHOTSKY [DHS] ⚡🧊 - ระบบจัดการและสมัครเข้าแก๊ง</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,300;0,400;0,500;0,600;0,700&display=swap" rel="stylesheet">
@@ -11,19 +11,19 @@
     
     <style>
         :root {
-            --bg-dark: #060911;
-            --bg-card: rgba(15, 23, 42, 0.92);
-            --accent-blue: #38bdf8;
-            --accent-cyan: #7dd3fc;
-            --accent-deep: #0284c7;
-            --accent-glow: rgba(56, 189, 248, 0.35);
+            --bg-dark: #030712;
+            --bg-card: rgba(10, 15, 30, 0.94);
+            --accent-blue: #0000FF;
+            --accent-cyan: #38bdf8;
+            --accent-deep: #1d4ed8;
+            --accent-glow: rgba(0, 0, 255, 0.4);
             --text-main: #f8fafc;
             --text-sub: #94a3b8;
-            --border-color: rgba(56, 189, 248, 0.25);
+            --border-color: rgba(56, 189, 248, 0.3);
             --yellow-warning: #f59e0b;
             --orange-warning: #f97316;
             --red-warning: #ef4444;
-            --gold-crown: #fbbf24;
+            --gold-crown: #38bdf8;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Kanit', sans-serif; }
@@ -37,23 +37,23 @@
             flex-direction: column;
             overflow-x: hidden;
             background-image: 
-                radial-gradient(circle at 10% 10%, rgba(2, 132, 199, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 90% 90%, rgba(56, 189, 248, 0.1) 0%, transparent 40%);
+                radial-gradient(circle at 10% 10%, rgba(0, 0, 255, 0.18) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(56, 189, 248, 0.12) 0%, transparent 40%);
             background-attachment: fixed;
         }
 
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: var(--bg-dark); }
-        ::-webkit-scrollbar-thumb { background: var(--accent-deep); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: var(--accent-blue); border-radius: 4px; }
 
         .container { max-width: 900px; margin: 0 auto; padding: 0 15px; width: 100%; }
 
         .navbar {
             position: relative; top: 0; left: 0; width: 100%; z-index: 2000;
-            background: rgba(6, 9, 17, 0.98);
+            background: rgba(3, 7, 18, 0.98);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border-color);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 20px rgba(0,0,255,0.2);
         }
 
         .nav-container {
@@ -61,18 +61,21 @@
         }
 
         .logo {
-            display: flex; align-items: center; gap: 8px; font-size: 1.1rem; font-weight: 700; color: var(--text-main); text-decoration: none; cursor: pointer;
+            display: flex; align-items: center; gap: 10px; font-size: 1.1rem; font-weight: 700; color: var(--text-main); text-decoration: none; cursor: pointer;
         }
 
-        .logo i { color: var(--gold-crown); }
+        .logo-img {
+            width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-cyan); box-shadow: 0 0 10px var(--accent-cyan);
+        }
 
         .animated-logo-text {
-            background: linear-gradient(270deg, #38bdf8, #c084fc, #f43f5e, #fbbf24, #34d399, #38bdf8);
+            background: linear-gradient(270deg, #38bdf8, #60a5fa, #0000FF, #93c5fd, #38bdf8);
             background-size: 400% 400%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: rainbowShift 6s ease infinite;
             font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
         @keyframes rainbowShift {
@@ -91,7 +94,7 @@
 
         .nav-tab:hover { color: var(--accent-cyan); background: rgba(56, 189, 248, 0.1); }
         .nav-tab.active {
-            color: #fff; background: linear-gradient(135deg, var(--accent-deep) 0%, var(--accent-blue) 100%); box-shadow: 0 0 10px var(--accent-glow);
+            color: #fff; background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-cyan) 100%); box-shadow: 0 0 12px var(--accent-glow);
         }
 
         .menu-toggle { display: none; font-size: 1.4rem; color: var(--text-main); cursor: pointer; }
@@ -115,14 +118,14 @@
         .page-subtitle { color: var(--text-sub); font-size: 0.88rem; }
 
         .glass-card {
-            background: var(--bg-card); backdrop-filter: blur(12px); border: 1px solid var(--border-color); border-radius: 14px; padding: 20px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); margin-bottom: 20px;
+            background: var(--bg-card); backdrop-filter: blur(12px); border: 1px solid var(--border-color); border-radius: 14px; padding: 20px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); margin-bottom: 20px;
         }
 
-        .btn-bkm {
-            background: linear-gradient(135deg, var(--accent-deep) 0%, var(--accent-blue) 100%);
-            color: #fff; padding: 10px 20px; border-radius: 25px; font-size: 0.9rem; font-weight: 600; border: none; cursor: pointer; box-shadow: 0 0 12px var(--accent-glow); transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; width: 100%;
+        .btn-dhst {
+            background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-cyan) 100%);
+            color: #fff; padding: 10px 20px; border-radius: 25px; font-size: 0.9rem; font-weight: 600; border: none; cursor: pointer; box-shadow: 0 0 15px var(--accent-glow); transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; width: 100%;
         }
-        .btn-bkm:hover { transform: translateY(-2px); box-shadow: 0 0 18px rgba(56, 189, 248, 0.6); }
+        .btn-dhst:hover { transform: translateY(-2px); box-shadow: 0 0 20px rgba(56, 189, 248, 0.8); }
 
         .form-container { max-width: 600px; margin: 0 auto; }
         .form-stack { display: flex; flex-direction: column; gap: 15px; }
@@ -131,12 +134,12 @@
         .form-group label i { color: var(--accent-cyan); }
         
         .form-control {
-            background: rgba(6, 9, 17, 0.9); border: 1px solid var(--border-color); border-radius: 8px; padding: 11px 14px; color: #fff; font-size: 0.92rem; outline: none; width: 100%;
+            background: rgba(3, 7, 18, 0.9); border: 1px solid var(--border-color); border-radius: 8px; padding: 11px 14px; color: #fff; font-size: 0.92rem; outline: none; width: 100%;
         }
-        .form-control:focus { border-color: var(--accent-cyan); box-shadow: 0 0 8px var(--accent-glow); }
+        .form-control:focus { border-color: var(--accent-cyan); box-shadow: 0 0 10px var(--accent-glow); }
         
         .custom-select-btn {
-            background: rgba(6, 9, 17, 0.9); border: 1px solid var(--border-color); border-radius: 8px; padding: 11px 14px; color: #cbd5e1; font-size: 0.92rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer; width: 100%; text-align: left;
+            background: rgba(3, 7, 18, 0.9); border: 1px solid var(--border-color); border-radius: 8px; padding: 11px 14px; color: #cbd5e1; font-size: 0.92rem; display: flex; justify-content: space-between; align-items: center; cursor: pointer; width: 100%; text-align: left;
         }
         .custom-select-btn.selected { color: #fff; border-color: var(--accent-cyan); }
 
@@ -144,75 +147,75 @@
         .form-divider { height: 1px; background: var(--border-color); margin: 5px 0; }
         .form-section-title { font-size: 1.05rem; color: var(--accent-cyan); font-weight: 600; display: flex; align-items: center; gap: 6px; margin-top: 5px; }
 
-        .bkm-modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(6, 9, 17, 0.88); backdrop-filter: blur(8px); z-index: 9999; display: none; align-items: center; justify-content: center; padding: 20px;
+        .dhst-modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3, 7, 18, 0.88); backdrop-filter: blur(8px); z-index: 9999; display: none; align-items: center; justify-content: center; padding: 20px;
         }
-        .bkm-modal-box {
-            background: #0f172a; border: 1px solid var(--border-color); border-radius: 16px; width: 100%; max-width: 420px; padding: 25px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+        .dhst-modal-box {
+            background: #0a0f1e; border: 1px solid var(--border-color); border-radius: 16px; width: 100%; max-width: 420px; padding: 25px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,255,0.4);
         }
-        .bkm-modal-icon { font-size: 2.5rem; color: var(--accent-cyan); margin-bottom: 12px; }
-        .bkm-modal-title { font-size: 1.25rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
-        .bkm-modal-desc { font-size: 0.9rem; color: var(--text-sub); margin-bottom: 20px; line-height: 1.5; }
-        .bkm-modal-btns { display: flex; flex-direction: column; gap: 10px; }
-        .bkm-modal-btn { width: 100%; padding: 12px; border-radius: 12px; font-weight: 600; font-size: 0.95rem; cursor: pointer; border: 1px solid var(--border-color); transition: 0.2s; }
-        .bkm-btn-option { background: rgba(15, 23, 42, 0.9); color: #fff; text-align: center; }
-        .bkm-btn-option:hover { background: var(--accent-deep); border-color: var(--accent-cyan); }
-        .bkm-btn-confirm { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; border:none; }
-        .bkm-btn-cancel { background: rgba(56, 189, 248, 0.15); color: var(--accent-cyan); }
-        .bkm-btn-ok { background: linear-gradient(135deg, var(--accent-deep), var(--accent-blue)); color: #fff; border:none; }
+        .dhst-modal-icon { font-size: 2.5rem; color: var(--accent-cyan); margin-bottom: 12px; }
+        .dhst-modal-title { font-size: 1.25rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
+        .dhst-modal-desc { font-size: 0.9rem; color: var(--text-sub); margin-bottom: 20px; line-height: 1.5; }
+        .dhst-modal-btns { display: flex; flex-direction: column; gap: 10px; }
+        .dhst-modal-btn { width: 100%; padding: 12px; border-radius: 12px; font-weight: 600; font-size: 0.95rem; cursor: pointer; border: 1px solid var(--border-color); transition: 0.2s; }
+        .dhst-btn-option { background: rgba(15, 23, 42, 0.9); color: #fff; text-align: center; }
+        .dhst-btn-option:hover { background: var(--accent-blue); border-color: var(--accent-cyan); }
+        .dhst-btn-confirm { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; border:none; }
+        .dhst-btn-cancel { background: rgba(56, 189, 248, 0.15); color: var(--accent-cyan); }
+        .dhst-btn-ok { background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan)); color: #fff; border:none; }
 
         .qual-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
-        .qual-card { display: flex; align-items: flex-start; gap: 12px; background: rgba(6, 9, 17, 0.6); border: 1px solid var(--border-color); padding: 14px; border-radius: 12px; }
+        .qual-card { display: flex; align-items: flex-start; gap: 12px; background: rgba(3, 7, 18, 0.6); border: 1px solid var(--border-color); padding: 14px; border-radius: 12px; }
         .qual-icon { width: 38px; height: 38px; background: rgba(56, 189, 248, 0.12); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--accent-cyan); font-size: 1.1rem; flex-shrink: 0; border: 1px solid var(--border-color); }
         .qual-text h4 { font-size: 0.95rem; color: #fff; margin-bottom: 2px; }
         .qual-text p { font-size: 0.82rem; color: var(--text-sub); }
         .badge-important { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.5); font-size: 0.68rem; padding: 2px 5px; border-radius: 10px; margin-left: 4px; }
 
         .penalty-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
-        .penalty-item { background: rgba(6, 9, 17, 0.6); border: 1px solid var(--border-color); padding: 10px 14px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 0.85rem; }
+        .penalty-item { background: rgba(3, 7, 18, 0.6); border: 1px solid var(--border-color); padding: 10px 14px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 0.85rem; }
         
         .rule-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-        .rule-list li { background: rgba(6, 9, 17, 0.6); border: 1px solid rgba(255, 255, 255, 0.05); padding: 10px 12px; border-radius: 8px; font-size: 0.85rem; display: flex; align-items: flex-start; gap: 8px; }
+        .rule-list li { background: rgba(3, 7, 18, 0.6); border: 1px solid rgba(255, 255, 255, 0.05); padding: 10px 12px; border-radius: 8px; font-size: 0.85rem; display: flex; align-items: flex-start; gap: 8px; }
         .rule-list li i { color: var(--accent-cyan); margin-top: 3px; flex-shrink: 0; }
 
-        .member-box { background: rgba(6, 9, 17, 0.7); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; }
+        .member-box { background: rgba(3, 7, 18, 0.7); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; }
         .member-box h3 { color: var(--accent-cyan); font-size: 0.95rem; margin-bottom: 10px; border-bottom: 1px solid var(--border-color); padding-bottom: 6px; }
         .member-list { list-style: none; display: flex; flex-direction: column; gap: 6px; max-height: 250px; overflow-y: auto; }
-        .member-item { background: rgba(15, 23, 42, 0.8); padding: 8px 12px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
+        .member-item { background: rgba(10, 15, 30, 0.8); padding: 8px 12px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
         .online-dot { width: 7px; height: 7px; background-color: #4ade80; border-radius: 50%; box-shadow: 0 0 6px #4ade80; display: inline-block; margin-right: 6px; }
 
         .avatar-container { position: relative; width: 100px; height: 100px; margin: 0 auto 12px; }
         .avatar-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent-cyan); }
-        .avatar-upload-btn { position: absolute; bottom: 0; right: 0; background: var(--accent-deep); color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid var(--bg-dark); font-size: 0.8rem; }
+        .avatar-upload-btn { position: absolute; bottom: 0; right: 0; background: var(--accent-blue); color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid var(--bg-dark); font-size: 0.8rem; }
 
-        .footer { background: rgba(6, 9, 17, 0.95); border-top: 1px solid var(--border-color); padding: 15px 0; text-align: center; color: var(--text-sub); font-size: 0.8rem; margin-top: auto; }
+        .footer { background: rgba(3, 7, 18, 0.95); border-top: 1px solid var(--border-color); padding: 15px 0; text-align: center; color: var(--text-sub); font-size: 0.8rem; margin-top: auto; }
 
         @media (max-width: 960px) {
             .menu-toggle { display: block; }
             .nav-links {
-                position: absolute; top: 65px; left: -100%; width: 100%; background: rgba(6, 9, 17, 0.98); backdrop-filter: blur(25px); display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 20px 15px; align-content: start; transition: all 0.3s ease; z-index: 1999; border-top: 1px solid var(--border-color); box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+                position: absolute; top: 65px; left: -100%; width: 100%; background: rgba(3, 7, 18, 0.98); backdrop-filter: blur(25px); display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 20px 15px; align-content: start; transition: all 0.3s ease; z-index: 1999; border-top: 1px solid var(--border-color); box-shadow: 0 10px 20px rgba(0,0,0,0.5);
             }
             .nav-links.active { left: 0; }
-            .nav-tab { width: 100%; justify-content: flex-start; padding: 12px 14px; font-size: 0.88rem; background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border-color); border-radius: 10px; }
+            .nav-tab { width: 100%; justify-content: flex-start; padding: 12px 14px; font-size: 0.88rem; background: rgba(10, 15, 30, 0.8); border: 1px solid var(--border-color); border-radius: 10px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="bkm-modal-overlay" id="bkmModalOverlay">
-        <div class="bkm-modal-box">
-            <div class="bkm-modal-icon" id="bkmModalIcon"><i class="fa-solid fa-heart-crack"></i></div>
-            <div class="bkm-modal-title" id="bkmModalTitle">แจ้งเตือน</div>
-            <div class="bkm-modal-desc" id="bkmModalDesc">ข้อความรายละเอียด...</div>
-            <div id="bkmModalActionArea"></div>
+    <div class="dhst-modal-overlay" id="dhstModalOverlay">
+        <div class="dhst-modal-box">
+            <div class="dhst-modal-icon" id="dhstModalIcon"><i class="fa-solid fa-heart-crack"></i></div>
+            <div class="dhst-modal-title" id="dhstModalTitle">แจ้งเตือน</div>
+            <div class="dhst-modal-desc" id="dhstModalDesc">ข้อความรายละเอียด...</div>
+            <div id="dhstModalActionArea"></div>
         </div>
     </div>
 
     <nav class="navbar">
         <div class="container nav-container" style="max-width: 1100px;">
             <div class="logo" onclick="switchTab('apply')">
-                <i class="fa-solid fa-crown"></i> 
-                <span class="animated-logo-text">BLACK KINGDOM (BKM)</span>
+                <img src="https://cdn.discordapp.com/attachments/1543632263567380490/1563669565018345645/file_0000000093188207bf9919dfb2212ee3.png?ex=6adf2103&is=6addcf83&hm=482325992e7ddd386e2ed7ac115ec79c2873bc87f8f93f5bdd9db11e0d5517a0&" class="logo-img" alt="DHST Logo">
+                <span class="animated-logo-text">DEKHOTSKY [DHS]</span>
             </div>
             <div class="menu-toggle" id="menuToggle"><i class="fa-solid fa-bars"></i></div>
             <ul class="nav-links" id="navLinks">
@@ -239,7 +242,7 @@
         <!-- 1. หน้ากรอกใบสมัคร -->
         <section id="apply" class="page-content active">
             <div class="page-header">
-                <h1 class="page-title">แบบฟอร์มสมัครเข้าแก๊ง BKM</h1>
+                <h1 class="page-title">แบบฟอร์มสมัครเข้าแก๊ง DEKHOTSKY [DHS]</h1>
                 <p class="page-subtitle">กรอกข้อมูลให้ครบถ้วนเพื่อเข้าสู่ระบบสมาชิกตระกูล</p>
             </div>
             <div class="glass-card form-container">
@@ -309,7 +312,7 @@
                             <label for="testerTag"><i class="fa-solid fa-user-check"></i> แท็กผู้คุมสอบ</label>
                             <input type="text" id="testerTag" class="form-control" placeholder="@ผู้คุมสอบ" required>
                         </div>
-                        <button type="submit" class="btn-bkm" id="submitBtn" style="margin-top: 10px;">
+                        <button type="submit" class="btn-dhst" id="submitBtn" style="margin-top: 10px;">
                             <i class="fa-solid fa-paper-plane"></i> ส่งใบสมัครเข้าแก๊ง
                         </button>
                     </div>
@@ -317,10 +320,10 @@
             </div>
         </section>
 
-        <!-- 📜 2. กฎดิสคอมมู (อัปเดตใหม่ล่าสุด) -->
+        <!-- 📜 2. กฎดิสคอมมู -->
         <section id="discordRules" class="page-content">
             <div class="page-header">
-                <h1 class="page-title">📜 กฎดิสคอมมู BKM</h1>
+                <h1 class="page-title">📜 กฎดิสคอมมู DEKHOTSKY [DHS]</h1>
                 <p class="page-subtitle">อ่านเถอะ ไม่งั้นเดี๋ยวโดนเตะแล้วงงว่าทำไม 🗿</p>
             </div>
             <div class="glass-card">
@@ -343,11 +346,11 @@
             </div>
         </section>
 
-        <!-- 🟡 3. กฎการโดนใบ 18 ข้อ (อัปเดตใหม่ล่าสุด) -->
+        <!-- 🟡 3. กฎการโดนใบ 18 ข้อ -->
         <section id="gangRules" class="page-content">
             <div class="page-header">
-                <h1 class="page-title">กฎการโดนใบ BKM</h1>
-                <p class="page-subtitle">บทลงโทษภายในตระกูล BLACK KINGDOM ทั้งหมด 18 ข้อ</p>
+                <h1 class="page-title">กฎการโดนใบ DEKHOTSKY [DHS]</h1>
+                <p class="page-subtitle">บทลงโทษภายในตระกูลทั้งหมด 18 ข้อ</p>
             </div>
             <div class="glass-card">
                 <div class="penalty-grid">
@@ -373,7 +376,7 @@
             </div>
         </section>
 
-        <!-- ⚔️ 4. กฎกิจกรรมแก๊ง (AirDrop, ยึดคุก, วอยึดโซน) -->
+        <!-- ⚔️ 4. กฎกิจกรรมแก๊ง -->
         <section id="activityRules" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">กฎการเล่นกิจกรรมแก๊ง</h1>
@@ -425,7 +428,7 @@
                     <li><i class="fa-solid fa-check"></i> ห้ามอีโม (ใบแดง)</li>
                     <li><i class="fa-solid fa-check"></i> ห้าม Toxic หรือบัพแรงเกินไป (ใบแดง)</li>
                 </ul>
-                <div style="background: rgba(6, 9, 17, 0.7); border: 1px dashed var(--accent-cyan); padding: 12px; border-radius: 8px; margin-top: 12px; font-size: 0.85rem; color: #cbd5e1;">
+                <div style="background: rgba(3, 7, 18, 0.7); border: 1px dashed var(--accent-cyan); padding: 12px; border-radius: 8px; margin-top: 12px; font-size: 0.85rem; color: #cbd5e1;">
                     <b style="color: var(--accent-cyan);">📌 ข้อบังคับเพิ่มเติมสำหรับวอยึดโซน:</b><br>
                     • การเล่นวอยึดโซนจะต้องต่อสู้ภายในวงเท่านั้น ห้ามออกจากวงเพื่อไปปั๊มยา, ชุบชีวิต หรือจะอุ้มเพื่อนไปชุบหรือทำกิจกรรมอื่นใด แล้วกลับเข้ามาวงใหม่<br>
                     • ห้ามพันธมิตรกันหรือร่วมมือกันกับแก๊งอื่นในช่วงกิจกรรม<br>
@@ -448,7 +451,7 @@
                     <p style="color: var(--text-sub); font-size: 0.9rem; margin-bottom: 20px;">
                         คุณต้องตอบคำถามคณิตศาสตร์ทั้ง 100 ข้อติดต่อกันให้ถูกต้อง หากตอบผิด 1 ข้อ เกมจะรีเซ็ตกลับไปเริ่มข้อที่ 1 ทันที!
                     </p>
-                    <button type="button" class="btn-bkm" onclick="startMathGame()"><i class="fa-solid fa-play"></i> เริ่มเล่นเกม</button>
+                    <button type="button" class="btn-dhst" onclick="startMathGame()"><i class="fa-solid fa-play"></i> เริ่มเล่นเกม</button>
                 </div>
 
                 <div id="gamePlayScreen" style="display: none; text-align: left;">
@@ -456,7 +459,7 @@
                         <span style="color: var(--accent-cyan); font-weight: bold;" id="gameProgressText">ข้อที่ 1 / 100</span>
                         <span style="color: var(--red-warning);" id="gameFailCount">ผิดพลาด: 0 ครั้ง</span>
                     </div>
-                    <div id="questionBox" style="font-size: 1.1rem; font-weight: 600; color: #fff; margin-bottom: 20px; background: rgba(6, 9, 17, 0.6); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color); text-align: center;">
+                    <div id="questionBox" style="font-size: 1.1rem; font-weight: 600; color: #fff; margin-bottom: 20px; background: rgba(3, 7, 18, 0.6); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color); text-align: center;">
                         โจทย์คำถาม...
                     </div>
                     <div id="choicesBox" style="display: flex; flex-direction: column; gap: 10px;"></div>
@@ -465,8 +468,8 @@
                 <div id="gameWinScreen" style="display: none; text-align: center;">
                     <div style="font-size: 3.5rem; color: #4ade80; margin-bottom: 15px;"><i class="fa-solid fa-trophy"></i></div>
                     <h2 style="color: #fff; margin-bottom: 10px;">สุดยอดมาก! ผ่าน 100 ข้อแล้ว!</h2>
-                    <p style="color: var(--text-sub); margin-bottom: 20px;">คุณมีความรู้ความสามารถทางคณิตศาสตร์ยอดเยี่ยมสมเป็นสมาชิก BKM!</p>
-                    <button type="button" class="btn-bkm" onclick="startMathGame()">เล่นใหม่อีกรอบ</button>
+                    <p style="color: var(--text-sub); margin-bottom: 20px;">คุณมีความรู้ความสามารถทางคณิตศาสตร์ยอดเยี่ยมสมเป็นสมาชิก DEKHOTSKY!</p>
+                    <button type="button" class="btn-dhst" onclick="startMathGame()">เล่นใหม่อีกรอบ</button>
                 </div>
             </div>
         </section>
@@ -486,13 +489,13 @@
                         </div>
                         <div class="form-group">
                             <label><i class="fa-solid fa-shield-halved"></i> เลือกกิจกรรม</label>
-                            <select id="activityType" class="form-control" style="background: rgba(6, 9, 17, 0.9); color: #fff;">
+                            <select id="activityType" class="form-control" style="background: rgba(3, 7, 18, 0.9); color: #fff;">
                                 <option value="AirDrop (รอบ 13:00 / 18:00 / 21:00)">📦 AirDrop</option>
                                 <option value="ยึดคุก Pawria Town">🏰 ยึดคุก Pawria Town</option>
                                 <option value="กิจกรรมยึดโซน">🛡️ ยึดโซน</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn-bkm" style="background: linear-gradient(135deg, #059669, #10b981);">
+                        <button type="submit" class="btn-dhst" style="background: linear-gradient(135deg, #059669, #10b981);">
                             <i class="fa-solid fa-clipboard-check"></i> บันทึกเช็กชื่อกิจกรรม
                         </button>
                     </div>
@@ -500,7 +503,7 @@
             </div>
         </section>
 
-        <!-- 7. คลังแก๊ง (เบิก-ฝาก) -->
+        <!-- 7. คลังแก๊ง -->
         <section id="treasurySection" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">ระบบคลังแก๊ง (เบิก / ฝากของ)</h1>
@@ -515,7 +518,7 @@
                         </div>
                         <div class="form-group">
                             <label><i class="fa-solid fa-exchange-alt"></i> ประเภทรายการ</label>
-                            <select id="treasuryType" class="form-control" style="background: rgba(6, 9, 17, 0.9); color: #fff;">
+                            <select id="treasuryType" class="form-control" style="background: rgba(3, 7, 18, 0.9); color: #fff;">
                                 <option value="เบิกของ">📤 เบิกของออกจากคลัง</option>
                                 <option value="ฝากของ">📥 ฝากของเข้าคลัง</option>
                             </select>
@@ -532,7 +535,7 @@
                             <label for="itemNote"><i class="fa-solid fa-note-sticky"></i> หมายเหตุ (ถ้ามี)</label>
                             <input type="text" id="itemNote" class="form-control" placeholder="เช่น เอาไปลงวอร์โซน">
                         </div>
-                        <button type="submit" class="btn-bkm" style="background: linear-gradient(135deg, #d97706, #f59e0b);">
+                        <button type="submit" class="btn-dhst" style="background: linear-gradient(135deg, #d97706, #f59e0b);">
                             <i class="fa-solid fa-box-archive"></i> ส่งรายการเข้าคลัง Discord
                         </button>
                     </div>
@@ -540,7 +543,7 @@
             </div>
         </section>
 
-        <!-- 8. จัดอันดับ (Leaderboard) -->
+        <!-- 8. จัดอันดับ -->
         <section id="leaderboardSection" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">🏆 กระดานจัดอันดับ (Leaderboard)</h1>
@@ -564,7 +567,7 @@
                     <label for="searchIcName"><i class="fa-solid fa-signature"></i> กรอกชื่อ IC ของคุณ</label>
                     <input type="text" id="searchIcName" class="form-control" placeholder="เช่น Bael">
                 </div>
-                <button type="button" class="btn-bkm" onclick="searchMyApplication()">
+                <button type="button" class="btn-dhst" onclick="searchMyApplication()">
                     <i class="fa-solid fa-magnifying-glass"></i> ค้นหาใบสมัคร
                 </button>
                 <div id="myAppResult" style="margin-top: 15px;"></div>
@@ -574,18 +577,18 @@
         <!-- 10. โปรไฟล์สมาชิก -->
         <section id="profile" class="page-content">
             <div class="page-header">
-                <h1 class="page-title">โปรไฟล์สมาชิก BKM</h1>
+                <h1 class="page-title">โปรไฟล์สมาชิก DEKHOTSKY</h1>
                 <p class="page-subtitle">จัดการรูปโปรไฟล์และข้อมูลส่วนตัว</p>
             </div>
             <div class="glass-card form-container" style="max-width: 400px; text-align: center;">
                 <div class="avatar-container">
-                    <img id="profileAvatar" src="https://via.placeholder.com/150/0284c7/ffffff?text=BKM" class="avatar-img">
+                    <img id="profileAvatar" src="https://via.placeholder.com/150/0000FF/ffffff?text=DHS" class="avatar-img">
                     <label for="avatarInput" class="avatar-upload-btn"><i class="fa-solid fa-camera"></i></label>
                     <input type="file" id="avatarInput" accept="image/*" style="display: none;" onchange="uploadAvatar(event)">
                 </div>
                 <h2 id="profileIcName" style="color: var(--accent-cyan); margin-bottom: 4px; font-size: 1.1rem;">ยังไม่ได้ตั้งชื่อ IC</h2>
                 <p id="profileDiscord" style="color: var(--text-sub); font-size: 0.85rem; margin-bottom: 12px;">Discord: -</p>
-                <div style="text-align: left; background: rgba(6, 9, 17, 0.6); padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 0.88rem;">
+                <div style="text-align: left; background: rgba(3, 7, 18, 0.6); padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 0.88rem;">
                     <p><b>สายการเล่น:</b> <span id="profilePlayStyle">-</span></p>
                     <p><b>เลเวล:</b> <span id="profileLevel">-</span></p>
                     <p><b>สถานะ:</b> <span id="profileStatusHtml"><span style="color: #ef4444; font-weight: bold;">ยังไม่ได้ลงทะเบียนสมาชิก</span></span></p>
@@ -597,7 +600,7 @@
         <section id="qualifications" class="page-content">
             <div class="page-header">
                 <h1 class="page-title">คุณสมบัติผู้สมัคร (QUALIFICATIONS)</h1>
-                <p class="page-subtitle">ข้อกำหนดสำหรับผู้ที่ต้องการเข้าร่วมตระกูล BLACK KINGDOM 🌊 🩵</p>
+                <p class="page-subtitle">ข้อกำหนดสำหรับผู้ที่ต้องการเข้าร่วมตระกูล DEKHOTSKY [DHS] ⚡🧊</p>
             </div>
             <div class="qual-grid">
                 <div class="qual-card">
@@ -619,13 +622,13 @@
             </div>
         </section>
 
-        <!-- 12. รายการใบสมัครทั้งหมด -->
+        <!-- 12. รายการใบสมัคร -->
         <section id="applicationsList" class="page-content">
             <div class="page-header"><h1 class="page-title">รายการใบสมัครทั้งหมด</h1></div>
             <div class="glass-card"><div id="appListContainer" style="display: flex; flex-direction: column; gap: 10px;">กำลังโหลด...</div></div>
         </section>
 
-        <!-- 13. สมาชิก & ออนไลน์เว็บ -->
+        <!-- 13. ออนไลน์เว็บ -->
         <section id="memberList" class="page-content">
             <div class="page-header"><h1 class="page-title">สมาชิก & สถานะคนออนเว็บ</h1></div>
             <div class="glass-card">
@@ -649,7 +652,7 @@
                         <label for="leaveReason">เหตุผลการออก</label>
                         <textarea id="leaveReason" class="form-control" placeholder="ระบุเหตุผล..." required></textarea>
                     </div>
-                    <button type="submit" class="btn-bkm" style="background: linear-gradient(135deg, #ef4444, #dc2626);">ขอออกแก๊ง</button>
+                    <button type="submit" class="btn-dhst" style="background: linear-gradient(135deg, #ef4444, #dc2626);">ขอออกแก๊ง</button>
                 </form>
             </div>
         </section>
@@ -658,13 +661,13 @@
         <section id="contact" class="page-content">
             <div class="page-header"><h1 class="page-title">ข้อมูลติดต่อ</h1></div>
             <div class="glass-card" style="text-align: center;">
-                <a href="https://discord.gg/beRkvWM5P" target="_blank" class="btn-bkm"><i class="fa-brands fa-discord"></i> Discord BLACK KINGDOM</a>
+                <a href="https://discord.gg/beRkvWM5P" target="_blank" class="btn-dhst"><i class="fa-brands fa-discord"></i> Discord DEKHOTSKY [DHS]</a>
             </div>
         </section>
     </main>
 
     <footer class="footer">
-        <div class="container">&copy; 2026 BLACK KINGDOM (BKM) All Rights Reserved.</div>
+        <div class="container">&copy; 2026 DEKHOTSKY [DHS] All Rights Reserved.</div>
     </footer>
 
     <script>
@@ -678,28 +681,28 @@
             });
         });
 
-        function showBKMModal({ icon, title, desc, actionHtml }) {
-            document.getElementById('bkmModalIcon').innerHTML = `<i class="${icon}"></i>`;
-            document.getElementById('bkmModalTitle').innerText = title;
-            document.getElementById('bkmModalDesc').innerHTML = desc;
-            document.getElementById('bkmModalActionArea').innerHTML = actionHtml;
-            document.getElementById('bkmModalOverlay').style.display = 'flex';
+        function showDHSTModal({ icon, title, desc, actionHtml }) {
+            document.getElementById('dhstModalIcon').innerHTML = `<i class="${icon}"></i>`;
+            document.getElementById('dhstModalTitle').innerText = title;
+            document.getElementById('dhstModalDesc').innerHTML = desc;
+            document.getElementById('dhstModalActionArea').innerHTML = actionHtml;
+            document.getElementById('dhstModalOverlay').style.display = 'flex';
         }
 
-        function closeBKMModal() {
-            document.getElementById('bkmModalOverlay').style.display = 'none';
+        function closeDHSTModal() {
+            document.getElementById('dhstModalOverlay').style.display = 'none';
         }
 
         function openGenderModal(type) {
             const title = type === 'ic' ? 'เลือกเพศ IC' : 'เลือกเพศ OC';
             let options = `
-                <button type="button" class="bkm-modal-btn bkm-btn-option" onclick="selectGender('${type}', 'ชาย')">♂️ ชาย</button>
-                <button type="button" class="bkm-modal-btn bkm-btn-option" onclick="selectGender('${type}', 'หญิง')">♀️ หญิง</button>
+                <button type="button" class="dhst-modal-btn dhst-btn-option" onclick="selectGender('${type}', 'ชาย')">♂️ ชาย</button>
+                <button type="button" class="dhst-modal-btn dhst-btn-option" onclick="selectGender('${type}', 'หญิง')">♀️ หญิง</button>
             `;
             if(type === 'oc') {
-                options += `<button type="button" class="bkm-modal-btn bkm-btn-option" onclick="selectGender('${type}', 'อื่นๆ')">⚧️ อื่นๆ</button>`;
+                options += `<button type="button" class="dhst-modal-btn dhst-btn-option" onclick="selectGender('${type}', 'อื่นๆ')">⚧️ อื่นๆ</button>`;
             }
-            showBKMModal({ icon: "fa-solid fa-venus-mars", title: title, desc: "กรุณาเลือกเพศที่คุณต้องการ", actionHtml: `<div class="bkm-modal-btns">${options}</div>` });
+            showDHSTModal({ icon: "fa-solid fa-venus-mars", title: title, desc: "กรุณาเลือกเพศที่คุณต้องการ", actionHtml: `<div class="dhst-modal-btns">${options}</div>` });
         }
 
         function selectGender(type, val) {
@@ -712,16 +715,16 @@
                 document.getElementById('textOcGender').innerText = val;
                 document.getElementById('btnOcGender').classList.add('selected');
             }
-            closeBKMModal();
+            closeDHSTModal();
         }
 
         function openPlayStyleModal() {
-            showBKMModal({
+            showDHSTModal({
                 icon: "fa-solid fa-gamepad", title: "เลือกสายการเล่น", desc: "กรุณาเลือกสายการเล่นที่คุณต้องการลงทะเบียน",
                 actionHtml: `
-                    <div class="bkm-modal-btns">
-                        <button type="button" class="bkm-modal-btn bkm-btn-option" onclick="selectPlayStyle('สายสตอรี่')">🎭 สายสตอรี่</button>
-                        <button type="button" class="bkm-modal-btn bkm-btn-option" onclick="selectPlayStyle('สายฟาร์ม')">🚜 สายฟาร์ม</button>
+                    <div class="dhst-modal-btns">
+                        <button type="button" class="dhst-modal-btn dhst-btn-option" onclick="selectPlayStyle('สายสตอรี่')">🎭 สายสตอรี่</button>
+                        <button type="button" class="dhst-modal-btn dhst-btn-option" onclick="selectPlayStyle('สายฟาร์ม')">🚜 สายฟาร์ม</button>
                     </div>
                 `
             });
@@ -731,7 +734,7 @@
             document.getElementById('playStyle').value = val;
             document.getElementById('textPlayStyle').innerText = val;
             document.getElementById('btnPlayStyle').classList.add('selected');
-            closeBKMModal();
+            closeDHSTModal();
         }
 
         function promptLeaveGang() {
@@ -739,21 +742,21 @@
             const reason = document.getElementById('leaveReason').value.trim();
             if(!icName || !reason) { alert('กรุณากรอกข้อมูลให้ครบ'); return; }
 
-            showBKMModal({
+            showDHSTModal({
                 icon: "fa-solid fa-heart-crack",
                 title: "แน่ใจแล้วเหรอ... ที่จะทิ้งพวกเราไป 🥀",
                 desc: `คุณกำลังจะทำเรื่องออกจากแก๊งในนาม <b>"${icName}"</b><br>ใจร้ายจัง... จะไม่สู้ต่อกับพวกเราแล้วจริงๆ เหรอ?`,
                 actionHtml: `
-                    <div class="bkm-modal-btns">
-                        <button type="button" class="bkm-modal-btn bkm-btn-cancel" onclick="closeBKMModal()">อยู่ต่อดีกว่า (เย้ ดีใจด้วยนะ!)</button>
-                        <button type="button" class="bkm-modal-btn bkm-btn-confirm" onclick="confirmLeaveGang('${icName}', '${reason}')">ตัดสินใจออก (ลาก่อน...)</button>
+                    <div class="dhst-modal-btns">
+                        <button type="button" class="dhst-modal-btn dhst-btn-cancel" onclick="closeDHSTModal()">อยู่ต่อดีกว่า (เย้ ดีใจด้วยนะ!)</button>
+                        <button type="button" class="dhst-modal-btn dhst-btn-confirm" onclick="confirmLeaveGang('${icName}', '${reason}')">ตัดสินใจออก (ลาก่อน...)</button>
                     </div>
                 `
             });
         }
 
         async function confirmLeaveGang(icName, reason) {
-            closeBKMModal();
+            closeDHSTModal();
             try {
                 const res = await fetch('/api/leave-gang', {
                     method: 'POST',
@@ -761,15 +764,15 @@
                     body: JSON.stringify({ icName, reason })
                 });
                 if(res.ok) {
-                    localStorage.removeItem('bkm_user_ic');
-                    localStorage.removeItem('bkm_my_application');
-                    localStorage.removeItem('bkm_user_avatar');
+                    localStorage.removeItem('dhst_user_ic');
+                    localStorage.removeItem('dhst_my_application');
+                    localStorage.removeItem('dhst_user_avatar');
                     checkMemberStatus();
-                    showBKMModal({
+                    showDHSTModal({
                         icon: "fa-solid fa-skull",
                         title: "ลาก่อนนะพี่น้อง... ขอให้โชคดี 🥀",
                         desc: `บันทึกการอำลาของ <b>${icName}</b> ถูกส่งไปยัง Discord เรียบร้อยแล้ว`,
-                        actionHtml: `<button type="button" class="bkm-modal-btn bkm-btn-ok" onclick="location.reload()">เข้าใจแล้ว</button>`
+                        actionHtml: `<button type="button" class="dhst-modal-btn dhst-btn-ok" onclick="location.reload()">เข้าใจแล้ว</button>`
                     });
                 }
             } catch(e) {
@@ -777,7 +780,7 @@
             }
         }
 
-        let myIcName = localStorage.getItem('bkm_user_ic') || '';
+        let myIcName = localStorage.getItem('dhst_user_ic') || '';
         let myVisitorId = myIcName || ('Visitor_' + Math.floor(Math.random() * 10000));
 
         window.addEventListener('DOMContentLoaded', () => { 
@@ -786,7 +789,7 @@
         });
 
         function checkMemberStatus() {
-            const localApp = JSON.parse(localStorage.getItem('bkm_my_application') || '{}');
+            const localApp = JSON.parse(localStorage.getItem('dhst_my_application') || '{}');
             const gameNavTab = document.getElementById('gameNavTab');
             if (localApp && localApp.icName) {
                 if(gameNavTab) gameNavTab.style.display = 'flex';
@@ -872,7 +875,7 @@
             choices.forEach(choice => {
                 const btn = document.createElement('button');
                 btn.type = 'button';
-                btn.className = 'bkm-modal-btn bkm-btn-option';
+                btn.className = 'dhst-modal-btn dhst-btn-option';
                 btn.style.padding = '12px';
                 btn.innerText = choice;
                 btn.onclick = () => checkMathAnswer(choice, correctAnswer);
@@ -886,11 +889,11 @@
                 loadNextMathQuestion();
             } else {
                 gameFailCount++;
-                showBKMModal({
+                showDHSTModal({
                     icon: "fa-solid fa-triangle-exclamation",
                     title: "ตอบผิดครับ! เริ่มนับข้อที่ 1 ใหม่",
                     desc: `คุณตอบผิดที่ข้อ ${currentGameQuestion} (คำตอบที่ถูกต้องคือ: <b>${correct}</b>)<br>ระบบได้รีเซ็ตกลับไปเริ่มข้อที่ 1 ใหม่แล้ว`,
-                    actionHtml: `<button type="button" class="bkm-modal-btn bkm-btn-ok" onclick="closeBKMModal(); startMathGame();">เริ่มทำใหม่</button>`
+                    actionHtml: `<button type="button" class="dhst-modal-btn dhst-btn-ok" onclick="closeDHSTModal(); startMathGame();">เริ่มทำใหม่</button>`
                 });
             }
         }
@@ -942,7 +945,7 @@
             const icNameVal = document.getElementById('icName').value.trim();
             myIcName = icNameVal;
             myVisitorId = icNameVal;
-            localStorage.setItem('bkm_user_ic', icNameVal);
+            localStorage.setItem('dhst_user_ic', icNameVal);
 
             const data = {
                 icName: icNameVal,
@@ -959,7 +962,7 @@
                 testerTag: document.getElementById('testerTag').value
             };
 
-            localStorage.setItem('bkm_my_application', JSON.stringify(data));
+            localStorage.setItem('dhst_my_application', JSON.stringify(data));
             checkMemberStatus();
 
             try {
@@ -970,11 +973,11 @@
                 });
                 const result = await res.json();
                 if(res.ok && result.success) {
-                    showBKMModal({
+                    showDHSTModal({
                         icon: "fa-solid fa-circle-check",
                         title: "ส่งใบสมัครสำเร็จ!",
-                        desc: "บันทึกข้อมูลเข้าสู่ระบบเว็บไซต์เรียบร้อยแล้ว ยินดีต้อนรับสู่ครอบครัว BKM!",
-                        actionHtml: `<button type="button" class="bkm-modal-btn bkm-btn-ok" onclick="closeBKMModal()">ตกลง</button>`
+                        desc: "บันทึกข้อมูลเข้าสู่ระบบเว็บไซต์เรียบร้อยแล้ว ยินดีต้อนรับสู่ครอบครัว DEKHOTSKY!",
+                        actionHtml: `<button type="button" class="dhst-modal-btn dhst-btn-ok" onclick="closeDHSTModal()">ตกลง</button>`
                     });
                     this.reset();
                     document.getElementById('textIcGender').innerText = 'เลือกเพศ IC';
@@ -1041,7 +1044,7 @@
                     return;
                 }
                 container.innerHTML = list.map((item, index) => `
-                    <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(6,9,17,0.7); padding: 12px 15px; border-radius: 10px; border: 1px solid var(--border-color);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(3,7,18,0.7); padding: 12px 15px; border-radius: 10px; border: 1px solid var(--border-color);">
                         <span style="font-weight: 600; color: #fff;">#${index + 1} 👤 ${item.icName}</span>
                         <span style="background: rgba(56,189,248,0.2); color: var(--accent-cyan); padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; border: 1px solid var(--border-color);">เข้าร่วม ${item.totalEvents} ครั้ง</span>
                     </div>
@@ -1061,7 +1064,7 @@
                 if(data.success) {
                     const item = data.application;
                     resultBox.innerHTML = `
-                        <div style="background: rgba(6, 9, 17, 0.85); padding: 15px; border-radius: 10px; border: 1px solid var(--accent-cyan); font-size: 0.88rem;">
+                        <div style="background: rgba(3, 7, 18, 0.85); padding: 15px; border-radius: 10px; border: 1px solid var(--accent-cyan); font-size: 0.88rem;">
                             <h4 style="color: var(--accent-cyan); margin-bottom: 6px;"><i class="fa-solid fa-circle-check"></i> พบใบสมัครแล้ว!</h4>
                             <p><b>ชื่อ IC:</b> ${item.icName} (อายุ ${item.icAge} ปี)</p>
                             <p><b>เลเวล:</b> ${item.level} | <b>สายการเล่น:</b> ${item.playStyle}</p>
@@ -1083,17 +1086,17 @@
                 reader.onload = function(e) {
                     const base64Image = e.target.result;
                     document.getElementById('profileAvatar').src = base64Image;
-                    localStorage.setItem('bkm_user_avatar', base64Image);
+                    localStorage.setItem('dhst_user_avatar', base64Image);
                 };
                 reader.readAsDataURL(file);
             }
         }
 
         async function loadProfileData() {
-            const savedAvatar = localStorage.getItem('bkm_user_avatar');
+            const savedAvatar = localStorage.getItem('dhst_user_avatar');
             if(savedAvatar) { document.getElementById('profileAvatar').src = savedAvatar; }
 
-            const localApp = JSON.parse(localStorage.getItem('bkm_my_application') || '{}');
+            const localApp = JSON.parse(localStorage.getItem('dhst_my_application') || '{}');
             if(localApp.icName) {
                 document.getElementById('profileIcName').innerText = localApp.icName;
                 document.getElementById('profileDiscord').innerText = 'Discord: ' + (localApp.discordTag || '-');
@@ -1110,7 +1113,7 @@
                 const container = document.getElementById('appListContainer');
                 if(list.length === 0) { container.innerHTML = '<p style="text-align: center; font-size: 0.88rem;">ยังไม่มีใบสมัคร</p>'; return; }
                 container.innerHTML = list.map((item, index) => `
-                    <div style="background: rgba(6, 9, 17, 0.6); padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 0.85rem;">
+                    <div style="background: rgba(3, 7, 18, 0.6); padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 0.85rem;">
                         <h4 style="color: var(--accent-cyan);">#${index+1} ชื่อ IC: ${item.icName} (เลเวล ${item.level})</h4>
                         <p>สาย: ${item.playStyle} | Discord: ${item.discordTag}</p>
                     </div>
